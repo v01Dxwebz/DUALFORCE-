@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DUALFORCE Hybrid Engine: Investor Technical Documentary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --text:#1c1d1f;--muted:#5a5c60;--line:#d3d5d9;--bg:#fff;
+  --accent:#005c66;--accent-light:#e7f3f3;--accent-dark:#003c43;
+  --warning-bg:#fff9e6;--warning-border:#d4a017;
+  --font-body:'Inter',-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;
+  --font-serif:'Crimson Pro',Georgia,serif;
+  --font-mono:'JetBrains Mono',Consolas,monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:#f3f4f7;color:var(--text);font-family:var(--font-body);font-size:13.5px;line-height:1.65;-webkit-text-size-adjust:100%}
+body{padding:36px 16px}
+.doc-page{max-width:1040px;margin:0 auto;background:#fff;padding:64px 76px;box-shadow:0 4px 30px rgba(0,0,0,.07);border-radius:2px}
+
+/* Header */
+.doc-header{border-bottom:2px solid #000;padding-bottom:16px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-end}
+.doc-brand{font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.doc-meta-top{font-family:var(--font-mono);font-size:.78rem;color:var(--muted);text-align:right}
+
+h1{font-family:var(--font-serif);font-size:2.4rem;line-height:1.15;font-weight:700;color:#000;margin-bottom:8px}
+.doc-subtitle{font-size:1.1rem;color:var(--accent);font-weight:600;margin-bottom:20px}
+
+.dossier-meta{background:var(--accent-light);border-left:4px solid var(--accent);padding:14px 20px;margin-bottom:32px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px 28px;font-size:.88rem}
+.dossier-meta strong{color:#000}
+
+/* Typography */
+h2{font-family:var(--font-body);font-size:1.3rem;font-weight:700;color:#000;border-bottom:1.5px solid #000;padding-bottom:6px;margin:38px 0 16px;text-transform:uppercase;letter-spacing:.04em}
+h3{font-family:var(--font-body);font-size:1.05rem;font-weight:600;color:var(--accent-dark);margin:22px 0 10px}
+h4{font-family:var(--font-body);font-size:.95rem;font-weight:600;color:#222;margin:16px 0 6px}
+p{margin-bottom:12px;text-align:justify}
+ul,ol{margin:0 0 14px 22px}
+li{margin-bottom:5px}
+
+/* Callouts */
+.callout{background:#f9f9fb;border:1px solid #e1e3e8;border-left:4px solid var(--accent);padding:16px 20px;margin:18px 0 24px;border-radius:2px;font-size:.92rem}
+.callout strong{color:var(--accent-dark);font-size:.86rem;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:6px}
+.callout-warning{background:var(--warning-bg);border-color:#fae19c;border-left:4px solid var(--warning-border);color:#4a3800}
+.callout-warning strong{color:#805d00}
+
+.formula-card{background:#f8f9fa;border:1px solid var(--line);border-left:3px solid var(--accent);padding:12px 18px;margin:14px 0;font-family:var(--font-mono);font-size:.88rem;color:#111;overflow-x:auto}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:.88rem}
+th{background:#f0f2f4;color:#000;font-weight:600;text-align:left;padding:9px 12px;border:1px solid var(--line);font-size:.85rem;letter-spacing:.02em}
+td{padding:8px 12px;border:1px solid var(--line);vertical-align:top}
+tr:nth-child(even){background:#fafbfc}
+td strong{color:#000}
+.mono{font-family:var(--font-mono);font-size:.84rem}
+.num{text-align:right}
+
+/* Status Badges */
+.badge{display:inline-block;padding:2px 7px;border-radius:2px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.badge-target{background:#e8f0fe;color:#174ea6}
+.badge-pub{background:#e6f4ea;color:#137333}
+.badge-calc{background:#fef7e0;color:#b06000}
+.badge-risk{background:#fce8e6;color:#c5221f}
+
+/* Signature block */
+.sign-grid{border:1px solid var(--line);background:#fafafa;padding:24px 28px;margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:24px 44px}
+.sign-line{border-bottom:1px solid #000;height:32px;margin-bottom:6px}
+
+/* Print Optimization */
+@media print{
+  body{padding:0;background:#fff}
+  .doc-page{box-shadow:none;padding:0;max-width:100%}
+  @page{margin:1.4cm 1.2cm 1.4cm 1.2cm}
+  h2{break-before:auto;break-after:avoid}
+  h3{break-after:avoid}
+  table,tr,.callout,.formula-card,.sign-grid{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<div class="doc-page">
+
+  <!-- Document Header -->
+  <div class="doc-header">
+    <div class="doc-brand">DUALFORCE TECHNOLOGIES · INVESTOR TECHNICAL DOSSIER</div>
+    <div class="doc-meta-top">DOCUMENT DATE: 1 NOVEMBER 2026<br>VERSION: 1.0 (DESIGN BASIS &amp; VALIDATION PLAN)</div>
+  </div>
+
+  <h1>DUALFORCE Hybrid Engine: Investor Technical Documentary</h1>
+  <div class="doc-subtitle">Design Basis, First-Order Physics Modeling, Iteration Progression &amp; Gated Prototype Validation Plan</div>
+
+  <div class="dossier-meta">
+    <div><strong>Target Platform:</strong> 648 cc Inline-2 Hybrid Powertrain</div>
+    <div><strong>Donor Baseline:</strong> Royal Enfield 650 (78 &times; 67.8 mm)</div>
+    <div><strong>Document Status:</strong> Engineering Audit &amp; Stage-Gated Plan</div>
+    <div><strong>Verification Scope:</strong> Technical Proofs, Sizing, Thermal &amp; Risk Register</div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <h2>1. Executive Summary</h2>
+  <p>DUALFORCE is a 648 cc inline-two, four-stroke petrol engine with a linear reluctance electric assist built directly into the cylinders. A segmented coil stator sits outside each cylinder liner and pulls ferromagnetic teeth mounted on the piston skirt. The assist adds low-RPM torque, enables quiet low-speed urban commuting, and recovers braking energy without requiring an external, heavy traction motor or planetary reduction gearbox.</p>
+
+  <div class="callout callout-warning">
+    <strong>Status of the Evidence</strong>
+    No physical prototype exists yet. Every number in this document is either <strong>(a) published data</strong> for the Royal Enfield 650 engine used as the fuel baseline, <strong>(b) a first-order engineering calculation</strong> with its explicit inputs shown, or <strong>(c) an estimate</strong> marked as such. Calculated figures are performance targets to be rigorously proven by the stage-gated test plan in Section 13, not certified test results.
+  </div>
+
+  <h3>Headline Figures (Iteration 3 Target Design)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:28%">Item</th>
+        <th style="width:42%">Value</th>
+        <th style="width:30%">Basis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Engine Geometry</strong></td>
+        <td>648 cc, 78 &times; 67.8 mm, 9.5:1 compression, 2 cylinders</td>
+        <td><span class="badge badge-pub">Published</span> Royal Enfield</td>
+      </tr>
+      <tr>
+        <td><strong>Battery Storage</strong></td>
+        <td>5.8 kWh nominal, 100 V DC bus (4.64 kWh usable at 80% DoD)</td>
+        <td><span class="badge badge-target">Target</span> Chemistry to be confirmed</td>
+      </tr>
+      <tr>
+        <td><strong>Fuel-Only Peak</strong></td>
+        <td>34.9 kW (46.8 bhp) at 7,150 rpm; 52.3 Nm at 5,150 rpm</td>
+        <td><span class="badge badge-pub">Published</span> Baseline</td>
+      </tr>
+      <tr>
+        <td><strong>Electric-Only Peak (Iter. 3)</strong></td>
+        <td>19.4 kW net at 7,150 rpm; 25.8 Nm net shaft torque (flat)</td>
+        <td><span class="badge badge-calc">Calculated</span> Bidirectional stator</td>
+      </tr>
+      <tr>
+        <td><strong>Electric-Only at 100 km/h</strong></td>
+        <td>Needs 8.3 kW at shaft; held at ~47% available force in 3rd (6,800 rpm)</td>
+        <td><span class="badge badge-calc">Calculated</span> Road-load model</td>
+      </tr>
+      <tr>
+        <td><strong>Electric + Fuel (Burst)</strong></td>
+        <td>54.8 kW (73.5 bhp) at 7,150 rpm; 78.9 Nm at 5,150 rpm</td>
+        <td><span class="badge badge-calc">Calculated</span> Combined peak</td>
+      </tr>
+      <tr>
+        <td><strong>Electric Efficiency (Battery &rarr; Shaft)</strong></td>
+        <td>74% at 2,000 rpm to 85% at 7,150 rpm (full force); 77% to 84% at 40–100 km/h cruise</td>
+        <td><span class="badge badge-target">Target</span> Magnet-bias model</td>
+      </tr>
+      <tr>
+        <td><strong>Fuel Brake Thermal Efficiency</strong></td>
+        <td>About 24% to 30% across usable rev band</td>
+        <td><span class="badge badge-target">Estimate</span> Typical for class</td>
+      </tr>
+      <tr>
+        <td><strong>Top Speed</strong></td>
+        <td>168 km/h fuel-only; ~139 km/h electric-only (burst); ~193 km/h hybrid (gearing limit)</td>
+        <td><span class="badge badge-calc">Calculated</span> Road load &amp; gearing</td>
+      </tr>
+      <tr>
+        <td><strong>0 to 100 km/h Acceleration</strong></td>
+        <td>~8.7 s fuel-only (340 kg); 5.6 s hybrid; 17.7 s electric-only (burst)</td>
+        <td><span class="badge badge-calc">Calculated</span> 0.85g traction cap</td>
+      </tr>
+      <tr>
+        <td><strong>Electric Range (4.64 kWh usable)</strong></td>
+        <td>~94 km @ steady 60 km/h; ~111 km with aero fairing &amp; LRR tyres; 47 km @ 100 km/h</td>
+        <td><span class="badge badge-calc">Calculated</span> Dependent on T5 test</td>
+      </tr>
+      <tr>
+        <td><strong>Prototype Programme Budget</strong></td>
+        <td>₹25 to ₹52 lakh ($30k–$62k USD) across three gated phases (18 months)</td>
+        <td><span class="badge badge-target">Estimate</span> Vendor quotes required</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>What the Analysis Found</h3>
+  <p>A rigorous first-order physics audit demonstrated that three design iterations were necessary to achieve commercial viability:</p>
+  <ul>
+    <li><strong>Iteration 1 (Original Catalog Concept):</strong> Cannot function as originally claimed. Squeezing 3,680 N of reluctance thrust across a wide gap into a cramped 150 mm&sup2; winding window requires an unviable current density of <strong>52 A/mm&sup2;</strong>, driving coil temperatures to <strong>438&deg;C</strong> and instantly failing the Class-220 insulation.</li>
+    <li><strong>Iteration 2 (Thermal &amp; Current Correction):</strong> Fixes the thermal runaway by enlarging the winding window to 350 mm&sup2; and derating flux to 1.0 T, keeping current density at a sustainable 10.7 A/mm&sup2; RMS and hot-spot temp at 133&deg;C. However, with the 5.8 kWh battery, it only just holds 100 km/h on electric power with zero margin (drawing 122 Wh/km) and yields only ~63 km range at 60 km/h.</li>
+    <li><strong>Iteration 3 (Production Target Design):</strong> Solves both range and top-speed targets by implementing: (1) bidirectional stator coils powering both up- and down-strokes, (2) stator-mounted Samarium-Cobalt (SmCo) bias magnets, (3) valvetrain deactivation reducing electric-mode drag to 0.08 kW per 1,000 rpm, and (4) an aerodynamic fairing (CdA 0.42 m&sup2;) with low-rolling-resistance tyres. Iteration 3 cruises at 100 km/h using only 47% available force and achieves 94–111 km range.</li>
+  </ul>
+
+  <h3>What Investors Are Funding</h3>
+  <p>Investor capital is strictly targeted to prove four foundational engineering hypotheses:</p>
+  <ol>
+    <li><strong>Force Feasibility:</strong> That &ge;1,200 N per piston is achievable across a structural cylinder liner under acceptable excitation current.</li>
+    <li><strong>Thermal Survival:</strong> That Class-220 copper coils and stator-mounted SmCo magnets stay &le;150&deg;C under continuous duty.</li>
+    <li><strong>Magnet-Bias Part-Load Efficiency:</strong> That stator bias magnets allow copper losses to scale down with the square of force at cruising loads.</li>
+    <li><strong>Net Torque &amp; Range Payoff:</strong> That the assist delivers genuine net acceleration and range after deducting ring friction, valvetrain drag, and switching losses.</li>
+  </ol>
+  <p>Capital is released strictly in stage-gated tranches tied to the test gates in Section 13.</p>
+
+  <!-- SECTION 2 -->
+  <h2>2. Concept and Operating Modes</h2>
+  <p>The engine retains a conventional forged crankshaft, connecting rods, and a six-speed manual gearbox. The electrical subsystem is a tubular switched-reluctance actuator wrapped concentrically around each cylinder liner. Because reluctance forces pull toward positions of lower magnetic reluctance, the stator is partitioned into independent coil groups energized synchronously with piston travel.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:24%">Operating Mode</th>
+        <th style="width:48%">Electromechanical Operation</th>
+        <th style="width:28%">Application Context</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Electric Only</strong></td>
+        <td>Coils drive the pistons; fuel injection is cut off (0.0 L/h); valvetrain is decompressed.</td>
+        <td>Low-speed city crawl (0–35 km/h), zero-emission zones.</td>
+      </tr>
+      <tr>
+        <td><strong>Fuel Only</strong></td>
+        <td>Conventional 4-stroke combustion; stator coils idle with open H-bridge circuits.</td>
+        <td>Steady-state open-highway cruising.</td>
+      </tr>
+      <tr>
+        <td><strong>Electric + Fuel (Hybrid)</strong></td>
+        <td>Coils fire during 35&deg; to 75&deg; ATDC (maximum crank leverage) to superimpose torque on the combustion stroke.</td>
+        <td>Overtaking maneuvers, high-speed launches, hill climb bursts.</td>
+      </tr>
+      <tr>
+        <td><strong>Regenerative Braking</strong></td>
+        <td>Coils generate electrical power against piston reciprocating motion during deceleration.</td>
+        <td>Braking and corner entry, recycling kinetic energy to battery.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>Why This Architecture Is Challenging</strong>
+    Three deeply coupled physics constraints govern feasibility:
+    <br>1. <strong>The Magnetic Air Gap:</strong> The cylinder liner must simultaneously serve as a 75-bar pressure vessel and an electromagnetic window.
+    <br>2. <strong>Copper Loss in Restricted Winding Volume:</strong> Packaging copper windings between structural cylinder bores limits cross-sectional area, making heat dissipation critical.
+    <br>3. <strong>Electrical Conversion Efficiency:</strong> Unlike high-speed rotary BLDC motors (92–95% efficient), a linear reluctance engine must overcome reciprocating friction, valvetrain drag, and switching inductance.
+  </div>
+
+  <!-- SECTION 3 -->
+  <h2>3. Specification Summary (Prototype Basis)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:34%">Parameter</th>
+        <th style="width:66%">Engineering Specification</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Configuration</strong></td>
+        <td>Inline-2, 4-stroke, 270&deg; crossplane crankshaft</td>
+      </tr>
+      <tr>
+        <td><strong>Bore &times; Stroke</strong></td>
+        <td>78.0 mm &times; 67.8 mm</td>
+      </tr>
+      <tr>
+        <td><strong>Swept Displacement</strong></td>
+        <td>647.95 cc (323.98 cc per cylinder)</td>
+      </tr>
+      <tr>
+        <td><strong>Geometric Compression Ratio</strong></td>
+        <td>9.5 : 1</td>
+      </tr>
+      <tr>
+        <td><strong>Fuel System &amp; Head</strong></td>
+        <td>Electronic Fuel Injection; stock donor cylinder head and valvetrain (Phase 1/2)</td>
+      </tr>
+      <tr>
+        <td><strong>Stator Architecture (Iter. 3)</strong></td>
+        <td>Bidirectional dual-end coil sets, 24 independent coil channels, stator-mounted SmCo bias magnets</td>
+      </tr>
+      <tr>
+        <td><strong>Electric Bus &amp; Inverter</strong></td>
+        <td>100 V DC nominal, 24-channel Silicon Carbide (SiC) MOSFET inverter</td>
+      </tr>
+      <tr>
+        <td><strong>Battery Storage</strong></td>
+        <td>5.8 kWh nominal, 4.64 kWh usable (80% Depth of Discharge)</td>
+      </tr>
+      <tr>
+        <td><strong>Transmission</strong></td>
+        <td>6-speed close-ratio claw-shifted manual gearbox (revised internal ratios)</td>
+      </tr>
+      <tr>
+        <td><strong>Total Running Mass</strong></td>
+        <td>340 kg target (265 kg motorcycle + 75 kg rider)</td>
+      </tr>
+      <tr>
+        <td><strong>Aerodynamic Drag Area (CdA)</strong></td>
+        <td>0.486 m&sup2; baseline; 0.42 m&sup2; target with aerodynamic fairing</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 4 -->
+  <h2>4. Fuel-Engine Baseline</h2>
+  <p>The baseline combustion model adopts the published performance curves of the Royal Enfield 650 twin (78 &times; 67.8 mm, 9.5:1 compression ratio, 34.9 kW at 7,150 rpm, 52.3 Nm at 5,150 rpm). Because only peak ratings are published by the manufacturer, intermediate points are interpolated for simulation and will be replaced by baseline dynamometer pulls in Test T6.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Engine Speed (rpm)</th>
+        <th>Torque (Nm)</th>
+        <th>Power (kW)</th>
+        <th>Power (bhp)</th>
+        <th>Brake Thermal Efficiency (&eta;_bt)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2,000</td><td>42.0</td><td>8.8</td><td>11.8</td><td>24% (estimated)</td></tr>
+      <tr><td>3,000</td><td>47.0</td><td>14.8</td><td>19.8</td><td>27% (estimated)</td></tr>
+      <tr><td>4,000</td><td>50.5</td><td>21.2</td><td>28.4</td><td>29% (estimated)</td></tr>
+      <tr><td><strong>5,150 (Peak Torque)</strong></td><td><strong>52.3</strong></td><td><strong>28.2</strong></td><td><strong>37.8</strong></td><td><strong>30% (estimated)</strong></td></tr>
+      <tr><td>6,000</td><td>51.0</td><td>32.0</td><td>42.9</td><td>29% (estimated)</td></tr>
+      <tr><td><strong>7,150 (Peak Power)</strong></td><td><strong>46.6</strong></td><td><strong>34.9</strong></td><td><strong>46.8</strong></td><td><strong>28% (estimated)</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="formula-card">
+    Brake Mean Effective Pressure (BMEP) at Peak Torque:<br>
+    BMEP = (4&pi; &times; T) / V_d = (4&pi; &times; 52.3 Nm) / (0.00064795 m&sup3;) = 1,014,280 Pa = 10.14 bar<br>
+    <em>Status: Verified normal for a naturally aspirated road-going motorcycle engine.</em>
+  </div>
+
+  <!-- SECTION 5 -->
+  <h2>5. Electromagnetic Subsystem: Calculations</h2>
+
+  <h3>5.1 First-Order Method &amp; Governing Equations</h3>
+  <div class="formula-card">
+    1. Magnetic Pressure: p = B&sup2; / (2&mu;₀), where &mu;₀ = 1.2566 &times; 10⁻⁶ H/m.<br>
+    2. Effective Magnetic Air Gap: g = t_liner + t_coating + clearance_piston.<br>
+    3. Magnetomotive Force (MMF) per Coil: MMF = 2 &middot; B &middot; g / &mu;₀ (flux traverses gap twice).<br>
+    4. Axial Reluctance Force per Tooth Pair: F = [B&sup2; / (2&mu;₀)] &middot; g &middot; &pi; &middot; D &middot; k (where k &approx; 1.0).<br>
+    5. Work Output per Stroke Event: W = F_total &middot; Stroke &middot; &eta;_useful (useful fraction = 0.5).<br>
+    6. Coil Resistance &amp; Copper Loss: R = &rho;_150C &middot; L_wire / A_cu; Loss = I&sup2; &middot; R.<br>
+    7. Inductive Rise Time: L = N&sup2; / Reluctance; &Delta;t_rise = L &middot; I / V_bus.
+  </div>
+
+  <h3>5.2 Cylinder Liner Thickness &amp; Pressure Containment</h3>
+  <p>The effective magnetic gap cannot be 0.5 mm. The cylinder liner acts as a 75-bar combustion pressure vessel subject to hoop stress ($\sigma_h = \frac{P \cdot r}{t}$):</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Liner Wall Thickness</th>
+        <th>Hoop Stress @ 7.5 MPa (75 bar)</th>
+        <th>Safety Factor (Allowable: 304 MPa)</th>
+        <th>Structural Assessment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>0.5 mm</td><td>585.0 MPa</td><td>0.52</td><td><span class="badge badge-risk">Fails</span> Burst failure under combustion</td></tr>
+      <tr><td>1.0 mm</td><td>292.5 MPa</td><td>1.04</td><td><span class="badge badge-risk">Fails</span> Inadequate fatigue margin</td></tr>
+      <tr><td><strong>1.5 mm</strong></td><td><strong>195.0 MPa</strong></td><td><strong>1.56</strong></td><td><span class="badge badge-pub">Passes</span> Minimum structural thickness</td></tr>
+      <tr><td>2.0 mm</td><td>146.3 MPa</td><td>2.08</td><td><span class="badge badge-pub">Passes</span> Conservative production margin</td></tr>
+    </tbody>
+  </table>
+  <p>Allowable stress is based on Nitronic 50 yield strength (380 MPa at 150&deg;C) derated by 0.8. Minimum liner thickness for a 1.5 safety factor is <strong>1.44 mm</strong>. Adding 0.03 mm bore coating and 0.55 mm running clearance yields an <strong>effective magnetic air gap of 2.03 mm</strong>.</p>
+
+  <h3>5.3 Iteration 1 (Catalog Concept) Evaluation at B = 1.2 T</h3>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:36%">Parameter</th>
+        <th style="width:32%">Calculated Value</th>
+        <th style="width:32%">Audit Assessment</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Gap Flux Density (B)</td><td>1.20 Tesla</td><td>Nominal operating point</td></tr>
+      <tr><td>Normal Magnetic Pressure (p)</td><td>0.573 MPa</td><td>Matches B&sup2; / 2&mu;₀</td></tr>
+      <tr><td>Force per Tooth Pair (6 pairs)</td><td>296 N (1,776 N per piston)</td><td>48% of catalog claim (3,680 N)</td></tr>
+      <tr><td>Required MMF per Coil</td><td>3,877 Ampere-turns</td><td>Across 2.03 mm gap</td></tr>
+      <tr><td>Peak Phase Current (30 turns)</td><td>129.2 A</td><td>High current draw</td></tr>
+      <tr><td>Copper Conductor Area (150 mm&sup2; window, 50% fill)</td><td>2.50 mm&sup2;</td><td>Severely restricted cross-section</td></tr>
+      <tr><td>Peak / RMS Current Density</td><td><strong>52.0 A/mm&sup2; / 30.0 A/mm&sup2;</strong></td><td><span class="badge badge-risk">Fatal</span> 3&times; direct-cooling threshold (~15 A/mm&sup2;)</td></tr>
+      <tr><td>Hot Coil Resistance (150&deg;C)</td><td>0.091 &Omega;</td><td>Ohmic heating</td></tr>
+      <tr><td>Copper Loss per Active Coil</td><td>1,522 W</td><td>Severe local heat flux</td></tr>
+      <tr><td>Total Stator Copper Heat Load</td><td><strong>6.1 kW</strong></td><td>Instant thermal runaway (438&deg;C)</td></tr>
+      <tr><td>Inductive Rise Time @ 100 V</td><td>0.55 ms</td><td>Marginal at 7,150 rpm (1.4 ms stroke)</td></tr>
+    </tbody>
+  </table>
+  <div class="callout callout-warning">
+    <strong>Finding on Iteration 1</strong>
+    The catalog claim of 3,680 N force and 114&deg;C temperature in a 150 mm&sup2; winding window is physically impossible. Current density of 52 A/mm&sup2; causes coil temperatures to hit 438&deg;C within seconds.
+  </div>
+
+  <h3>5.4 Iteration 2: Thermally Viable Design Basis</h3>
+  <p>Iteration 2 redesigns the stator: gap flux is reduced to 1.0 T, coil radial depth is expanded to 25 mm (window area 350 mm&sup2;), and cooled surface area is tripled to 0.11 m&sup2;.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Engineering Metric</th>
+        <th>Iteration 1 (Catalog)</th>
+        <th>Iteration 2 (Corrected Basis)</th>
+        <th>Engineering Trade-Off</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Gap Flux Density (B)</td><td>1.2 T</td><td><strong>1.0 T</strong></td><td>Reduced saturation strain</td></tr>
+      <tr><td>Force per Piston</td><td>1,776 N</td><td><strong>1,233 N</strong></td><td>-30.5% force trade-off</td></tr>
+      <tr><td>Required MMF</td><td>3,877 A&middot;t</td><td><strong>3,231 A&middot;t</strong></td><td>-16.7% excitation current</td></tr>
+      <tr><td>Peak Phase Current (30 turns)</td><td>129 A</td><td><strong>108 A</strong></td><td>Lower inverter load</td></tr>
+      <tr><td>Copper Conductor Area</td><td>2.50 mm&sup2;</td><td><strong>5.83 mm&sup2;</strong></td><td>+133% conductor volume</td></tr>
+      <tr><td>RMS Current Density</td><td>30.0 A/mm&sup2;</td><td><strong>10.7 A/mm&sup2;</strong></td><td><span class="badge badge-pub">Sustainable</span> Within liquid cooling limit</td></tr>
+      <tr><td>Average Copper Loss (Both Cylinders)</td><td>6.10 kW</td><td><strong>2.07 kW</strong></td><td><strong>-66% heat generation</strong></td></tr>
+      <tr><td>Work Output per Event</td><td>60.2 J</td><td><strong>41.8 J</strong></td><td>Continuous-duty capable</td></tr>
+      <tr><td>Winding Hot-Spot Temperature</td><td>438&deg;C (burnout)</td><td><strong>133&deg;C</strong></td><td><span class="badge badge-pub">Passes</span> +87 K margin below Class-220</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.5 Iteration 3: Sizing for 100 km/h Electric-Only &amp; 100 km Range Target</h3>
+  <p>To evaluate customer viability, two benchmark requirements were modeled: continuous 100 km/h cruising on electric power alone, and &ge;100 km range from the 5.8 kWh battery pack (4.64 kWh usable at 80% DoD):</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Performance Target</th>
+        <th>Road-Load Calculation</th>
+        <th>Required Shaft Output &amp; Efficiency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Hold 100 km/h (Continuous)</strong></td>
+        <td>Road load @ 340 kg, CdA 0.486 m&sup2;, Crr 0.015:<br>Rolling 1.39 kW + Aero 6.09 kW = 7.48 kW at wheel.</td>
+        <td><strong>8.3 kW required at shaft</strong> (assuming 90% drivetrain efficiency).</td>
+      </tr>
+      <tr>
+        <td><strong>100 km Range @ steady 60 km/h</strong></td>
+        <td>Wheel load 2.15 kW = 35.8 Wh/km; 39.8 Wh/km shaft load.<br>Allowable battery consumption: 4.64 kWh / 100 km = 46.4 Wh/km.</td>
+        <td>Demands battery-to-shaft efficiency of <strong>&ge;86%</strong>.</td>
+      </tr>
+      <tr>
+        <td><strong>Same, with Aero Fairing &amp; LRR Tyres</strong></td>
+        <td>CdA reduced to 0.42 m&sup2;, Crr to 0.012:<br>Wheel load 1.81 kW = 30.1 Wh/km; 33.4 Wh/km shaft load.</td>
+        <td>Demands battery-to-shaft efficiency of <strong>&ge;72%</strong>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Deficiency of Iteration 2:</strong> At 100 km/h, Iteration 2 consumes 12.2 kW from the battery (122 Wh/km), operating at 100% force with zero acceleration margin. At 60 km/h, it achieves only 54% efficiency, yielding ~63 km range (requiring a 9.2 kWh battery to hit 100 km).</p>
+
+  <h4>Iteration 3 Architectural Upgrades</h4>
+  <table>
+    <thead>
+      <tr>
+        <th>Engineering Upgrade</th>
+        <th>Physical Mechanism</th>
+        <th>Performance Payoff</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Bidirectional Stator</strong></td>
+        <td>Coil sets at both ends of stroke powering both down- and up-strokes (2 events/rev).</td>
+        <td>Doubles gross electric power to <strong>19.9 kW @ 7,150 rpm</strong> (from 9.96 kW). Requires 24 inverter channels.</td>
+      </tr>
+      <tr>
+        <td><strong>Stator SmCo Bias Magnets</strong></td>
+        <td>Stator-mounted Samarium-Cobalt arcs establish standing bias flux; coils only modulate flux.</td>
+        <td>Copper loss scales with <strong>force squared (F&sup2;)</strong> at part-load; full-load copper loss reduced by 70%.</td>
+      </tr>
+      <tr>
+        <td><strong>Engine Drag Reduction</strong></td>
+        <td>Active zero-lift valve deactivation, low-tension CrN rings, DLC coatings, 0W-20 ester oil.</td>
+        <td>Parasitic motoring drag cut from 0.17 kW / 1,000 rpm down to <strong>0.08 kW / 1,000 rpm</strong>.</td>
+      </tr>
+      <tr>
+        <td><strong>Aerodynamic Fairing &amp; LRR Tyres</strong></td>
+        <td>Streamlined bodywork (CdA = 0.42 m&sup2;) and low-hysteresis carcass rubber (Crr = 0.012).</td>
+        <td>Cuts road load at 60 km/h by 16% and at 100 km/h by 18%.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 6 -->
+  <h2>6. Materials and Parts (Corrected Catalog)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:20%">Component</th>
+        <th style="width:24%">Specified Material</th>
+        <th style="width:56%">Engineering Correction &amp; Validation Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Cylinder Liner</strong></td>
+        <td>Nitronic 50 (XM-19), 1.5–2.0 mm</td>
+        <td>Non-magnetic (&mu;r &approx; 1.006), yield strength &gt;380 MPa. 316L dropped (yield too low for 75 bar). Axial eddy-current slits sealed with ceramic resin to prevent combustion gas blowby.</td>
+      </tr>
+      <tr>
+        <td><strong>Bore Coating</strong></td>
+        <td>High-Phosphorus Ni-P + SiC, or PVD CrN / DLC (20–30 &mu;m)</td>
+        <td>Standard Nikasil contains ferromagnetic nickel which shunts magnetic flux. Must specify high-phosphorus non-magnetic electroless nickel or PVD CrN.</td>
+      </tr>
+      <tr>
+        <td><strong>Stator Windings</strong></td>
+        <td>Class-220 Enamelled Copper</td>
+        <td>Litz wire provides negligible benefit at fundamental frequencies of 100–175 Hz. Standard enamelled round copper is sufficient unless inverter PWM carrier exceeds 5 kHz.</td>
+      </tr>
+      <tr>
+        <td><strong>Stator Back-Iron</strong></td>
+        <td>Silicon Steel NO20 (0.20 mm) or M250-35A (0.35 mm)</td>
+        <td>M250-35A is commercially available only in 0.35 mm thickness. For 0.20 mm laminations, specify grade NO20 or equivalent.</td>
+      </tr>
+      <tr>
+        <td><strong>Reluctance Teeth</strong></td>
+        <td>Laminated Hiperco-50 (0.2 mm); prototype in 0.2 mm Silicon Steel</td>
+        <td>Hiperco-50 contains 49% cobalt (expensive, raw material lead time &gt;12 weeks). Prototype testing T2 should utilize 0.2 mm electrical steel to conserve budget. Must state low remanence, not zero.</td>
+      </tr>
+      <tr>
+        <td><strong>Piston Body</strong></td>
+        <td>Forged 4032 Aluminum</td>
+        <td>Aluminum is electrically conductive; expect secondary eddy-current drag. Incorporate longitudinal thermal stress slits and verify in 3D transient FEA.</td>
+      </tr>
+      <tr>
+        <td><strong>Piston Crown TBC</strong></td>
+        <td>0.2–0.3 mm YSZ with NiCrAlY bond coat</td>
+        <td>Realistic thermal barrier reduces heat rejection by 5% to 15%. Catalog claim of "68% heat reflection" is removed.</td>
+      </tr>
+      <tr>
+        <td><strong>Tooth Fixing Joint</strong></td>
+        <td>Axial Dovetail with Inconel 718 clips</td>
+        <td>Thermal expansion differential over a 60 mm Hiperco stack at 200&deg;C is ~0.10 mm (not 38 &mu;m). Keyway must accommodate 0.12 mm axial expansion float.</td>
+      </tr>
+      <tr>
+        <td><strong>Crankshaft &amp; Rods</strong></td>
+        <td>Forged 4340 Steel, split H-beam rods with plain shell bearings</td>
+        <td>Caged needle-roller bearings cannot be assembled onto a monolithic forged one-piece crankshaft. Must utilize precision split plain shell bearings.</td>
+      </tr>
+      <tr>
+        <td><strong>Stator Coolant</strong></td>
+        <td>MIDEL 7131 Synthetic Dielectric Ester</td>
+        <td>Operates as an independent, sealed cooling loop isolated from the engine water-glycol circuit.</td>
+      </tr>
+      <tr>
+        <td><strong>Engine Coolant</strong></td>
+        <td>50/50 Water-Ethylene Glycol</td>
+        <td>Specific heat capacity corrected to 3.3–3.4 kJ/kg&middot;K (catalog value of 3.6 was water-only).</td>
+      </tr>
+      <tr>
+        <td><strong>Bias Magnets (Iter. 3)</strong></td>
+        <td>Samarium-Cobalt (Sm₂Co₁₇) Arcs</td>
+        <td>Rated to 250&deg;C. Mounted in stator only, shielded from combustion chamber heat. NdFeB is strictly prohibited due to irreversible demagnetization at 150&deg;C.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 7 -->
+  <h2>7. Thermal and Cooling Analysis</h2>
+  <p>Coolant properties: MIDEL 7131 density 960 kg/m&sup3;, specific heat 1,880 J/kg&middot;K, thermal conductivity 0.144 W/m&middot;K, kinematic viscosity 15 mm&sup2;/s at 60&deg;C. Flow rate is 16 L/min through 24 vertical bores (&Oslash;5 mm, 100 mm length). Stator potting insulation thickness is 2 mm (k = 0.8 W/m&middot;K) across 0.15 m&sup2; total contact area.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Thermal Boundary Metric</th>
+        <th>Iteration 1 (Catalog)</th>
+        <th>Iteration 2 (Design Basis)</th>
+        <th>Iteration 3 (Full Load / Cruise)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Total Heat Rejection to Stator Coolant</td><td>6.45 kW</td><td>2.32 kW</td><td>2.24 kW (Full) / 0.70 kW (Cruise)</td></tr>
+      <tr><td>Coolant Fluid Bulk Temperature Rise (&Delta;T_bulk)</td><td>13.4 K</td><td>4.8 K</td><td>4.6 K / 1.5 K</td></tr>
+      <tr><td>Wetted Cooling Bore Area</td><td>0.038 m&sup2;</td><td>0.110 m&sup2;</td><td>0.110 m&sup2;</td></tr>
+      <tr><td>Convective Film Drop (&Delta;T_film)</td><td>264 K</td><td>32 K</td><td>31 K / 10 K</td></tr>
+      <tr><td>Conduction Drop through Potting Insulation</td><td>107 K</td><td>39 K</td><td>38 K / 12 K</td></tr>
+      <tr><td><strong>Calculated Winding Hot-Spot Temperature</strong></td><td><strong>~438&deg;C (Burnout)</strong></td><td><strong>~133&deg;C</strong></td><td><strong>~132&deg;C (Full) / ~84&deg;C (Cruise)</strong></td></tr>
+      <tr><td><strong>Margin to Class-220 Insulation (220&deg;C)</strong></td><td><span class="badge badge-risk">-218 K (Fails)</span></td><td><span class="badge badge-pub">+87 K (Passes)</span></td><td><span class="badge badge-pub">+88 K (Passes)</span></td></tr>
+    </tbody>
+  </table>
+  <p><em>Note: Stator bias magnets must operate below 150&deg;C. At 132&deg;C stator hot-spot, thermal margin to Sm₂Co₁₇ demagnetization is ~18 K. Soak test T4 is mandatory.</em></p>
+
+  <!-- SECTION 8 -->
+  <h2>8. Performance by Mode: Torque, Power and Efficiency</h2>
+  <p>Electric efficiency is calculated as net mechanical shaft power divided by battery electrical power. It factors in copper losses, 3% to 5% core losses, 97% inverter efficiency, and mechanical engine motoring drag.</p>
+
+  <h3>8.1 Electric-Only Mode (Iteration 3 Full-Force Target vs. Iteration 2)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Engine Speed (rpm)</th>
+        <th>Net Shaft Torque (Nm)</th>
+        <th>Net Power, Iter. 2 (kW)</th>
+        <th>Efficiency, Iter. 2</th>
+        <th>Net Power, Iter. 3 (kW)</th>
+        <th>Efficiency, Iter. 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2,000</td><td>25.8 (Iter. 3) / 11.7 (Iter. 2)</td><td>2.45</td><td>48%</td><td><strong>5.4</strong></td><td><strong>74%</strong></td></tr>
+      <tr><td>3,000</td><td>25.8 (Iter. 3) / 11.7 (Iter. 2)</td><td>3.67</td><td>56%</td><td><strong>8.1</strong></td><td><strong>79%</strong></td></tr>
+      <tr><td>4,000</td><td>25.8 (Iter. 3) / 11.7 (Iter. 2)</td><td>4.89</td><td>61%</td><td><strong>10.8</strong></td><td><strong>81%</strong></td></tr>
+      <tr><td>5,150</td><td>25.8 (Iter. 3) / 11.7 (Iter. 2)</td><td>6.30</td><td>65%</td><td><strong>13.9</strong></td><td><strong>83%</strong></td></tr>
+      <tr><td>6,000</td><td>25.8 (Iter. 3) / 11.7 (Iter. 2)</td><td>7.34</td><td>67%</td><td><strong>16.2</strong></td><td><strong>84%</strong></td></tr>
+      <tr><td><strong>7,150</strong></td><td><strong>25.8 (Iter. 3) / 11.7 (Iter. 2)</strong></td><td><strong>8.75</strong></td><td><strong>69%</strong></td><td><strong>19.4</strong></td><td><strong>85%</strong></td></tr>
+    </tbody>
+  </table>
+  <p>At part-load cruise in Iteration 3: 77% efficiency at 40 km/h, 80% at 60 km/h, 83% at 80 km/h, and 84% at 100 km/h.</p>
+
+  <h3>8.2 Electric + Fuel Hybrid Mode (Combined Output)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Engine Speed (rpm)</th>
+        <th>Fuel Baseline Torque</th>
+        <th>Hybrid Torque, Iter. 3</th>
+        <th>Hybrid Power, Iter. 3 (kW)</th>
+        <th>Hybrid Power, Iter. 3 (bhp)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2,000</td><td>42.0 Nm</td><td><strong>68.6 Nm</strong></td><td>14.4 kW</td><td>19.3 bhp</td></tr>
+      <tr><td>3,000</td><td>47.0 Nm</td><td><strong>73.6 Nm</strong></td><td>23.2 kW</td><td>31.1 bhp</td></tr>
+      <tr><td>4,000</td><td>50.5 Nm</td><td><strong>77.1 Nm</strong></td><td>32.4 kW</td><td>43.4 bhp</td></tr>
+      <tr><td><strong>5,150 (Peak Torque)</strong></td><td><strong>52.3 Nm</strong></td><td><strong>78.9 Nm</strong></td><td><strong>42.6 kW</strong></td><td><strong>57.1 bhp</strong></td></tr>
+      <tr><td>6,000</td><td>51.0 Nm</td><td><strong>77.6 Nm</strong></td><td>48.7 kW</td><td>65.3 bhp</td></tr>
+      <tr><td><strong>7,150 (Peak Power)</strong></td><td><strong>46.6 Nm</strong></td><td><strong>73.2 Nm</strong></td><td><strong>54.8 kW</strong></td><td><strong>73.5 bhp</strong></td></tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 9 -->
+  <h2>9. Gearbox Design, Top Speed &amp; Acceleration</h2>
+
+  <h3>9.1 Gearing Progression (54-Tooth Constant Center Distance)</h3>
+  <p>Primary reduction: 2.000 (31/62T); Final drive: 2.412 (17/41T sprockets). Rear tyre: 130/70-18 (rolling radius r = 0.320 m). Total drivetrain mechanical efficiency: 90%.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Gear</th>
+        <th>Tooth Ratio</th>
+        <th>Internal Ratio</th>
+        <th>Overall Ratio</th>
+        <th>Speed @ 7,150 rpm</th>
+        <th>Wheel Thrust (Fuel)</th>
+        <th>Wheel Thrust (Hybrid)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1st</td><td>16 / 38</td><td>2.375</td><td>11.46</td><td>75 km/h</td><td>1,686 N (0.52g)</td><td>2,114 N (0.65g)</td></tr>
+      <tr><td>2nd</td><td>18 / 36</td><td>2.000</td><td>9.65</td><td>89 km/h</td><td>1,419 N</td><td>1,780 N</td></tr>
+      <tr><td>3rd</td><td>20 / 34</td><td>1.700</td><td>8.20</td><td>105 km/h</td><td>1,206 N</td><td>1,513 N</td></tr>
+      <tr><td>4th</td><td>23 / 31</td><td>1.348</td><td>6.50</td><td>133 km/h</td><td>956 N</td><td>1,199 N</td></tr>
+      <tr><td>5th</td><td>25 / 29</td><td>1.160</td><td>5.60</td><td>154 km/h</td><td>824 N</td><td>1,033 N</td></tr>
+      <tr><td>6th</td><td>28 / 26</td><td>0.929</td><td>4.48</td><td>193 km/h</td><td>659 N</td><td>827 N</td></tr>
+    </tbody>
+  </table>
+
+  <h3>9.2 Top Speed &amp; Acceleration Summary</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Operating Condition</th>
+        <th>Total Vehicle Mass</th>
+        <th>Top Speed</th>
+        <th>0 to 100 km/h</th>
+        <th>Limiting Constraint</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Donor Stock RE 650 (Baseline)</td><td>289 kg</td><td>169 km/h</td><td>7.4 s</td><td>Aero power limit</td></tr>
+      <tr><td>DUALFORCE Fuel-Only</td><td>340 kg</td><td>168 km/h</td><td>8.7 s</td><td>Mass penalty (+51 kg)</td></tr>
+      <tr><td>DUALFORCE Electric-Only (Iter. 2)</td><td>340 kg</td><td>~102 km/h</td><td>—</td><td>Thermal limit (burst only)</td></tr>
+      <tr><td>DUALFORCE Electric-Only (Iter. 3)</td><td>340 kg</td><td><strong>~139 km/h</strong> (~147 with fairing)</td><td><strong>17.7 s</strong></td><td>Thermally limited burst</td></tr>
+      <tr><td>DUALFORCE Hybrid (Iter. 3)</td><td>340 kg</td><td><strong>~193 km/h</strong></td><td><strong>5.6 s</strong></td><td>6th Gear RPM rev-limit</td></tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 10 -->
+  <h2>10. Energy Consumption and Electric Range</h2>
+  <p>Battery energy budget: 5.8 kWh nominal &times; 80% usable = <strong>4.64 kWh</strong>.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Cruising Speed</th>
+        <th>Iteration 2 Basis</th>
+        <th>Iteration 3 Target</th>
+        <th>Iteration 3 with Fairing &amp; LRR Tyres</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>40 km/h</td><td>61 Wh/km (76 km range)</td><td>34 Wh/km (136 km range)</td><td><strong>29 Wh/km (161 km range)</strong></td></tr>
+      <tr><td><strong>60 km/h</strong></td><td>74 Wh/km (63 km range)</td><td>50 Wh/km (94 km range)</td><td><strong>42 Wh/km (111 km range)</strong></td></tr>
+      <tr><td>80 km/h</td><td>94 Wh/km (49 km range)</td><td>71 Wh/km (65 km range)</td><td><strong>61 Wh/km (76 km range)</strong></td></tr>
+      <tr><td>100 km/h</td><td>122 Wh/km (38 km range)</td><td>99 Wh/km (47 km range)</td><td><strong>85 Wh/km (55 km range)</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h4>Cumulative Range Build at 60 km/h Cruising</h4>
+  <ul>
+    <li>Iteration 2 baseline: <strong>63 km</strong> (73.7 Wh/km)</li>
+    <li>+ Bidirectional stator: <strong>63 km</strong> (adds torque capacity, zero efficiency change)</li>
+    <li>+ Stator SmCo bias magnets: <strong>86 km</strong> (54.2 Wh/km, copper loss proportional to F&sup2;)</li>
+    <li>+ Engine drag reduction to 0.08 kW / 1,000 rpm: <strong>94 km</strong> (49.5 Wh/km)</li>
+    <li>+ Aerodynamic fairing (CdA 0.42) and LRR tyres (Crr 0.012): <strong>111 km</strong> (42.0 Wh/km)</li>
+  </ul>
+
+  <!-- SECTION 11 -->
+  <h2>11. Programme Cost &amp; Unit Economics</h2>
+
+  <h3>11.1 Prototype Development Budget (18-Month Scope)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Work Breakdown Package</th>
+        <th>Lower Estimate (₹ Lakh)</th>
+        <th>Upper Estimate (₹ Lakh)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Donor RE 650 Engine, Gearbox, Spares</td><td>1.5</td><td>2.5</td></tr>
+      <tr><td>Nitronic 50 Sleeves &times;2 (Precision Honed, Slit, Resin Sealed)</td><td>0.6</td><td>1.2</td></tr>
+      <tr><td>Stator Lamination Stacks &amp; Class-220 Windings &times;2</td><td>1.4</td><td>2.6</td></tr>
+      <tr><td>Piston Reluctance Teeth (Hiperco-50 / Electrical Steel)</td><td>1.0</td><td>2.5</td></tr>
+      <tr><td>SmCo Bias Magnet Arcs &amp; Retention Hardware</td><td>1.0</td><td>2.0</td></tr>
+      <tr><td>Custom Forged 4032 Pistons (Dovetail Keyways, Ceramic Crown)</td><td>0.8</td><td>1.5</td></tr>
+      <tr><td>Crank, Split H-Beam Rods &amp; Plain Shell Bearings</td><td>0.6</td><td>1.2</td></tr>
+      <tr><td>Engine Drag Mitigation (Valve Pin-Latches, DLC, CrN Rings)</td><td>0.5</td><td>1.2</td></tr>
+      <tr><td>Gearbox Custom Ratio Cluster &amp; Heavy-Duty Chain</td><td>0.8</td><td>1.5</td></tr>
+      <tr><td>Power Electronics: 24-Channel 100V SiC MOSFET Inverter (250A)</td><td>3.5</td><td>7.0</td></tr>
+      <tr><td>Embedded DSP Controller, Optical Position Sensing &amp; Firmware</td><td>0.8</td><td>1.5</td></tr>
+      <tr><td>5.8 kWh 100V Silicon-Carbon Battery Pack with Custom BMS</td><td>1.5</td><td>2.7</td></tr>
+      <tr><td>MIDEL 7131 Dielectric Cooling Circuit, Radiator &amp; Pump</td><td>0.4</td><td>0.8</td></tr>
+      <tr><td>Aerodynamic Streamlined Fairing &amp; LRR Tyres</td><td>0.3</td><td>0.8</td></tr>
+      <tr><td>Dynamometer Facility Hire, Calibration &amp; DAQ Sensors</td><td>3.0</td><td>6.0</td></tr>
+      <tr><td>External 3D Magnetic &amp; Transient Thermal FEA Consulting</td><td>1.0</td><td>4.0</td></tr>
+      <tr><td>Machining Fixtures, Jig Tooling &amp; Mechanical Assembly</td><td>2.0</td><td>4.0</td></tr>
+      <tr><td><strong>Subtotal</strong></td><td><strong>20.7</strong></td><td><strong>43.0</strong></td></tr>
+      <tr><td>Contingency Reserve (20%)</td><td>4.1</td><td>8.6</td></tr>
+      <tr><td><strong>Total Programme Budget</strong></td><td><strong>₹24.8 Lakh (~$30k)</strong></td><td><strong>₹51.6 Lakh (~$62k)</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>11.2 Stage-Gated Tranche Phasing</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Phase</th>
+        <th>Deliverable Scope</th>
+        <th>Timeline</th>
+        <th>Budget Tranche</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Phase 1</strong></td><td>Magnetic/thermal FEA, coupon testing, liner burst test, single-tooth actuator rig (T1–T3).</td><td>Months 0 – 4</td><td>₹4.0 to ₹8.0 Lakh</td></tr>
+      <tr><td><strong>Phase 2</strong></td><td>Single-cylinder testbench, 24-channel inverter, thermal soak, drag measurements (T4–T5).</td><td>Months 5 – 10</td><td>₹8.0 to ₹17.0 Lakh</td></tr>
+      <tr><td><strong>Phase 3</strong></td><td>Full twin integration, dyno mapping, gearbox assembly, road testing &amp; range audit (T6–T9).</td><td>Months 11 – 18</td><td>₹13.0 to ₹27.0 Lakh</td></tr>
+    </tbody>
+  </table>
+
+  <h3>11.3 Low-Volume Commercial Added Cost per Vehicle</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Hybrid Subsystem Component</th>
+        <th>Estimated Added Production Cost (INR)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>5.8 kWh Silicon-Carbon Battery Pack with Automotive BMS</td><td>₹1,05,000 – ₹1,45,000 (40% of added cost)</td></tr>
+      <tr><td>24-Channel SiC MOSFET Inverter &amp; Microcontroller</td><td>₹45,000 – ₹65,000</td></tr>
+      <tr><td>Stator Coils, Lamination Stacks, SmCo Magnets, Liners, Pistons</td><td>₹70,000 – ₹1,00,000</td></tr>
+      <tr><td>Optical Sensors, Dual-Circuit Cooling, Low-Friction Valvetrain Parts</td><td>₹25,000 – ₹35,000</td></tr>
+      <tr><td><strong>Total Added Production Cost</strong></td><td><strong>₹2,45,000 – ₹3,45,000</strong></td></tr>
+    </tbody>
+  </table>
+  <p>Against a donor motorcycle retail price of ₹3.5 to ₹4.3 Lakh, the low-volume hybrid package represents a 60% to 100% price premium, governed predominantly by the battery pack cost.</p>
+
+  <!-- SECTION 12 -->
+  <h2>12. Competitive Position &amp; Value Proposition</h2>
+  <p>The rigorous baseline comparison is against a conventional motorcycle paired with a high-efficiency rotary permanent-magnet traction motor. Rotary motors achieve 90%+ electrical efficiency with mature automotive supply chains, but demand a separate motor casing, reduction gears, and external frame mounting (+35–45 kg penalty).</p>
+  <p>DUALFORCE trades peak electric efficiency for **unprecedented mechanical integration**: the engine block serves as the motor stator, and the piston crown serves as the rotor. The commercial thesis holds if and only if Gate G2 proves net torque additions after mechanical drag, and Gate G3 confirms that total powertrain packaging mass remains significantly below external hybrid systems.</p>
+
+  <!-- SECTION 13 -->
+  <h2>13. Proof Plan and Funding Gates</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Test ID</th>
+        <th>Physical Measurement</th>
+        <th>Pass / Progression Criterion</th>
+        <th>Phase</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>T1: Material Coupons</strong></td><td>B-H hysteresis curves, permeability of Nitronic 50; SmCo thermal stability at 150&deg;C.</td><td>Within 10% of FEA inputs; zero irreversible magnet degradation at 150&deg;C.</td><td>Phase 1</td></tr>
+      <tr><td><strong>T2: Bench Actuator</strong></td><td>Static force vs. displacement and current on a single-tooth load cell rig.</td><td>Within &plusmn;20% of FEA; &ge;1,200 N per piston at &le;110 A; confirms F vs. I law.</td><td>Phase 1</td></tr>
+      <tr><td><strong>T3: Liner Burst Test</strong></td><td>Hydrostatic pressure testing at 120 bar; dielectric slit sealing verification.</td><td>Zero fluid weeping; zero plastic deformation at 1.6&times; peak pressure.</td><td>Phase 1</td></tr>
+      <tr><td><strong>T4: Thermal Soak</strong></td><td>30-minute continuous run at rated duty with thermocouples on coils &amp; SmCo magnets.</td><td>Winding hot-spot and magnet temperatures stay &le;150&deg;C.</td><td>Phase 2</td></tr>
+      <tr><td><strong>T5: Single-Cylinder Rig</strong></td><td>Net work per stroke; copper loss measured at 50% vs. 100% force.</td><td>&ge;35 J per stroke; loss at 50% force is &le;35% of full-force loss (confirms F&sup2; law).</td><td>Phase 2</td></tr>
+      <tr><td><strong>T6: Fuel Dyno Base</strong></td><td>Power and torque curves with Nitronic 50 liner, Nikasil coating, and new rings.</td><td>&ge;33 kW shaft power (within 5% of stock donor engine baseline).</td><td>Phase 3</td></tr>
+      <tr><td><strong>T7: Hybrid Dyno</strong></td><td>Net shaft torque, electrical power draw, regeneration recovery power.</td><td>Electric &ge;14 kW @ 6,000 rpm (&eta; &ge; 75%); Hybrid &ge;45 kW @ 6,000 rpm.</td><td>Phase 3</td></tr>
+      <tr><td><strong>T8: Road &amp; High-Speed Test</strong></td><td>Top speed, 0–100 km/h acceleration, 10-minute continuous 100 km/h electric run.</td><td>Maintains steady 100 km/h for 10 minutes with coil temps &le;150&deg;C.</td><td>Phase 3</td></tr>
+      <tr><td><strong>T9: Motoring Drag &amp; Range</strong></td><td>Mechanical drag at 2,000/4,000/6,000 rpm; steady 60 km/h range test at 340 kg.</td><td>Drag &le;0.08 kW / 1,000 rpm; verified range &ge;100 km on 4.64 kWh usable.</td><td>Phase 3</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Gate Milestones:</h4>
+  <ul>
+    <li><strong>Gate G1 (End of Phase 1):</strong> Requires successful sign-off on Tests T1, T2, and T3.</li>
+    <li><strong>Gate G2 (End of Phase 2):</strong> Requires sign-off on Tests T4 and T5. <em>The measured F&sup2; loss law in T5 is the go/no-go milestone for the 100 km range target.</em></li>
+    <li><strong>Gate G3 (End of Phase 3):</strong> Requires sign-off on Tests T6, T7, T8, and T9.</li>
+  </ul>
+  <p>Tranche funding is unlocked strictly upon verified completion of each gate. A failure at any gate mandates design iteration or a documented project halt.</p>
+
+  <!-- SECTION 14 -->
+  <h2>14. Risk Assessment &amp; Mitigation Register</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:25%">Identified Risk</th>
+        <th style="width:25%">Impact on Programme</th>
+        <th style="width:50%">Engineering Mitigation Strategy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>SmCo Bias Magnets do not deliver F&sup2; loss law</strong></td>
+        <td>Electric range collapses from 94 km toward 63 km; misses target.</td>
+        <td>Validated early in bench test T5. Fallback path: enlarge battery to 9.2 kWh or restrict electric mode to urban 0–40 km/h.</td>
+      </tr>
+      <tr>
+        <td><strong>Measured Reluctance Force &lt; Calculated Target</strong></td>
+        <td>Reduced electric torque assist and lower acceleration.</td>
+        <td>Refine 3D FEA; increase tooth axial width; evaluate transverse-flux stator topologies prior to cutting metal.</td>
+      </tr>
+      <tr>
+        <td><strong>Stator Coil Hot-Spot &gt; 150&deg;C</strong></td>
+        <td>Assist limited to short transient bursts.</td>
+        <td>Adopt Iteration 2 large-window geometry; raise MIDEL 7131 flow to 22 L/min; derate operating flux to 0.95 T.</td>
+      </tr>
+      <tr>
+        <td><strong>SmCo Magnet Thermal Degradation</strong></td>
+        <td>Loss of bias magnetic flux; reduced efficiency.</td>
+        <td>Mount magnets exclusively in the liquid-cooled outer stator; thermocouple surveillance during soak test T4.</td>
+      </tr>
+      <tr>
+        <td><strong>Liner Slit Fatigue or Gas Leak</strong></td>
+        <td>Combustion gas cross-contaminates dielectric oil loop.</td>
+        <td>120-bar hydrostatic proof testing in T3; vacuum impregnation with structural alumina-ceramic bonding matrix.</td>
+      </tr>
+      <tr>
+        <td><strong>Eddy Drag in Aluminum Piston</strong></td>
+        <td>Parasitic braking drag reduces net shaft output.</td>
+        <td>Incorporate longitudinal slits in piston skirt; evaluate carbon-composite or ceramic-insulated carrier shoes in FEA.</td>
+      </tr>
+      <tr>
+        <td><strong>Mechanical Motoring Drag &gt; 0.08 kW/krpm</strong></td>
+        <td>High parasitic battery drain during EV mode.</td>
+        <td>Early dyno friction teardown in T9; implement low-tension DLC rings and mechanical pin-latch valve deactivation.</td>
+      </tr>
+      <tr>
+        <td><strong>Hiperco-50 Lead Time and Cost</strong></td>
+        <td>Budget escalation and prototyping delays.</td>
+        <td>Utilize thin 0.2 mm electrical silicon steel (NO20) for initial bench rigs (T1–T2); reserve Hiperco for final dyno engine.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 15 -->
+  <h2>15. Claims Register &amp; Verification Status</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:38%">Specific Engineering Claim</th>
+        <th style="width:24%">Document Status</th>
+        <th style="width:38%">Audited Resolution &amp; Test Reference</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>34.9 kW @ 7,150 rpm / 52.3 Nm @ 5,150 rpm (Fuel)</strong></td>
+        <td><span class="badge badge-pub">Published</span></td>
+        <td>Manufacturer published baseline; to be benchmarked in T6.</td>
+      </tr>
+      <tr>
+        <td><strong>3,680 N Force per Piston (Catalog)</strong></td>
+        <td><span class="badge badge-risk">Not Supported</span></td>
+        <td>Replaced by 1,233 N design target per piston; subject to T2 validation.</td>
+      </tr>
+      <tr>
+        <td><strong>114&deg;C Steady Stator Temperature</strong></td>
+        <td><span class="badge badge-risk">Not Supported</span></td>
+        <td>Replaced by realistic 130–135&deg;C calculation; subject to soak test T4.</td>
+      </tr>
+      <tr>
+        <td><strong>68% Heat Reflection by YSZ Crown</strong></td>
+        <td><span class="badge badge-risk">Removed</span></td>
+        <td>Replaced by standard 5% to 15% heat rejection reduction model.</td>
+      </tr>
+      <tr>
+        <td><strong>42% Torque Ripple Reduction</strong></td>
+        <td><span class="badge badge-target">Deferred</span></td>
+        <td>Removed pending crank-angle dynamic simulation with firing pulses.</td>
+      </tr>
+      <tr>
+        <td><strong>Atkinson Cycle +18.4% Efficiency Gain</strong></td>
+        <td><span class="badge badge-target">Deferred</span></td>
+        <td>Deferred to Phase 2; stock donor head utilized for prototype baseline.</td>
+      </tr>
+      <tr>
+        <td><strong>Electric-Only Peak 18–25 kW Output</strong></td>
+        <td><span class="badge badge-calc">Target</span></td>
+        <td>Iteration 3 targets 19.4 kW net @ 7,150 rpm; subject to T5 and T7.</td>
+      </tr>
+      <tr>
+        <td><strong>100 km/h Electric-Only Cruise Capability</strong></td>
+        <td><span class="badge badge-calc">Target</span></td>
+        <td>Calculated feasible at ~47% available force in 3rd gear; subject to T8.</td>
+      </tr>
+      <tr>
+        <td><strong>100 km Electric Range from 5.8 kWh Pack</strong></td>
+        <td><span class="badge badge-calc">Target</span></td>
+        <td>Calculated 94 km (111 km with fairing &amp; LRR tyres); subject to T5 and T9.</td>
+      </tr>
+      <tr>
+        <td><strong>Top Speed 168 (Fuel) / 193 km/h (Hybrid)</strong></td>
+        <td><span class="badge badge-calc">Calculated</span></td>
+        <td>Gearing and road-load calculated; subject to high-speed validation T8.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 16 -->
+  <h2>16. Appendix: Assumptions, Sources &amp; Document Limits</h2>
+  <p><strong>Governing Assumptions:</strong> Effective magnetic gap 2.03 mm; gap flux density B = 1.0 T; 6 active tooth pairs per cylinder; edge factor k = 1.0; useful stroke fraction 0.5; 30 turns per coil; 50% copper fill factor; 150&deg;C hot winding temperature; 120&deg; crank angle active window per powered event; 2 powered events per revolution per cylinder in Iteration 3; stator core loss 5%; inverter efficiency 97%; engine mechanical drag 0.08 kW per 1,000 rpm target; Iteration 3 part-load copper loss follows force squared ($F^2$) via SmCo bias flux; MIDEL 7131 properties per technical datasheet; total running mass 340 kg; CdA 0.486 m&sup2; (0.42 m&sup2; with fairing); Crr 0.015 (0.012 with low-rolling-resistance tyres); battery 5.8 kWh with 80% usable DoD.</p>
+  
+  <p><strong>Data Sources:</strong> Royal Enfield Continental GT 650 technical specification (official documentation: <em>continental-gt-650-technical-specification.pdf</em>) for bore, stroke, compression ratio, peak power, and peak torque. Published top speed data (164 to 170 km/h) sourced from certified vehicle road tests. Companion workbook <em>DUALFORCE_650_FirstPass_Calc.xlsx</em> contains the underlying mathematical derivations.</p>
+
+  <p><strong>Document Limitations:</strong> This document represents an engineering design basis and experimental validation roadmap. It contains no measured data from an operating DUALFORCE physical engine. All figures are analytical targets to be systematically verified across the three-phase funding gates.</p>
+
+  <!-- Signatures -->
+  <div class="sign-grid">
+    <div>
+      <div class="sign-line"></div>
+      <strong>Prepared By: Lead Powertrain Engineering Group</strong>
+      <div style="font-size:.82rem;color:var(--muted)">DUALFORCE Technologies · Design &amp; Simulation Division</div>
+    </div>
+    <div>
+      <div class="sign-line"></div>
+      <strong>Reviewed &amp; Endorsed By: Advisory Engineering Committee</strong>
+      <div style="font-size:.82rem;color:var(--muted)">Automotive Powertrain &amp; EV Transition Diligence Group</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
