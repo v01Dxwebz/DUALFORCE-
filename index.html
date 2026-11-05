@@ -1222,10 +1222,12 @@ ul.ticks li::before {
 .calc p.calc-note { margin: 0; font-size: 0.84rem; line-height: 1.5; color: var(--text-dark); }
 .calc-note strong { color: var(--white); }
 </style>
-<link rel="stylesheet" href="assets/engine-integration.css">
-<script defer src="assets/dualforce-engine.js?v=preserved-deck-1"></script>
+<link rel="stylesheet" href="assets/engine-integration.css?v=20261105-4">
+<link rel="stylesheet" href="assets/dualforce-premium-theme.css?v=20261105-4">
+<script defer src="assets/dualforce-engine.js?v=full-control-parity-5"></script>
 </head>
 <body>
+
 
 <!-- Ambient Atmospheric Glows -->
 <div class="bg-ambient-orb orb-1"></div>
@@ -2227,6 +2229,10 @@ function closeLightbox() {
   let crankAngle = 0;
   let targetRPM = 3200;
   let lastTimestamp = 0;
+  let simInView = false;
+  let simDocumentVisible = !document.hidden;
+  let simRafId = null;
+  let simObserver = null;
 
   const crankCenterX = 200;
   const crankCenterY = 330;
@@ -2234,6 +2240,11 @@ function closeLightbox() {
   const rodLength    = 180;
 
   function engineSimLoop(timestamp) {
+    simRafId = null;
+    if (!simInView || !simDocumentVisible) {
+      lastTimestamp = 0;
+      return;
+    }
     if (!lastTimestamp) lastTimestamp = timestamp;
     const delta = (timestamp - lastTimestamp) / 1000;
     lastTimestamp = timestamp;
@@ -2317,10 +2328,54 @@ function closeLightbox() {
       }
     }
 
-    requestAnimationFrame(engineSimLoop);
+    if (simInView && simDocumentVisible) {
+      simRafId = requestAnimationFrame(engineSimLoop);
+    }
   }
 
-  requestAnimationFrame(engineSimLoop);
+  const actualScrollRoot = (element) => {
+    let node = element && element.parentElement;
+    while (node && node !== document.body) {
+      const style = getComputedStyle(node);
+      const scrollable = /(auto|scroll|overlay)/.test(style.overflowY || style.overflow);
+      if (scrollable && node.scrollHeight > node.clientHeight) return node;
+      node = node.parentElement;
+    }
+    return null;
+  };
+
+  const setSimVisibility = (visible) => {
+    simInView = visible;
+    if (!simInView || !simDocumentVisible) {
+      if (simRafId !== null) {
+        cancelAnimationFrame(simRafId);
+        simRafId = null;
+      }
+      lastTimestamp = 0;
+    } else if (simRafId === null) {
+      simRafId = requestAnimationFrame(engineSimLoop);
+    }
+  };
+
+  if (typeof IntersectionObserver !== 'undefined' && document.getElementById('sim-2d-viewport')) {
+    simObserver = new IntersectionObserver((entries) => {
+      if (entries.length) setSimVisibility(entries[entries.length - 1].isIntersecting);
+    }, { root: actualScrollRoot(document.getElementById('sim-2d-viewport')), threshold: 0 });
+    simObserver.observe(document.getElementById('sim-2d-viewport'));
+  } else {
+    setSimVisibility(true);
+  }
+
+  const onSimDocumentVisibility = () => {
+    simDocumentVisible = !document.hidden;
+    setSimVisibility(simInView);
+  };
+  document.addEventListener('visibilitychange', onSimDocumentVisibility);
+  window.addEventListener('pagehide', (event) => {
+    if (event.persisted) return;
+    if (simObserver) simObserver.disconnect();
+    document.removeEventListener('visibilitychange', onSimDocumentVisibility);
+  }, { once: true });
 
   function setSimMode(mode) {
     simMode = mode;
@@ -2360,7 +2415,10 @@ function closeLightbox() {
     const ctx = canvas.getContext('2d');
     let width, height;
     let particles = [];
-    const particleCount = 65;
+    const particleCount = 48;
+    let particleRafId = null;
+    let particleTimer = null;
+    let particlesRunning = !document.hidden;
 
     function resizeCanvas() {
       width = canvas.width = window.innerWidth;
@@ -2400,7 +2458,17 @@ function closeLightbox() {
       particles.push(new Particle());
     }
 
+    function scheduleParticleFrame() {
+      if (!particlesRunning || particleRafId !== null || particleTimer !== null) return;
+      particleTimer = window.setTimeout(() => {
+        particleTimer = null;
+        if (particlesRunning) particleRafId = requestAnimationFrame(renderParticles);
+      }, 33);
+    }
+
     function renderParticles() {
+      particleRafId = null;
+      if (!particlesRunning) return;
       ctx.clearRect(0, 0, width, height);
       for (let i = 0; i < particles.length; i++) {
         particles[i].update();
@@ -2419,9 +2487,32 @@ function closeLightbox() {
           }
         }
       }
-      requestAnimationFrame(renderParticles);
+      scheduleParticleFrame();
     }
-    requestAnimationFrame(renderParticles);
+
+    const onParticleVisibility = () => {
+      particlesRunning = !document.hidden;
+      if (!particlesRunning) {
+        if (particleRafId !== null) cancelAnimationFrame(particleRafId);
+        if (particleTimer !== null) clearTimeout(particleTimer);
+        particleRafId = null;
+        particleTimer = null;
+      } else {
+        scheduleParticleFrame();
+      }
+    };
+    document.addEventListener('visibilitychange', onParticleVisibility);
+    window.addEventListener('pagehide', (event) => {
+      if (event.persisted) return;
+      particlesRunning = false;
+      if (particleRafId !== null) cancelAnimationFrame(particleRafId);
+      if (particleTimer !== null) clearTimeout(particleTimer);
+      window.removeEventListener('resize', resizeCanvas);
+      document.removeEventListener('visibilitychange', onParticleVisibility);
+      particleRafId = null;
+      particleTimer = null;
+    }, { once: true });
+    scheduleParticleFrame();
   }
 
   // 9. Web Audio API Engine Sound Synthesizer
@@ -2576,9 +2667,39 @@ function closeLightbox() {
 <script src="dualforce-3d-engine.js"></script>
 <script>
   window.addEventListener('load', function () {
-    // 1. Slide 5 Engine Twin (Live inside Material Card)
+    function getLegacyScrollRoot(element) {
+      var node = element && element.parentElement;
+      while (node && node !== document.body) {
+        var style = window.getComputedStyle(node);
+        var scrollable = /(auto|scroll|overlay)/.test(style.overflowY || style.overflow);
+        if (scrollable && node.scrollHeight > node.clientHeight) return node;
+        node = node.parentElement;
+      }
+      return null;
+    }
+
+    function isVisibleInRoot(element, root) {
+      if (!element || document.hidden) return false;
+      var rect = element.getBoundingClientRect();
+      if (!rect.width || !rect.height) return false;
+      var bounds = root ? root.getBoundingClientRect() : {
+        top: 0,
+        right: window.innerWidth,
+        bottom: window.innerHeight,
+        left: 0
+      };
+      return rect.bottom > bounds.top && rect.top < bounds.bottom &&
+        rect.right > bounds.left && rect.left < bounds.right;
+    }
+
+    // 1. Slide 5 Engine Twin (Live inside Material Card; initialized on first visibility)
     var s5Container = document.getElementById('slide5-3d-viewport');
-    if (s5Container && window.DualForce3DEngine) {
+    var s5Slide = document.getElementById('slide-5');
+    var s5Root = getLegacyScrollRoot(s5Slide || s5Container);
+    var s5Observer = null;
+    var s5Initialized = !!window.slide5Engine;
+    var initSlide5 = function () {
+      if (s5Initialized || document.hidden || !s5Container || !window.DualForce3DEngine || !isVisibleInRoot(s5Slide || s5Container, s5Root)) return;
       window.slide5Engine = new DualForce3DEngine(s5Container, {
         compact: true,
         theme: 'dark',
@@ -2589,7 +2710,27 @@ function closeLightbox() {
         cameraMode: 'hero',
         annotationsEnabled: true
       });
+      s5Initialized = true;
+    };
+    if (s5Container && s5Slide && typeof IntersectionObserver !== 'undefined') {
+      s5Observer = new IntersectionObserver(function (entries) {
+        if (entries.some(function (entry) { return entry.isIntersecting; })) initSlide5();
+      }, { root: s5Root, threshold: 0.01 });
+      s5Observer.observe(s5Slide);
+      initSlide5();
+    } else {
+      initSlide5();
     }
+
+    var onLegacyDocumentVisibility = function () {
+      if (!document.hidden) initSlide5();
+    };
+    document.addEventListener('visibilitychange', onLegacyDocumentVisibility);
+    window.addEventListener('pagehide', function (event) {
+      if (event.persisted) return;
+      if (s5Observer) s5Observer.disconnect();
+      document.removeEventListener('visibilitychange', onLegacyDocumentVisibility);
+    }, { once: true });
 
     // 2. Slide 4 3D Toggle
     var btn3d = document.getElementById('sim-btn-3d');

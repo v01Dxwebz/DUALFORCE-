@@ -23,6 +23,7 @@ export interface MechanicalEngineState {
   electromagnetic: boolean;
   visible: Record<ComponentKey, boolean>;
   cutaway: boolean;
+  casingMode?: 'solid' | 'transparent';
   selectedComponent?: ComponentKey;
   caseOpenAmount?: number;
   longitudinalSection?: boolean;
@@ -270,40 +271,6 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
     );
     item.quaternion.setFromUnitVectors(UP, delta.normalize());
     return item;
-  };
-
-  const makeGearGeometry = (
-    teeth: number,
-    rootRadius: number,
-    tipRadius: number,
-    boreRadius: number,
-    thickness: number,
-  ): THREE.ExtrudeGeometry => {
-    const shape = new THREE.Shape();
-    const points = teeth * 4;
-    for (let i = 0; i < points; i += 1) {
-      const angle = (i / points) * PI2;
-      const phase = i % 4;
-      const radius = phase === 1 || phase === 2 ? tipRadius : rootRadius;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      if (i === 0) shape.moveTo(x, y); else shape.lineTo(x, y);
-    }
-    shape.closePath();
-    const hole = new THREE.Path();
-    hole.absarc(0, 0, boreRadius, 0, PI2, false);
-    shape.holes.push(hole);
-    const geometry = ownGeometry(new THREE.ExtrudeGeometry(shape, {
-      depth: thickness,
-      bevelEnabled: true,
-      bevelSegments: 2,
-      bevelSize: 0.012,
-      bevelThickness: 0.01,
-      curveSegments: 4,
-      steps: 1,
-    }));
-    geometry.translate(0, 0, -thickness / 2);
-    return geometry;
   };
 
   class HelixCurve extends THREE.Curve<THREE.Vector3> {
@@ -555,16 +522,12 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
     }
   });
 
-  // Crank, shaft, bearing races, gears, and a machined flywheel all use the same theta.
+  // Crankshaft, bearing races, and machined flywheel rotate together.
   const crank = groups.crank;
   const rotatingAssembly = new THREE.Group();
   rotatingAssembly.name = 'shaft-and-crank-rotation';
   rotatingAssembly.position.y = C.crankCenterY;
   crank.add(rotatingAssembly);
-  const gearAssembly = new THREE.Group();
-  gearAssembly.name = 'provisional-gear-pair';
-  gearAssembly.position.y = C.crankCenterY;
-  crank.add(gearAssembly);
 
   cylinder(rotatingAssembly, 0.11, 3.15, new THREE.Vector3(0, 0, 0), steelDark, 32, 0, 0, Math.PI / 2);
   for (const x of [-0.94, -0.33, 0.33, 0.94]) {
@@ -604,23 +567,6 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
     torus(throwGroup, 0.105, 0.018, new THREE.Vector3(-0.17, C.crankRadius, 0), brass, 'x', 10, 32);
     torus(throwGroup, 0.105, 0.018, new THREE.Vector3(0.17, C.crankRadius, 0), brass, 'x', 10, 32);
   }
-
-  // Annular extruded gears with true centre holes; teeth count/ratio are provisional visual assumptions.
-  const largeTeeth = 28;
-  const smallTeeth = 14;
-  const largeGear = mesh(makeGearGeometry(largeTeeth, 0.235, 0.315, 0.105, 0.075), silver);
-  largeGear.name = 'large-shaft-gear';
-  largeGear.position.set(0.49, 0, 0);
-  largeGear.rotation.y = Math.PI / 2;
-  gearAssembly.add(largeGear);
-  const smallGear = mesh(makeGearGeometry(smallTeeth, 0.12, 0.17, 0.055, 0.075), brassDark);
-  smallGear.name = 'small-counter-gear';
-  smallGear.position.set(0.49, 0.43, 0);
-  smallGear.rotation.y = Math.PI / 2;
-  gearAssembly.add(smallGear);
-  cylinder(frame, 0.075, 0.28, new THREE.Vector3(0.49, C.crankCenterY + 0.43, 0), silverDark, 20, 0, 0, Math.PI / 2);
-  torus(frame, 0.075, 0.022, new THREE.Vector3(0.34, C.crankCenterY + 0.43, 0), brassDark, 'x', 10, 32);
-  torus(frame, 0.075, 0.022, new THREE.Vector3(0.64, C.crankCenterY + 0.43, 0), brassDark, 'x', 10, 32);
 
   // Broad end flywheel: lip, hub, dark spline centre, concentric grooves and off-axis bolts.
   const flywheelX = 1.52;
@@ -722,9 +668,6 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
 
     });
     rotatingAssembly.rotation.x = activePhase;
-    largeGear.rotation.x = activePhase;
-    // Teeth ratio is a provisional 28:14 pair; opposite sign indicates meshing.
-    smallGear.rotation.x = -(largeTeeth / smallTeeth) * activePhase;
   };
 
   const update = (state: MechanicalEngineState): void => {
@@ -756,7 +699,9 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
       lastSelected = state.selectedComponent;
       lastElectromagnetic = state.electromagnetic;
     }
-    housing.setInspection(state.caseOpenAmount ?? 0, state.cutaway);
+    // Transparency is an explicit casing presentation choice. Keep it scoped
+    // to the crankcase; longitudinal clipping remains an independent mechanic.
+    housing.setInspection(state.caseOpenAmount ?? 0, state.casingMode === 'transparent');
     const moving = (state.visualAngularVelocity ?? 0) > 0;
     const activities = C.cylinderCentersX.map((_, index) => state.electromagnetic && moving ? coilUpstrokeActivity(frozenPhase.value + index * C.phaseOffset) : 0);
     groups.stator.userData.coilActivity = activities;

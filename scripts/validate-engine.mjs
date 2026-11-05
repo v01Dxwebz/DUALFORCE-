@@ -20,6 +20,8 @@ try {
   assert.equal(rpmToAngularVelocity, rpmToVisualAngularVelocity, 'Legacy HMR export must remain compatible')
   const root = new THREE.Group()
   const model = createMechanicalEngine(root)
+  assert.equal(root.getObjectByName('large-shaft-gear'), undefined, 'Crankshaft gear must be removed')
+  assert.equal(root.getObjectByName('small-counter-gear'), undefined, 'Countershaft gear must be removed with its pair')
   const visible = Object.fromEntries(Object.keys(model.groups).map(key => [key, true]))
   const state = { phase: 0, explodeAmount: 0, electromagnetic: true, visible, cutaway: false, caseOpenAmount: 0, longitudinalSection: false, visualAngularVelocity: rpmToVisualAngularVelocity(2800) }
   const rods = ['rod-front', 'rod-rear'].map(name => root.getObjectByName(name))
@@ -91,11 +93,11 @@ try {
   assert.deepEqual(fixed.matrixWorld.elements, fixedBefore.elements, 'Rear half must stay fixed')
   assert.ok(Math.abs(door.localToWorld(new THREE.Vector3(0.8,0.8,-0.4)).x - xPointBefore) < 1e-10, 'Opening is transverse, not shaft-parallel')
   state.caseOpenAmount = 0; model.update(state); assert.ok(Math.abs(door.rotation.x) < 1e-12)
-  state.cutaway = true; model.update(state)
+  state.casingMode = 'transparent'; model.update(state)
   casing.traverse(object => { if (object.isMesh) assert.ok(object.material.opacity < 0.25 && !object.material.depthWrite) })
   model.groups.frame.traverse(object => { if (object.isMesh) assert.equal(object.material.opacity,1) })
   model.groups.cylinders.traverse(object => { if (object.isMesh && object.material.transparent) assert.equal(object.material.opacity,0.64,'Housing toggle must not fade cylinder liners') })
-  state.cutaway = false; model.update(state)
+  state.casingMode = 'solid'; model.update(state)
   casing.traverse(object => { if (object.isMesh) assert.ok(object.material.opacity === 1 && object.material.depthWrite) })
   state.longitudinalSection = true; model.update(state)
   const section = rods[0].children.find(object => object.isMesh).material.clippingPlanes[0]

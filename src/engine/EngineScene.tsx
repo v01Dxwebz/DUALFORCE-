@@ -9,6 +9,7 @@ export type { ComponentKey } from './model'
 export type CameraMode = 'hero' | 'front' | 'side' | 'detail'
 export type AnnotationMode = 'overview' | 'detailed' | 'exploded'
 export type VisibilityState = Record<ComponentKey, boolean>
+export type CasingMode = 'solid' | 'transparent'
 
 export const defaultVisibility: VisibilityState = {
   casing: true, frame: true, cylinders: true, pistons: true, rods: true, crank: true, stator: true, magnets: true,
@@ -19,7 +20,7 @@ export const componentMeta: Record<ComponentKey, { label: string; description: s
   cylinders: { label: 'Twin cylinder pack', description: 'Close-set inline bores, annular end caps and bolted mounting deck, reconstructed from the reference views.' },
   pistons: { label: '4032 aluminium pistons', description: 'Ringed piston skirts, wrist pins and ceramic-coated crowns follow a fixed-length slider-crank demonstration.' },
   rods: { label: 'Forged 4340 rods', description: 'Detailed small-end and bolted big-end assemblies remain connected to their piston and crank pins without stretching.' },
-  crank: { label: 'Crank / flywheel / bearings', description: 'Machined silver flywheel, crank webs, journals, toothed gears and bearing assemblies. Housings stay fixed; shaft and inner races rotate.' },
+  crank: { label: 'Crank / flywheel / bearings', description: 'Machined silver flywheel, crank webs, journals and bearing assemblies. Housings stay fixed; shaft and inner races rotate.' },
   stator: { label: 'Copper stator windings', description: 'Continuous closely packed copper helices, brass bobbin caps, retention rods and routed leads; electromagnetic operation remains proposed.' },
   magnets: { label: 'Magnetic elements', description: 'Piston-associated magnetic teeth are a provisional visual layer, not confirmed alignment or magnetic-force validation.' },
 }
@@ -36,19 +37,20 @@ const labels: { key: ComponentKey; text: string; detail: string; mode: Annotatio
   { key: 'rods', text: 'BOLTED CONNECTING ROD', detail: 'No elastic scaling / connected pins', mode: 'detailed', point: [0.64, -0.1, 0.22] },
   { key: 'frame', text: 'FIXED BEARING PEDESTAL', detail: 'Rigid support / stationary outer race', mode: 'detailed', point: [0.34, -0.45, 0.22] },
   { key: 'crank', text: 'ROTATING INNER RACE', detail: 'Shaft-mounted rolling assembly', mode: 'detailed', point: [0.34, -0.45, 0.14] },
-  { key: 'crank', text: 'TOOTHED DRIVE ELEMENT', detail: 'Illustrative gear geometry / ratio unvalidated', mode: 'detailed', point: [0.49, -0.45, 0.28] },
   { key: 'stator', text: 'BOBBIN / ROUTED COPPER LEAD', detail: 'No unsupported electrical rating', mode: 'exploded', point: [0.64, 1.13, 0.47] },
   { key: 'magnets', text: 'MAGNETIC TEETH', detail: 'Proposed piston-associated element', mode: 'exploded', point: [-0.64, 0.58, 0.37] },
 ]
+
+type NumericRef = { current: number }
 
 type EngineSceneProps = {
   className?: string; autoOrbit?: boolean; playing: boolean; rpm: number;
   exploded: boolean; explodeAmount: number; electromagnetic: boolean;
   visible: VisibilityState; cameraMode: CameraMode; annotationMode?: AnnotationMode;
   annotationsEnabled?: boolean; selectedComponent?: ComponentKey; cutaway?: boolean;
-  caseOpenAmount?: number; longitudinalSection?: boolean; slowMotion?: boolean;
+  casingMode?: CasingMode; caseOpenAmount?: number; longitudinalSection?: boolean; slowMotion?: boolean;
   resetSignal?: number; onSelect?: (component: ComponentKey) => void;
-  modelScale?: number; modelOffsetX?: number; modelOffsetY?: number; zoomLevel?: number; allowWheelZoom?: boolean;
+  modelScale?: number; modelScaleRef?: NumericRef; modelOffsetX?: number; modelOffsetY?: number; modelOffsetYRef?: NumericRef; zoomLevel?: number; allowWheelZoom?: boolean;
 }
 
 export default function EngineScene(props: EngineSceneProps) {
@@ -75,9 +77,7 @@ export default function EngineScene(props: EngineSceneProps) {
     renderer.toneMappingExposure = 0.94
     renderer.localClippingEnabled = true
     const scene = new THREE.Scene()
-    scene.background = new THREE.Color('#25272b')
-    // Environment reflections describe machined metal. No fog, translucent
-    // floor discs, particle sparks or bottom fade planes are present.
+    scene.background = new THREE.Color('#e8ece7')
     const pmrem = new THREE.PMREMGenerator(renderer)
     const room = new RoomEnvironment()
     const environment = pmrem.fromScene(room, 0.025)
@@ -118,8 +118,37 @@ export default function EngineScene(props: EngineSceneProps) {
     sizeObserver.observe(canvas)
     resize()
     let inViewport = true
-    const intersectionObserver = new IntersectionObserver(([entry]) => { inViewport = entry.isIntersecting }, { rootMargin: '180px' })
+    let pageHidden = document.hidden
+    let frame = 0
+    let previousTime = 0
+    const canRender = () => inViewport && !pageHidden
+    const cancelLoop = () => {
+      if (frame) cancelAnimationFrame(frame)
+      frame = 0
+    }
+    let render: (time: number) => void
+    const schedule = () => {
+      if (canRender() && !frame) frame = requestAnimationFrame(render)
+    }
+    const resumeLoop = () => {
+      if (!canRender()) return
+      previousTime = performance.now()
+      schedule()
+    }
+    const pauseLoop = () => {
+      cancelLoop()
+      previousTime = 0
+    }
+    const intersectionObserver = new IntersectionObserver(([entry]) => {
+      inViewport = entry.isIntersecting
+      if (inViewport) resumeLoop(); else pauseLoop()
+    }, { rootMargin: '0px' })
     intersectionObserver.observe(canvas)
+    const onVisibilityChange = () => {
+      pageHidden = document.hidden
+      if (pageHidden) pauseLoop(); else resumeLoop()
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
     const raycaster = new THREE.Raycaster()
     const pointer = new THREE.Vector2()
     const getComponent = (object: THREE.Object3D): ComponentKey | undefined => {
@@ -146,9 +175,16 @@ export default function EngineScene(props: EngineSceneProps) {
         break
       }
     }
+    // OrbitControls uses one enableZoom switch for wheel and pinch. Keep its
+    // pinch path available, while capture-blocking only wheel handling when
+    // the user has deliberately returned the wheel to page scrolling.
+    const onWheelMode = (event: WheelEvent) => {
+      if (!stateRef.current.allowWheelZoom) event.stopImmediatePropagation()
+    }
     canvas.addEventListener('pointerdown', onPointerDown)
     canvas.addEventListener('pointerup', onPointerUp)
-    const onContextLost = (event: Event) => { event.preventDefault(); setStatus('unavailable') }
+    canvas.addEventListener('wheel', onWheelMode, { capture: true, passive: true })
+    const onContextLost = (event: Event) => { event.preventDefault(); pauseLoop(); setStatus('unavailable') }
     canvas.addEventListener('webglcontextlost', onContextLost)
     let phase = 0
     let smoothExplode = 0
@@ -156,88 +192,88 @@ export default function EngineScene(props: EngineSceneProps) {
     let previousMode = stateRef.current.cameraMode
     let previousReset = stateRef.current.resetSignal
     let previousZoomLevel = stateRef.current.zoomLevel ?? 0
-    let previousTime = performance.now()
-    let frame = 0
     let loaded = false
     const point = new THREE.Vector3()
-    const render = (time: number) => {
-      const elapsed = Math.max((time - previousTime) / 1000, 0)
-      const delta = Math.min(elapsed, 0.05)
+    render = (time: number) => {
+      frame = 0
+      if (!canRender()) { previousTime = 0; return }
+      const wallElapsed = previousTime ? Math.max((time - previousTime) / 1000, 0) : 0
+      const cameraElapsed = Math.min(wallElapsed, 0.05)
+      const transitionElapsed = Math.min(wallElapsed, 0.25)
       previousTime = time
       const state = stateRef.current
-      if (inViewport) {
-        // Balanced visual cadence scales the RPM reference; it is not physical shaft time.
-        const rate = state.slowMotion ? INSPECTION_RATE : 1
-        root.scale.setScalar(THREE.MathUtils.clamp(state.modelScale ?? 1, 0.1, 1.2))
-        root.position.set(state.modelOffsetX ?? 0, state.modelOffsetY ?? 0, 0)
-        const running = state.playing && state.explodeAmount < 0.01 && smoothExplode < 0.01
-        if (running) phase = advanceShaftPhase(phase, state.rpm, elapsed, rate)
-        smoothExplode = THREE.MathUtils.damp(smoothExplode, state.explodeAmount, 8, elapsed)
-        smoothCaseOpen = THREE.MathUtils.damp(smoothCaseOpen, state.caseOpenAmount ?? 0, 14, elapsed)
-        if (Math.abs(smoothCaseOpen - (state.caseOpenAmount ?? 0)) < 0.005) smoothCaseOpen = state.caseOpenAmount ?? 0
-        model.update({ phase, explodeAmount: smoothExplode, electromagnetic: state.electromagnetic, visible: state.visible, cutaway: state.cutaway ?? false, selectedComponent: state.selectedComponent, caseOpenAmount: smoothCaseOpen, longitudinalSection: state.longitudinalSection, visualAngularVelocity: running ? rpmToVisualAngularVelocity(state.rpm, rate) : 0 })
-        canvas.dataset.shaftPhase = phase.toFixed(6)
-        canvas.dataset.targetRpm = state.rpm.toFixed(0)
-        canvas.dataset.visualRps = (running ? state.rpm / 60 * NORMAL_PLAYBACK_RATIO * rate : 0).toFixed(3)
-        canvas.dataset.animationPlaying = String(running)
-        canvas.dataset.modelScale = root.scale.x.toFixed(3)
-        canvas.dataset.caseOpening = smoothCaseOpen.toFixed(3)
-        canvas.dataset.longitudinalSection = String(Boolean(state.longitudinalSection))
-        const activity = model.groups.stator.userData.coilActivity as number[]
-        canvas.dataset.coilActivity = activity.map(value => value.toFixed(3)).join(',')
-        activityRefs.current.forEach((element, index) => {
-          if (element) element.style.opacity = String(0.12 + activity[index] * 0.88)
-        })
-        if (state.cameraMode !== previousMode || state.resetSignal !== previousReset) {
-          // Apply a preset only on an explicit change. Never rewrite wheel or
-          // pinch zoom each frame; OrbitControls owns persistent camera state.
-          orbit.reset()
-          camera.position.set(...cameraPresets[state.cameraMode])
-          orbit.target.set(0, 0.12, 0)
-          previousMode = state.cameraMode
-          previousReset = state.resetSignal
-          previousZoomLevel = state.zoomLevel ?? 0
-        } else if ((state.zoomLevel ?? 0) !== previousZoomLevel) {
-          const delta = (state.zoomLevel ?? 0) - previousZoomLevel
-          const direction = camera.position.clone().sub(orbit.target).normalize()
-          const distance = THREE.MathUtils.clamp(orbit.getDistance() * Math.pow(0.88, delta), orbit.minDistance, orbit.maxDistance)
-          camera.position.copy(orbit.target).addScaledVector(direction, distance)
-          previousZoomLevel = state.zoomLevel ?? 0
-        }
-        orbit.enableZoom = state.allowWheelZoom ?? true
-        orbit.autoRotate = state.autoOrbit ?? false
-        orbit.update(delta)
-        canvas.dataset.viewDistance = orbit.getDistance().toFixed(4)
-        root.updateMatrixWorld(true)
-        labels.forEach((label, index) => {
-          const element = labelRefs.current[index]
-          if (!element) return
-          const mode = state.annotationMode ?? 'overview'
-          const allowed = mode === 'overview' ? label.mode === 'overview' : mode === 'detailed' ? label.mode !== 'exploded' : smoothExplode > 0.1
-          const group = model.groups[label.key]
-          point.set(...label.point)
-          group.localToWorld(point)
-          point.project(camera)
-          const x = (point.x + 1) * canvas.clientWidth * 0.5
-          const y = (1 - point.y) * canvas.clientHeight * 0.5
-          const visible = state.annotationsEnabled !== false && allowed && group.visible && point.z > -1 && point.z < 1 && x > 10 && y > 24 && y < canvas.clientHeight - 25
-          element.style.opacity = visible ? '1' : '0'
-          element.style.pointerEvents = visible ? 'auto' : 'none'
-          element.style.transform = `translate3d(${Math.min(x, Math.max(12, canvas.clientWidth - 188))}px, ${y}px, 0)`
-          element.classList.toggle('is-selected', state.selectedComponent === label.key)
-        })
-        renderer.render(scene, camera)
-        if (!loaded) { loaded = true; setStatus('ready') }
+      const rate = state.slowMotion ? INSPECTION_RATE : 1
+      const running = state.playing && state.explodeAmount < 0.01 && smoothExplode < 0.01
+      if (running) phase = advanceShaftPhase(phase, state.rpm, wallElapsed, rate)
+      smoothExplode = THREE.MathUtils.damp(smoothExplode, state.explodeAmount, 8, transitionElapsed)
+      smoothCaseOpen = THREE.MathUtils.damp(smoothCaseOpen, state.caseOpenAmount ?? 0, 14, transitionElapsed)
+      if (Math.abs(smoothCaseOpen - (state.caseOpenAmount ?? 0)) < 0.005) smoothCaseOpen = state.caseOpenAmount ?? 0
+      root.scale.setScalar(THREE.MathUtils.clamp(state.modelScaleRef?.current ?? state.modelScale ?? 1, 0.1, 1.2))
+      root.position.set(state.modelOffsetX ?? 0, state.modelOffsetYRef?.current ?? state.modelOffsetY ?? 0, 0)
+      model.update({ phase, explodeAmount: smoothExplode, electromagnetic: state.electromagnetic, visible: state.visible, cutaway: state.cutaway ?? false, casingMode: state.casingMode, selectedComponent: state.selectedComponent, caseOpenAmount: smoothCaseOpen, longitudinalSection: state.longitudinalSection, visualAngularVelocity: running ? rpmToVisualAngularVelocity(state.rpm, rate) : 0 })
+      canvas.dataset.shaftPhase = phase.toFixed(6)
+      canvas.dataset.targetRpm = state.rpm.toFixed(0)
+      canvas.dataset.visualRps = (running ? state.rpm / 60 * NORMAL_PLAYBACK_RATIO * rate : 0).toFixed(3)
+      canvas.dataset.animationPlaying = String(running)
+      canvas.dataset.modelScale = root.scale.x.toFixed(3)
+      canvas.dataset.caseOpening = smoothCaseOpen.toFixed(3)
+      canvas.dataset.longitudinalSection = String(Boolean(state.longitudinalSection))
+      const activity = model.groups.stator.userData.coilActivity as number[]
+      canvas.dataset.coilActivity = activity.map(value => value.toFixed(3)).join(',')
+      activityRefs.current.forEach((element, index) => {
+        if (element) element.style.opacity = String(0.12 + activity[index] * 0.88)
+      })
+      if (state.cameraMode !== previousMode || state.resetSignal !== previousReset) {
+        orbit.reset()
+        camera.position.set(...cameraPresets[state.cameraMode])
+        orbit.target.set(0, 0.12, 0)
+        previousMode = state.cameraMode
+        previousReset = state.resetSignal
+        previousZoomLevel = state.zoomLevel ?? 0
+      } else if ((state.zoomLevel ?? 0) !== previousZoomLevel) {
+        const zoomDelta = (state.zoomLevel ?? 0) - previousZoomLevel
+        const direction = camera.position.clone().sub(orbit.target).normalize()
+        const distance = THREE.MathUtils.clamp(orbit.getDistance() * Math.pow(0.88, zoomDelta), orbit.minDistance, orbit.maxDistance)
+        camera.position.copy(orbit.target).addScaledVector(direction, distance)
+        previousZoomLevel = state.zoomLevel ?? 0
       }
-      frame = requestAnimationFrame(render)
+      orbit.enableZoom = true
+      orbit.autoRotate = state.autoOrbit ?? false
+      orbit.update(cameraElapsed)
+      canvas.dataset.viewDistance = orbit.getDistance().toFixed(4)
+      root.updateMatrixWorld(true)
+      labels.forEach((label, index) => {
+        const element = labelRefs.current[index]
+        if (!element) return
+        const mode = state.annotationMode ?? 'overview'
+        const allowed = mode === 'overview' ? label.mode === 'overview' : mode === 'detailed' ? label.mode !== 'exploded' : smoothExplode > 0.1
+        const group = model.groups[label.key]
+        point.set(...label.point)
+        group.localToWorld(point)
+        point.project(camera)
+        const x = (point.x + 1) * canvas.clientWidth * 0.5
+        const y = (1 - point.y) * canvas.clientHeight * 0.5
+        const visible = state.annotationsEnabled !== false && allowed && group.visible && point.z > -1 && point.z < 1 && x > 10 && y > 24 && y < canvas.clientHeight - 25
+        element.style.opacity = visible ? '1' : '0'
+        element.style.pointerEvents = visible ? 'auto' : 'none'
+        element.style.transform = `translate3d(${Math.min(x, Math.max(12, canvas.clientWidth - 188))}px, ${y}px, 0)`
+        element.classList.toggle('is-selected', state.selectedComponent === label.key)
+        element.setAttribute('aria-hidden', String(!visible))
+        element.tabIndex = visible ? 0 : -1
+      })
+      renderer.render(scene, camera)
+      if (!loaded) { loaded = true; setStatus('ready') }
+      schedule()
     }
-    frame = requestAnimationFrame(render)
+    resumeLoop()
     return () => {
-      cancelAnimationFrame(frame)
+      pauseLoop()
       sizeObserver.disconnect()
       intersectionObserver.disconnect()
+      document.removeEventListener('visibilitychange', onVisibilityChange)
       canvas.removeEventListener('pointerdown', onPointerDown)
       canvas.removeEventListener('pointerup', onPointerUp)
+      canvas.removeEventListener('wheel', onWheelMode, { capture: true })
       canvas.removeEventListener('webglcontextlost', onContextLost)
       orbit.dispose()
       model.dispose()
@@ -247,11 +283,11 @@ export default function EngineScene(props: EngineSceneProps) {
   }, [])
 
   return <div className={`engine-canvas-shell ${props.className ?? ''}`}>
-    <canvas ref={canvasRef} aria-label="Reference-inspired inline-twin engine; drag to rotate, use the plus and minus controls to zoom, scroll the page to reveal the model" />
+    <canvas ref={canvasRef} aria-label="Reference-inspired inline-twin engine; drag to rotate, use plus and minus to zoom, pinch to zoom, and use wheel zoom mode when enabled" />
     {status === 'loading' && <div className="engine-loading" role="status">Preparing mechanical assembly…</div>}
     {status === 'unavailable' && <div className="engine-fallback" role="status"><strong>3D rendering unavailable</strong><p>This device could not start WebGL. The documented component and specification sections remain available below.</p></div>}
     <div className="engineering-label-layer" aria-label="Engineering annotations">
-      {labels.map((label, index) => <button key={label.text} ref={(element) => { labelRefs.current[index] = element }} className="engineering-label" onClick={() => stateRef.current.onSelect?.(label.key)}><span className="label-anchor-dot" /><span className="label-copy"><b>{label.text}</b><small>{label.detail}</small></span></button>)}
+      {labels.map((label, index) => <button key={label.text} ref={(element) => { labelRefs.current[index] = element }} className="engineering-label" onClick={() => stateRef.current.onSelect?.(label.key)} aria-label={`${label.text}: ${label.detail}`} aria-pressed={props.selectedComponent === label.key}><span className="label-anchor-dot" /><span className="label-copy"><b>{label.text}</b><small>{label.detail}</small></span></button>)}
     </div>
     {!props.autoOrbit && <div className="coil-activity-readout" aria-label="Per-cylinder upstroke activity"><span><i ref={element => { activityRefs.current[0] = element }} /> CYL 01 / UPSTROKE</span><span><i ref={element => { activityRefs.current[1] = element }} /> CYL 02 / UPSTROKE</span></div>}
   </div>

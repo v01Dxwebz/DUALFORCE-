@@ -116,6 +116,17 @@
     detail: { position: [2.6, 2.2, 3.3], target: [0.3, 0.15, 0] }
   };
 
+  function getScrollRoot(element) {
+    var node = element && element.parentElement;
+    while (node && node !== document.body) {
+      var style = window.getComputedStyle(node);
+      var scrollable = /(auto|scroll|overlay)/.test(style.overflowY || style.overflow);
+      if (scrollable && node.scrollHeight > node.clientHeight) return node;
+      node = node.parentElement;
+    }
+    return null;
+  }
+
   // Engineering Annotations
   var ANNOTATIONS = [
     { key: 'casing', label: 'ALUMINIUM CASING', detail: 'Monobloc A380/6061 casing', mode: 'overview', position: [1.6, -0.85, 0.75] },
@@ -158,6 +169,8 @@
     this.container = container;
     this.options = options;
     this.disposed = false;
+    this._eventCleanups = [];
+    this._observers = [];
 
     this.initDOM();
     this.initThree();
@@ -165,6 +178,14 @@
     this.bindEvents();
     this.startLoop();
   }
+
+  DualForce3DEngine.prototype._listen = function (target, type, handler, options) {
+    target.addEventListener(type, handler, options);
+    this._eventCleanups.push(function () {
+      target.removeEventListener(type, handler, options);
+    });
+    return handler;
+  };
 
   DualForce3DEngine.prototype.initDOM = function () {
     this.container.classList.add('df3d-container');
@@ -709,7 +730,7 @@
         var btn = document.createElement('button');
         btn.className = 'df3d-label';
         btn.innerHTML = '<span class="df3d-label-dot"></span><span class="df3d-label-card"><b>' + (idx + 1) + '. ' + anno.label + '</b><small>' + anno.detail + '</small></span>';
-        btn.addEventListener('click', function () {
+        self._listen(btn, 'click', function () {
           self.selectComponent(anno.key);
         });
         self.labelLayer.appendChild(btn);
@@ -753,14 +774,14 @@
     var zoomDelta = 0;
 
     // Orbit controls
-    canvas.addEventListener('pointerdown', function (e) {
+    this._listen(canvas, 'pointerdown', function (e) {
       isDragging = true;
       prevPointer.x = e.clientX;
       prevPointer.y = e.clientY;
       if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId);
     });
 
-    canvas.addEventListener('pointermove', function (e) {
+    this._listen(canvas, 'pointermove', function (e) {
       if (!isDragging) return;
       var dx = e.clientX - prevPointer.x;
       var dy = e.clientY - prevPointer.y;
@@ -776,10 +797,10 @@
         try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
       }
     };
-    canvas.addEventListener('pointerup', endDrag);
-    canvas.addEventListener('pointercancel', endDrag);
+    this._listen(canvas, 'pointerup', endDrag);
+    this._listen(canvas, 'pointercancel', endDrag);
 
-    canvas.addEventListener('wheel', function (e) {
+    this._listen(canvas, 'wheel', function (e) {
       e.preventDefault();
       var cam = self.camera;
       var factor = e.deltaY * 0.003;
@@ -797,8 +818,9 @@
       self.renderer.setSize(w, h, false);
       self.camera.aspect = w / h;
       self.camera.updateProjectionMatrix();
+      if (self._refreshLoopObserver) self._refreshLoopObserver();
     };
-    window.addEventListener('resize', onResize);
+    this._listen(window, 'resize', onResize);
     this._onResize = onResize;
 
     // UI Buttons
@@ -807,7 +829,7 @@
     var playBtn = this.container.querySelector('.df3d-play-btn');
     var statusText = this.container.querySelector('.df3d-status-text');
     if (playBtn) {
-      playBtn.addEventListener('click', function () {
+      this._listen(playBtn, 'click', function () {
         self.options.playing = !self.options.playing;
         playBtn.textContent = self.options.playing ? '⏸ PAUSE' : '▶ PLAY';
         if (statusText) statusText.textContent = self.options.playing ? 'RUNNING' : 'PAUSED';
@@ -817,7 +839,7 @@
     var rpmSlider = this.container.querySelector('.df3d-rpm-slider');
     var rpmVal = this.container.querySelector('.df3d-rpm-val');
     if (rpmSlider) {
-      rpmSlider.addEventListener('input', function (e) {
+      this._listen(rpmSlider, 'input', function (e) {
         self.options.rpm = Number(e.target.value);
         if (rpmVal) rpmVal.textContent = self.options.rpm.toLocaleString();
       });
@@ -829,7 +851,7 @@
     var explodeBtn = this.container.querySelector('.df3d-explode-btn');
 
     if (explodeSlider) {
-      explodeSlider.addEventListener('input', function (e) {
+      this._listen(explodeSlider, 'input', function (e) {
         self.options.exploded = Number(e.target.value);
         if (explodeText) explodeText.textContent = self.options.exploded > 0.05 ? 'EXPLODED' : 'ASSEMBLED';
         if (assembleBtn) assembleBtn.classList.toggle('active', self.options.exploded <= 0.05);
@@ -838,7 +860,7 @@
     }
 
     if (assembleBtn) {
-      assembleBtn.addEventListener('click', function () {
+      this._listen(assembleBtn, 'click', function () {
         self.options.exploded = 0;
         if (explodeSlider) explodeSlider.value = 0;
         if (explodeText) explodeText.textContent = 'ASSEMBLED';
@@ -848,7 +870,7 @@
     }
 
     if (explodeBtn) {
-      explodeBtn.addEventListener('click', function () {
+      this._listen(explodeBtn, 'click', function () {
         self.options.exploded = 1;
         if (explodeSlider) explodeSlider.value = 1;
         if (explodeText) explodeText.textContent = 'EXPLODED';
@@ -859,7 +881,7 @@
 
     var compactExplode = this.container.querySelector('.df3d-compact-explode');
     if (compactExplode) {
-      compactExplode.addEventListener('click', function () {
+      this._listen(compactExplode, 'click', function () {
         self.options.exploded = self.options.exploded > 0.5 ? 0 : 1;
         compactExplode.classList.toggle('active', self.options.exploded > 0.5);
       });
@@ -867,7 +889,7 @@
 
     var cutawayToggle = this.container.querySelector('.df3d-cutaway-toggle');
     if (cutawayToggle) {
-      cutawayToggle.addEventListener('click', function () {
+      this._listen(cutawayToggle, 'click', function () {
         self.options.cutaway = !self.options.cutaway;
         cutawayToggle.classList.toggle('active', self.options.cutaway);
         self.applyCutaway(self.options.cutaway);
@@ -876,7 +898,7 @@
 
     var fluxToggle = this.container.querySelector('.df3d-flux-toggle');
     if (fluxToggle) {
-      fluxToggle.addEventListener('click', function () {
+      this._listen(fluxToggle, 'click', function () {
         self.options.electromagnetic = !self.options.electromagnetic;
         fluxToggle.classList.toggle('active', self.options.electromagnetic);
         if (self.N && self.N.stator) self.N.stator.visible = self.options.electromagnetic;
@@ -886,7 +908,7 @@
 
     var labelsToggle = this.container.querySelector('.df3d-labels-toggle');
     if (labelsToggle) {
-      labelsToggle.addEventListener('click', function () {
+      this._listen(labelsToggle, 'click', function () {
         self.options.annotationsEnabled = !self.options.annotationsEnabled;
         labelsToggle.classList.toggle('active', self.options.annotationsEnabled);
         if (self.labelLayer) {
@@ -897,7 +919,7 @@
 
     var orbitToggle = this.container.querySelector('.df3d-orbit-toggle');
     if (orbitToggle) {
-      orbitToggle.addEventListener('click', function () {
+      this._listen(orbitToggle, 'click', function () {
         self.options.autoOrbit = !self.options.autoOrbit;
         orbitToggle.classList.toggle('active', self.options.autoOrbit);
       });
@@ -905,7 +927,7 @@
 
     var camBtns = this.container.querySelectorAll('.df3d-cam-btn');
     camBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
+      self._listen(btn, 'click', function () {
         var mode = btn.getAttribute('data-cam');
         self.setCameraPreset(mode);
         camBtns.forEach(function (b) { b.classList.remove('active'); });
@@ -946,11 +968,65 @@
     var self = this;
     var crankAngle = 0;
     var currentExplode = 0;
-    var lastTime = performance.now();
+    var lastTime = 0;
     var tempWorldPos = new THREE.Vector3();
 
+    this._loopInView = false;
+    this._loopDocumentVisible = !document.hidden;
+    this._loopObserver = null;
+
+    var setLoopVisibility = function () {
+      var shouldRun = !self.disposed && self._loopInView && self._loopDocumentVisible;
+      if (!shouldRun) {
+        if (self.animFrameId !== null && self.animFrameId !== undefined) {
+          cancelAnimationFrame(self.animFrameId);
+          self.animFrameId = null;
+        }
+        lastTime = 0;
+        return;
+      }
+      if (self.animFrameId === null || self.animFrameId === undefined) {
+        self.animFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    var onDocumentVisibility = function () {
+      self._loopDocumentVisible = !document.hidden;
+      setLoopVisibility();
+    };
+    this._listen(document, 'visibilitychange', onDocumentVisibility);
+    this._listen(window, 'pagehide', function (event) {
+      if (!event.persisted) self.destroy();
+    });
+    this._listen(window, 'beforeunload', function () { self.destroy(); });
+
+    this._refreshLoopObserver = function () {
+      if (self._loopObserver) self._loopObserver.disconnect();
+      self._loopObserver = null;
+      self._loopInView = false;
+      if (typeof IntersectionObserver !== 'undefined') {
+        var root = getScrollRoot(self.canvas);
+        self._loopObserver = new IntersectionObserver(function (entries) {
+          if (entries.length) {
+            self._loopInView = entries[entries.length - 1].isIntersecting;
+            setLoopVisibility();
+          }
+        }, { root: root, threshold: 0 });
+        self._loopObserver.observe(self.canvas);
+      } else {
+        self._loopInView = true;
+        setLoopVisibility();
+      }
+    };
+    this._refreshLoopObserver();
+
     function animate(time) {
-      if (self.disposed) return;
+      self.animFrameId = null;
+      if (self.disposed || !self._loopInView || !self._loopDocumentVisible) {
+        lastTime = 0;
+        return;
+      }
+      if (!lastTime) lastTime = time;
       var dt = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
 
@@ -1045,16 +1121,47 @@
       }
 
       self.renderer.render(self.scene, self.camera);
-      self.animFrameId = requestAnimationFrame(animate);
+      if (!self.disposed && self._loopInView && self._loopDocumentVisible) {
+        self.animFrameId = requestAnimationFrame(animate);
+      }
     }
 
-    this.animFrameId = requestAnimationFrame(animate);
+    this.animFrameId = null;
+    setLoopVisibility();
   };
 
   DualForce3DEngine.prototype.destroy = function () {
+    if (this.disposed) return;
     this.disposed = true;
-    if (this.animFrameId) cancelAnimationFrame(this.animFrameId);
-    if (this._onResize) window.removeEventListener('resize', this._onResize);
+    if (this.animFrameId !== null && this.animFrameId !== undefined) {
+      cancelAnimationFrame(this.animFrameId);
+      this.animFrameId = null;
+    }
+    if (this._loopObserver) {
+      this._loopObserver.disconnect();
+      this._loopObserver = null;
+    }
+    this._observers.forEach(function (observer) { observer.disconnect(); });
+    this._observers.length = 0;
+    this._eventCleanups.forEach(function (cleanup) { cleanup(); });
+    this._eventCleanups.length = 0;
+    if (this.scene && typeof this.scene.traverse === 'function') {
+      var seenGeometries = new Set();
+      var seenMaterials = new Set();
+      this.scene.traverse(function (object) {
+        var geometry = object.geometry;
+        if (geometry && !seenGeometries.has(geometry)) {
+          seenGeometries.add(geometry);
+          geometry.dispose();
+        }
+        var materials = Array.isArray(object.material) ? object.material : (object.material ? [object.material] : []);
+        materials.forEach(function (material) {
+          if (!material || seenMaterials.has(material)) return;
+          seenMaterials.add(material);
+          material.dispose();
+        });
+      });
+    }
     if (this.renderer) {
       this.renderer.dispose();
     }
