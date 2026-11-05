@@ -48,7 +48,7 @@ export default function StandaloneViewer() {
   const [resetSignal, setResetSignal] = useState(0)
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 720px)').matches)
   const modelScale = isMobile ? 0.23 + progress * 0.27 : 0.22 + progress * 0.86
-  const modelOffsetX = isMobile ? 0 : 0.52 + (1 - progress) * 0.55
+  const modelOffsetX = 0
   const modelOffsetY = isMobile ? -0.3 + progress * 0.15 : 0
   const visualRps = playing && !exploded ? rpm / 60 * NORMAL_PLAYBACK_RATIO : 0
 
@@ -91,7 +91,7 @@ export default function StandaloneViewer() {
       <p className="eyebrow"><span className="signal-dot" /> POWERTRAIN STUDY / 01</p>
       <h1>DUALFORCE<br /><span>350</span></h1>
       <p className="hero-deck">An inline twin.<br />A dual-energy research concept.</p>
-      <a className="text-link" href="#specifications">EXPLORE THE ENGINE <span aria-hidden="true">↗</span></a>
+      <a className="text-link" href="3d-engine.html">EXPLORE THE ENGINE <span aria-hidden="true">↗</span></a>
     </div>
 
     <div className="scroll-caption" style={{ opacity: clamp((progress - 0.28) * 3.2, 0, 1) }}>

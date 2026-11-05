@@ -1,100 +1,2637 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#17191b">
-  <title>DUALFORCE 350 — Powertrain Study</title>
-  <meta name="description" content="A minimal engineering study of the proposed DUALFORCE 350 inline-twin engine. Explore its provisional mechanical model and preliminary specifications." />
-  <link rel="canonical" href="https://v01dxwebz.github.io/DUALFORCE-/">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/site.css">
-  <script defer src="./assets/dualforce-engine.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DUALFORCE — One Engine. Two Energies. | Startup Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dualforce-3d-engine.css">
+<style>
+/* ============================================================
+   DUALFORCE — HIGH-TECH POWERTRAIN STARTUP PRESENTATION DECK
+   Aerospace-Motorsport Visual Identity & Precision Motion
+   ============================================================ */
+:root {
+  --ink: #070A0E;
+  --ink-surface: #0E131C;
+  --slate: #151D29;
+  --slate-2: #1E293B;
+  --slate-3: #2A384C;
+  --light: #F4F6F9;
+  --light-card: #FFFFFF;
+  --white: #FFFFFF;
+  
+  /* Luminous Energy Accents */
+  --teal: #00F0D0;
+  --teal-dim: rgba(0, 240, 208, 0.12);
+  --teal-glow: rgba(0, 240, 208, 0.45);
+  --teal-border: rgba(0, 240, 208, 0.35);
+  
+  --amber: #FF9F43;
+  --amber-dim: rgba(255, 159, 67, 0.14);
+  --amber-glow: rgba(255, 159, 67, 0.45);
+  --amber-border: rgba(255, 159, 67, 0.35);
+  
+  --rose: #FF4757;
+  --rose-dim: rgba(255, 71, 87, 0.12);
+  --rose-glow: rgba(255, 71, 87, 0.40);
+  
+  --blue: #2E86DE;
+  --muted: #8E9CAE;
+  --muted-d: #5A697A;
+  --body: #344152;
+  --text-dark: #C9D4E0;
+
+  --head: "Fraunces", Cambria, Georgia, serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
+
+  --pad: clamp(1.5rem, 4.5vw, 4.4rem);
+  --card-radius: 16px;
+  --shadow: 0 14px 40px rgba(10, 18, 30, 0.08), 0 3px 10px rgba(10, 18, 30, 0.04);
+  --shadow-hover: 0 22px 50px rgba(10, 18, 30, 0.15), 0 6px 18px rgba(10, 18, 30, 0.08);
+  --transition-bounce: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--ink);
+  color: var(--body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ---------- Interactive Canvas Background ---------- */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.75;
+  transition: opacity 0.5s ease;
+}
+
+/* Ambient glow orbs */
+.bg-ambient-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+  animation: orbDrift 20s infinite alternate ease-in-out;
+}
+.orb-1 { width: 500px; height: 500px; background: var(--teal); top: -100px; right: -100px; }
+.orb-2 { width: 600px; height: 600px; background: var(--amber); bottom: -150px; left: -100px; animation-duration: 26s; }
+
+@keyframes orbDrift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.12); }
+  100% { transform: translate(-40px, 70px) scale(0.95); }
+}
+
+/* ---------- Top HUD Navigation Bar ---------- */
+.hud-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: rgba(7, 10, 14, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--pad);
+}
+
+.hud-left {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+.hud-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--teal);
+  text-decoration: none;
+}
+.hud-brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 10px var(--teal);
+  animation: statusBlink 2.2s infinite;
+}
+@keyframes statusBlink {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.5; }
+}
+
+.hud-status-badge {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  border-left: 1px solid rgba(255,255,255,0.12);
+  padding-left: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hud-status-badge span { color: var(--amber); font-weight: 600; }
+
+.hud-right {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.hud-counter {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-dark);
+}
+.hud-counter .current-num { color: var(--teal); font-weight: 700; font-size: 0.88rem; }
+.hud-counter .total-num { color: var(--muted-d); }
+
+.hud-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-dark);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.38rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.hud-btn:hover {
+  background: var(--teal-dim);
+  border-color: var(--teal);
+  color: var(--teal);
+  box-shadow: 0 0 12px var(--teal-dim);
+}
+.hud-btn.active {
+  background: var(--teal);
+  color: var(--ink);
+  font-weight: 700;
+  border-color: var(--teal);
+}
+.hud-btn.amber-btn {
+  border-color: var(--amber-border);
+  color: var(--amber);
+}
+.hud-btn.amber-btn:hover, .hud-btn.amber-btn.active {
+  background: var(--amber);
+  color: var(--ink);
+  font-weight: 700;
+}
+.hud-btn.teal-solid {
+  background: var(--teal);
+  color: var(--ink);
+  border-color: var(--teal);
+  font-weight: 800;
+  box-shadow: 0 0 14px var(--teal-glow);
+}
+.hud-btn.teal-solid:hover {
+  background: #fff;
+  color: var(--ink);
+}
+
+/* Top Progress Bar */
+.progress {
+  position: fixed;
+  top: 51px;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--amber), var(--rose));
+  width: 0%;
+  z-index: 101;
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 12px var(--teal-glow);
+}
+
+/* ---------- Deck Scaffolding ---------- */
+.deck {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  padding-top: 52px;
+  position: relative;
+  z-index: 2;
+}
+.deck::-webkit-scrollbar { display: none; }
+
+.slide {
+  min-height: calc(100vh - 52px);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(var(--pad) * 0.65) var(--pad);
+  position: relative;
+  transition: background-color 0.4s ease;
+}
+
+.slide.dark {
+  background: transparent;
+  color: var(--text-dark);
+}
+.slide.light {
+  background: var(--light);
+  color: var(--body);
+}
+
+.slide-content-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ---------- Typography ---------- */
+.kicker {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.24em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted-d);
+  margin: 0 0 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.kicker::before {
+  content: "//";
+  color: var(--teal);
+}
+.dark .kicker { color: var(--teal); }
+
+h1, h2 {
+  font-family: var(--head);
+  font-weight: 700;
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+}
+.dark h1, .dark h2 {
+  color: var(--white);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+h1 { font-size: clamp(2.3rem, 5.2vw, 4.1rem); }
+h2 { font-size: clamp(1.75rem, 3.2vw, 2.75rem); }
+
+.sub {
+  margin: 0.65rem 0 0;
+  font-size: clamp(0.95rem, 1.2vw, 1.12rem);
+  color: var(--muted-d);
+  font-style: italic;
+}
+.dark .sub { color: #8F9CAE; }
+
+.lede {
+  margin: 1rem 0 0;
+  max-width: 74ch;
+  font-size: clamp(0.98rem, 1.22vw, 1.14rem);
+  line-height: 1.6;
+}
+.dark .lede { color: #B9C4CF; }
+
+/* ---------- Interactive Cards with 3D Tilt ---------- */
+.card {
+  background: var(--white);
+  border-radius: var(--card-radius);
+  padding: 1.4rem 1.4rem;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.06);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-bounce);
+  transform-style: preserve-3d;
+}
+
+.dark .card {
+  background: rgba(21, 29, 41, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+.dark .card:hover {
+  border-color: var(--teal-border);
+  box-shadow: 0 16px 40px rgba(0, 240, 208, 0.12);
+}
+.card:hover::before { opacity: 1; }
+
+.card h3 {
+  font-family: var(--head);
+  font-size: 1.2rem;
+  margin: 0.75rem 0 0.45rem;
+  color: var(--ink);
+  line-height: 1.18;
+}
+.dark .card h3 { color: var(--white); }
+.card p { margin: 0; font-size: 0.91rem; line-height: 1.52; }
+.dark .card p { color: #A9B6C2; }
+
+.grid { display: grid; gap: 1.15rem; margin-top: 1.4rem; }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ---------- Showcase Image Cards ---------- */
+.bike-showcase-card {
+  padding: 0 !important;
+  cursor: zoom-in;
+}
+.bike-showcase-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.4s ease;
+}
+.bike-showcase-card:hover img {
+  transform: scale(1.03);
+}
+.bike-showcase-body {
+  padding: 1.15rem 1.35rem;
+}
+
+/* ---------- Icon Discs with Glow ---------- */
+.disc {
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  transition: var(--transition-bounce);
+}
+.disc svg { width: 24px; height: 24px; }
+
+.disc.teal {
+  background: rgba(0, 240, 208, 0.12);
+  color: var(--teal);
+  border: 1px solid rgba(0, 240, 208, 0.25);
+}
+.disc.amber {
+  background: rgba(255, 159, 67, 0.14);
+  color: var(--amber);
+  border: 1px solid rgba(255, 159, 67, 0.3);
+}
+.disc.rose {
+  background: rgba(255, 71, 87, 0.12);
+  color: var(--rose);
+  border: 1px solid rgba(255, 71, 87, 0.25);
+}
+
+.card:hover .disc {
+  transform: scale(1.1) rotate(4deg);
+}
+.card:hover .disc.teal { box-shadow: 0 0 20px var(--teal-glow); }
+.card:hover .disc.amber { box-shadow: 0 0 20px var(--amber-glow); }
+.card:hover .disc.rose { box-shadow: 0 0 20px var(--rose-glow); }
+
+/* ---------- Bullet Ticks ---------- */
+ul.ticks { list-style: none; margin: 0.85rem 0 0; padding: 0; }
+ul.ticks li {
+  position: relative;
+  padding-left: 1.2rem;
+  margin-bottom: 0.55rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+ul.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.52em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.65;
+  box-shadow: 0 0 6px currentColor;
+}
+
+/* ---------- Slide 1: Hero Section ---------- */
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2.2rem;
+  align-items: center;
+}
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(0, 240, 208, 0.1);
+  border: 1px solid rgba(0, 240, 208, 0.25);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--teal);
+  margin-bottom: 1.2rem;
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 5.4vw, 4.1rem);
+  line-height: 1.02;
+}
+.hero h1 .gradient-text {
+  background: linear-gradient(135deg, var(--teal) 0%, #FFFFFF 50%, var(--amber) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero .lede { color: #B9C4CF; max-width: 58ch; }
+
+.elevator-quote {
+  margin-top: 1.1rem;
+  padding: 0.95rem 1.2rem;
+  background: rgba(21, 29, 41, 0.75);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 12px 12px 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #E2E8F0;
+}
+
+.stamp {
+  margin-top: 1.4rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--muted-d);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Interactive Hero Blend Controller */
+.hero-blend-ctrl {
+  margin-top: 1.3rem;
+  background: rgba(21, 29, 41, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 1rem 1.3rem;
+  max-width: 540px;
+}
+.blend-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-bottom: 0.65rem;
+}
+.blend-header .elec-label { color: var(--teal); }
+.blend-header .ratio-badge {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #fff;
+}
+.blend-header .fuel-label { color: var(--amber); }
+
+.blend-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--amber));
+  outline: none;
+  cursor: pointer;
+}
+.blend-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 3px solid var(--ink);
+  box-shadow: 0 0 10px rgba(0, 240, 208, 0.8);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.blend-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+.blend-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+  font-family: var(--mono);
+}
+.blend-stat-item .val { font-size: 0.86rem; font-weight: 700; color: #fff; }
+.blend-stat-item .lbl { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Kinetic Plasma Venn Visualizer */
+.hero-visual-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.plasma-canvas-wrap {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.plasma-venn-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 30px rgba(0, 240, 208, 0.25));
+}
+.venn-circle-elec {
+  transform-origin: 195px 120px;
+  animation: pulseRotateElec 12s infinite linear;
+}
+.venn-circle-fuel {
+  transform-origin: 130px 200px;
+  animation: pulseRotateFuel 14s infinite linear reverse;
+}
+@keyframes pulseRotateElec {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 600; }
+}
+@keyframes pulseRotateFuel {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -600; }
+}
+
+.core-pulse {
+  animation: coreGlowPulse 2.4s infinite alternate ease-in-out;
+}
+@keyframes coreGlowPulse {
+  0% { opacity: 0.2; transform: scale(0.9); }
+  100% { opacity: 0.65; transform: scale(1.15); filter: drop-shadow(0 0 16px var(--teal)); }
+}
+
+/* ---------- Row Cards & Banners ---------- */
+.row { display: flex; gap: 1.1rem; align-items: flex-start; }
+.row .disc { width: 44px; height: 44px; }
+.row .disc svg { width: 21px; height: 21px; }
+.row h4 { margin: 0.1rem 0 0.25rem; font-size: 1rem; font-weight: 700; color: var(--ink); }
+.dark .row h4 { color: var(--white); }
+.row p { margin: 0; font-size: 0.89rem; line-height: 1.48; }
+
+.banner {
+  margin-top: 1.4rem;
+  background: var(--ink);
+  color: var(--white);
+  border-radius: var(--card-radius);
+  padding: 1.2rem 1.6rem;
+  text-align: center;
+  font-size: clamp(0.92rem, 1.15vw, 1.05rem);
+  line-height: 1.5;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255,255,255,0.08);
+  position: relative;
+  overflow: hidden;
+}
+.banner::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 208, 0.15), transparent);
+  animation: bannerSweep 6s infinite;
+}
+@keyframes bannerSweep {
+  0% { left: -100%; }
+  40%, 100% { left: 100%; }
+}
+.dark .banner {
+  background: rgba(30, 41, 59, 0.85);
+  color: var(--teal);
+  border-color: var(--teal-border);
+}
+
+/* ---------- Numbered Steps ---------- */
+.steps { margin-top: 1.2rem; display: grid; gap: 1.05rem; }
+.step { display: flex; gap: 1rem; align-items: flex-start; }
+.num {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--teal);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 800;
+  flex: 0 0 auto;
+  box-shadow: 0 0 12px var(--teal-glow);
+}
+.step h4 { margin: 0.1rem 0 0.25rem; font-size: 1rem; font-weight: 700; color: var(--ink); }
+.dark .step h4 { color: var(--white); }
+.step p { margin: 0; font-size: 0.9rem; line-height: 1.48; }
+
+/* ---------- Interactive Engine Simulator ---------- */
+.tech {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: 2.2rem;
+  align-items: center;
+  margin-top: 1.2rem;
+}
+
+.sim-container {
+  background: var(--white);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  border: 1px solid rgba(0,0,0,0.08);
+  position: relative;
+}
+.dark .sim-container {
+  background: var(--slate);
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+}
+
+.sim-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+}
+.dark .sim-toolbar { border-color: rgba(255,255,255,0.1); }
+.sim-mode-pills { display: flex; gap: 0.4rem; }
+.sim-pill {
+  background: rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--body);
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.dark .sim-pill { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: var(--text-dark); }
+.sim-pill.active {
+  background: var(--teal);
+  color: var(--ink);
+  border-color: var(--teal);
+  font-weight: 700;
+  box-shadow: 0 0 10px var(--teal-glow);
+}
+.sim-pill.active.fuel-mode {
+  background: var(--amber);
+  color: var(--ink);
+  border-color: var(--amber);
+  box-shadow: 0 0 10px var(--amber-glow);
+}
+.sim-pill.active.blend-mode {
+  background: linear-gradient(90deg, var(--teal), var(--amber));
+  color: var(--ink);
+  box-shadow: 0 0 12px var(--teal-glow);
+}
+
+.sim-svg-wrap {
+  width: 100%;
+  text-align: center;
+}
+.sim-svg-wrap svg {
+  width: 100%;
+  height: auto;
+  max-height: 44vh;
+  overflow: visible;
+}
+
+.sim-controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 0.7rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+.dark .sim-controls-bar { border-color: rgba(255,255,255,0.1); }
+.sim-play-btn {
+  background: var(--teal);
+  color: var(--ink);
+  border: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  flex: 0 0 auto;
+  box-shadow: 0 0 8px var(--teal-glow);
+}
+.sim-rpm-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+}
+.sim-rpm-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 4px;
+  background: #CCD6E0;
+  border-radius: 2px;
+  outline: none;
+}
+.dark .sim-rpm-slider { background: #2A384C; }
+.sim-rpm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--teal);
+  cursor: pointer;
+}
+.sim-telemetry-badge {
+  color: var(--teal);
+  font-weight: 700;
+  min-width: 78px;
+  text-align: right;
+}
+
+/* ---------- Anatomy & Dimension Cards ---------- */
+.part .no {
+  font-family: var(--head);
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--teal);
+}
+.part.warm .no { color: var(--amber); }
+.part .top { display: flex; justify-content: space-between; align-items: center; }
+.part .top svg { width: 24px; height: 24px; color: var(--teal); }
+.part.warm .top svg { color: var(--amber); }
+.part h3 { margin: 0.55rem 0 0.3rem; font-family: var(--sans); font-size: 1rem; font-weight: 700; }
+.dim-pill {
+  display: inline-block;
+  margin-top: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: rgba(0, 240, 208, 0.12);
+  color: #0b7a6b;
+}
+.part.warm .dim-pill {
+  background: rgba(255, 159, 67, 0.15);
+  color: #b35e09;
+}
+
+/* ---------- Challenge & Remedy Rows ---------- */
+.fix {
+  display: grid;
+  grid-template-columns: 1fr auto 1.45fr;
+  gap: 1.1rem;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+.fix:hover {
+  transform: translateX(6px);
+  border-color: var(--teal-border);
+}
+.fix .side { display: flex; gap: 0.85rem; align-items: center; }
+.tag { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.15em; font-weight: 700; text-transform: uppercase; }
+.tag.bad { color: var(--rose); }
+.tag.good { color: var(--teal); }
+.fix h4 { margin: 0.15rem 0 0; font-size: 0.98rem; font-weight: 700; color: var(--ink); }
+.fix p { margin: 0.15rem 0 0; font-size: 0.89rem; line-height: 1.42; }
+.arrow { color: var(--teal); opacity: 0.75; }
+.arrow svg { width: 20px; height: 20px; }
+
+/* ---------- Driving Modes Slide ---------- */
+.mode {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mode .tagline {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0.15rem 0 0.6rem;
+}
+.mode.teal  .tagline { color: #099481; }
+.mode.amber .tagline { color: #C46D15; }
+.mode.rose  .tagline { color: var(--rose); }
+
+.mode.active-mode {
+  transform: translateY(-7px) scale(1.015);
+  border-color: var(--teal);
+  box-shadow: 0 20px 45px rgba(0, 240, 208, 0.18);
+}
+.mode.amber.active-mode {
+  border-color: var(--amber);
+  box-shadow: 0 20px 45px rgba(255, 159, 67, 0.18);
+}
+.mode.rose.active-mode {
+  border-color: var(--rose);
+  box-shadow: 0 20px 45px rgba(255, 71, 87, 0.18);
+}
+
+.mode-badge-select {
+  display: inline-block;
+  margin-top: 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.06);
+  color: var(--muted-d);
+}
+.mode.active-mode .mode-badge-select {
+  background: var(--teal);
+  color: var(--ink);
+}
+.mode.amber.active-mode .mode-badge-select {
+  background: var(--amber);
+  color: var(--ink);
+}
+.mode.rose.active-mode .mode-badge-select {
+  background: var(--rose);
+  color: var(--white);
+}
+
+/* Mode Telemetry Dashboard Preview */
+.mode-dashboard {
+  margin-top: 1.3rem;
+  background: var(--ink);
+  color: var(--white);
+  border-radius: var(--card-radius);
+  padding: 1.2rem 1.6rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.1rem;
+  text-align: center;
+  font-family: var(--mono);
+}
+.dash-metric .val {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--teal);
+}
+.dash-metric .label {
+  font-size: 0.64rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.25rem;
+}
+
+/* ---------- Closing & Investment Roadmap ---------- */
+.close {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2.2rem;
+  align-items: center;
+}
+.close h1 { font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.08; }
+.roadmap { margin-top: 1.4rem; display: grid; gap: 0.85rem; }
+.rm {
+  display: grid;
+  grid-template-columns: 2.4rem 10.5rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.7rem 0.95rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+.rm:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--amber-border);
+  transform: translateX(8px);
+}
+.rm .n { font-family: var(--mono); font-size: 1.1rem; font-weight: 800; color: var(--amber); }
+.rm .t { font-weight: 700; color: var(--white); font-size: 0.95rem; font-family: var(--mono); }
+.rm .d { font-size: 0.88rem; color: #9FADBA; }
+
+.foot {
+  margin-top: 1.6rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--muted-d);
+}
+
+.closing-actions {
+  display: flex;
+  gap: 0.9rem;
+  margin-top: 1.4rem;
+  flex-wrap: wrap;
+}
+.cta-btn {
+  background: var(--teal);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  box-shadow: 0 4px 20px var(--teal-glow);
+}
+.cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px var(--teal);
+}
+.cta-btn.secondary {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: none;
+}
+.cta-btn.secondary:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #fff;
+}
+
+/* ---------- Speaker Notes Drawer ---------- */
+.pitch-drawer {
+  position: fixed;
+  bottom: 3.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 1080px);
+  background: rgba(14, 19, 28, 0.96);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--amber);
+  border-radius: 14px;
+  padding: 1rem 1.4rem;
+  z-index: 200;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  display: none;
+}
+.pitch-drawer.open { display: block; }
+.pitch-drawer-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--amber);
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+.pitch-drawer-text {
+  font-size: 0.93rem;
+  line-height: 1.52;
+  color: #F1F5F9;
+}
+
+/* ---------- Lightbox Modal ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 10, 14, 0.92);
+  backdrop-filter: blur(10px);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
+  cursor: zoom-out;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 92vw;
+  max-height: 82vh;
+  border-radius: 14px;
+  border: 1px solid var(--teal);
+  box-shadow: 0 20px 60px rgba(0, 240, 208, 0.25);
+}
+.lightbox-cap {
+  margin-top: 0.9rem;
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  color: var(--teal);
+}
+
+/* ---------- Slide Navigation Dots ---------- */
+.dots {
+  position: fixed;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  z-index: 50;
+}
+.dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: var(--muted);
+  opacity: 0.35;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.dots button:hover { opacity: 0.85; transform: scale(1.3); }
+.dots button[aria-current="true"] {
+  background: var(--teal);
+  opacity: 1;
+  transform: scale(1.5);
+  box-shadow: 0 0 10px var(--teal);
+}
+
+/* Slide Nav Floating Tooltip */
+.dots button::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+  background: rgba(14, 19, 28, 0.95);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.dots button:hover::before {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Bottom Hint */
+.hint {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  background: rgba(14, 19, 28, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  z-index: 50;
+  opacity: 0.85;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.hint.gone { opacity: 0; }
+
+/* ---------- Scroll Reveal Animations ---------- */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.slide.in-view .reveal-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+.delay-1 { transition-delay: 0.08s; }
+.delay-2 { transition-delay: 0.16s; }
+.delay-3 { transition-delay: 0.24s; }
+.delay-4 { transition-delay: 0.32s; }
+
+/* ---------- Responsive Layout ---------- */
+@media (max-width: 1024px) {
+  .g4 { grid-template-columns: repeat(2, 1fr); }
+  .hero, .tech, .close { grid-template-columns: 1fr; }
+  .plasma-canvas-wrap { max-width: 300px; margin: 0 auto; }
+  .mode-dashboard { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .hud-status-badge { display: none; }
+  .deck { scroll-snap-type: none; height: auto; overflow: visible; }
+  .slide { min-height: auto; padding: 3rem 1.25rem; }
+  .g2, .g3, .g4 { grid-template-columns: 1fr; }
+  .fix { grid-template-columns: 1fr; gap: 0.8rem; }
+  .arrow { display: none; }
+  .rm { grid-template-columns: 2rem 1fr; row-gap: 0.3rem; }
+  .rm .d { grid-column: 2; }
+  .dots, .hint { display: none; }
+  .mode-dashboard { grid-template-columns: 1fr; }
+}
+
+/* ---------- Step-by-step unit economics ---------- */
+.calc { padding: 1.3rem 1.4rem; font-family: var(--sans); font-variant-numeric: tabular-nums; }
+.calc-row { display: grid; grid-template-columns: 1.45fr 1fr 1fr; gap: 0.6rem; align-items: baseline; padding: 0.32rem 0; font-size: 0.84rem; color: var(--text-dark); border-bottom: 1px solid rgba(255,255,255,0.06); }
+.calc-row span:nth-child(n+2) { text-align: right; }
+.calc-head { font-weight: 700; color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.18); padding-bottom: 0.45rem; }
+.calc-head .c350, .calc-head .c650 { font-weight: 700; }
+.c350 { color: var(--teal); }
+.c650 { color: var(--amber); }
+.calc p.calc-step { display: flex; align-items: center; gap: 0.6rem; margin: 1.25rem 0 0.3rem; font-size: 0.92rem; font-weight: 700; color: var(--white); }
+.calc-n { flex: none; width: 1.45rem; height: 1.45rem; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,0.14); font-size: 0.78rem; }
+.calc .calc-total { background: rgba(255,255,255,0.07); border-radius: 8px; border-bottom: 0; padding: 0.5rem 0.6rem; margin-top: 0.3rem; color: var(--white); font-weight: 700; }
+.calc-total small { display: block; font-size: 0.7rem; font-weight: 500; color: var(--muted); }
+.calc-sum { font-size: 0.76rem; color: var(--muted); }
+.calc-big { font-size: 1.35rem; line-height: 1.1; }
+.calc-split { margin-top: 0.8rem; display: grid; gap: 0.35rem; }
+.calc-split-row { display: grid; grid-template-columns: 2rem 1fr; gap: 0.5rem; align-items: center; font-size: 0.78rem; font-weight: 700; }
+.calc-bar { display: flex; height: 0.7rem; border-radius: 4px; overflow: hidden; background: rgba(255,255,255,0.08); }
+.calc-bar i { display: block; height: 100%; }
+.calc-bar .cost { background: rgba(255,255,255,0.28); }
+.calc-bar .c350bg { background: var(--teal); }
+.calc-bar .c650bg { background: var(--amber); }
+.calc p.calc-cap { margin: 0.35rem 0 0; font-size: 0.78rem; line-height: 1.45; color: var(--muted); }
+.calc p.calc-note { margin: 0; font-size: 0.84rem; line-height: 1.5; color: var(--text-dark); }
+.calc-note strong { color: var(--white); }
+</style>
+<link rel="stylesheet" href="assets/engine-integration.css">
+<script defer src="assets/dualforce-engine.js?v=preserved-deck-1"></script>
 </head>
 <body>
-  <header class="site-header">
-    <a class="wordmark" href="#top" aria-label="DUALFORCE 350 home">
-      <span class="mark" aria-hidden="true">D<span>/</span>F</span>
-      <span class="wordmark-copy">DUALFORCE <b>350</b></span>
+
+<!-- Ambient Atmospheric Glows -->
+<div class="bg-ambient-orb orb-1"></div>
+<div class="bg-ambient-orb orb-2"></div>
+
+<!-- Interactive Magnetic Flux & Particle Canvas -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Top HUD Header -->
+<header class="hud-bar">
+  <div class="hud-left">
+    <a href="#slide-1" class="hud-brand" id="brand-link">
+      <div class="hud-brand-dot"></div>
+      DUALFORCE
     </a>
-    <nav aria-label="Primary navigation">
-      <a href="#engine-sequence">ENGINE</a>
-      <a href="#concept">CONCEPT</a>
-      <a href="#specifications">SPECIFICATIONS</a>
-    </nav>
-    <a class="header-index" href="#research-status"><span>01</span> RESEARCH SERIES</a>
-  </header>
+    <div class="hud-status-badge">
+      LINEUP: <span>350cc TWIN CAFE (₹2.69L) &amp; 650cc TWIN SPORT (₹4.45L)</span>
+    </div>
+  </div>
+  
+  <div class="hud-right">
+    <a href="models.html" class="hud-btn teal-solid" title="Open Full Models, Specs, Power Output & Pricing Page">
+      <span>🏍️</span> MODELS &amp; SPECS PAGE
+    </a>
+    <a href="#engine-sequence" class="hud-btn engine-model-link" title="Scroll to the interactive 3D engine model">3D ENGINE MODEL</a>
+    <div class="hud-counter">
+      SLIDE <span class="current-num" id="hud-curr">01</span> <span class="total-num">/ <span id="hud-total">10</span></span>
+    </div>
+    <button class="hud-btn amber-btn" id="script-toggle" title="Toggle Stage Elevator Pitch Script (Press S)">
+      <span>🎤</span> PITCH SCRIPT
+    </button>
+    <button class="hud-btn" id="audio-toggle" title="Toggle Synthesized Engine Audio (Press M)">
+      <span id="audio-icon">🔇</span> <span id="audio-label">SOUND</span>
+    </button>
+    <button class="hud-btn" id="fs-toggle" title="Toggle Fullscreen Mode (Press F)">
+      <span>⛶</span> FULLSCREEN
+    </button>
+  </div>
+</header>
 
-  <main id="top">
-    <section class="engine-sequence" id="engine-sequence" aria-label="Scroll-driven DUALFORCE 350 engine model">
-      <div class="engine-pin">
-        <div id="engine-viewer-root">
-          <noscript><p class="no-script-note">The interactive engine needs JavaScript. Preliminary specifications and concept notes remain available below.</p></noscript>
+<!-- Glowing Progress Line -->
+<div class="progress" id="progress"></div>
+
+<!-- ============ SVG ICON SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="flame" viewBox="0 0 24 24"><path d="M12 2c3 4 6 6.2 6 11a6 6 0 0 1-12 0c0-2.2 1-3.8 2.2-5.2.4 1.6 1.4 2.3 2.3 2.3C11.2 8.2 10.2 5.2 12 2Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="plug" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 2v6M15 2v6M6 8h12v2.5a6 6 0 0 1-12 0V8ZM12 16.5V22"/></g></symbol>
+  <symbol id="pump" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 21V4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v17M2.5 21h12M6.5 6.5h4V10h-4zM13 8.5h3l2 2.5v6a1.6 1.6 0 0 0 3 0V12"/></g></symbol>
+  <symbol id="smog" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 14.5a3.6 3.6 0 0 1 .9-7.1A4.8 4.8 0 0 1 16.4 8a3.3 3.3 0 0 1 .4 6.5ZM5 18h10M8.5 21h8"/></g></symbol>
+  <symbol id="weight" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 8h10l2 12H5ZM9.2 8a2.8 2.8 0 1 1 5.6 0"/></g></symbol>
+  <symbol id="gauge" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 12l4.5-3.5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="ban" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></g></symbol>
+  <symbol id="money" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17.5l5.5-5.5 3.2 3.2L20 7"/><path d="M15.5 7H20v4.5"/></g></symbol>
+  <symbol id="road" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v3.5M12 10.2v3.5M12 17.5V21M6.5 21 8.5 3M17.5 21 15.5 3"/></g></symbol>
+  <symbol id="battery" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="18" height="10" rx="2.5"/><path d="M22 10.5v3"/><rect x="4.5" y="9.5" width="4" height="5" rx="1" fill="currentColor" stroke="none"/></g></symbol>
+  <symbol id="magnet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 4h5v9a3 3 0 0 0 6 0V4h5v9a8 8 0 0 1-16 0Z"/><path d="M4 9.5h5M15 9.5h5"/></g></symbol>
+  <symbol id="rotate" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20.5 12a8.5 8.5 0 1 1-2.8-6.3"/><path d="M20.5 3.8v5h-5"/></g></symbol>
+  <symbol id="wrench" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M15.2 3.2a5 5 0 0 0-4.5 7.1L3 18v3h3l7.7-7.7a5 5 0 0 0 5.5-7.8l-2.8 2.8-2.6-.4-.4-2.6Z"/></g></symbol>
+  <symbol id="layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.8 21 8l-9 5.2L3 8Z"/><path d="M3 12.6 12 17.8 21 12.6M3 16.8 12 22l9-5.2"/></g></symbol>
+  <symbol id="chip" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6.5" y="6.5" width="11" height="11" rx="1.6"/><rect x="10" y="10" width="4" height="4" rx=".8"/><path d="M9.5 3v3.5M14.5 3v3.5M9.5 17.5V21M14.5 17.5V21M3 9.5h3.5M3 14.5h3.5M17.5 9.5H21M17.5 14.5H21"/></g></symbol>
+  <symbol id="snow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v20M3.5 7l17 10M20.5 7l-17 10M12 6l-2.6-2.4M12 6l2.6-2.4M12 18l-2.6 2.4M12 18l2.6 2.4"/></g></symbol>
+  <symbol id="shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.8 20 6v6c0 5-3.6 8.4-8 9.2C7.6 20.4 4 17 4 12V6Z"/></g></symbol>
+  <symbol id="compass" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2v3.4M8 20.8 12 6.6l4 14.2M9.4 16.2h5.2"/><circle cx="12" cy="3.2" r="1.4"/></g></symbol>
+  <symbol id="flag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5.5 21V3.4M5.5 4h13l-3 4 3 4h-13"/></g></symbol>
+  <symbol id="temp" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 14.6V5.2a2 2 0 1 0-4 0v9.4a4.2 4.2 0 1 0 4 0Z"/><circle cx="19" cy="6" r="1.6"/></g></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13.5 6.5 20 12l-6.5 5.5"/></g></symbol>
+  <symbol id="bike" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17" r="3.2"/><circle cx="18.5" cy="17" r="3.2"/><path d="M5.5 17 9 9h4l3 4.5h3.5M9 9 7.5 6h-2M13 9l2.2 4.8"/></g></symbol>
+  <symbol id="battery2" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="7.5" rx="2"/><rect x="2" y="14.5" width="20" height="7.5" rx="2"/><path d="M6 8.7h4M6 18.2h4"/></g></symbol>
+</svg>
+
+<main class="deck" id="deck">
+
+<!-- ================= 1. ELEVATOR PITCH HERO ================= -->
+<section class="slide dark" id="slide-1" data-title="ELEVATOR PITCH" data-notes="Hello everyone! Here is our 60-second elevator pitch: Pure petrol bikes face strict emissions and ₹4.5/km fuel costs, while pure EV motorcycles are crippled by 95 kg batteries and 45-minute highway charge waits. At DUALFORCE Motors, we electrify the inside of the combustion cylinder block itself. We launch two Inline-2 twin motorcycles: a 350cc Twin Neo-Retro Cafe Roadster (46.5 bhp, ₹2.69 Lakh) and a 650cc Twin Supersport (78.5 bhp, ₹4.45 Lakh)—covering a dynamic Power Output Range from 18 bhp in pure EV mode up to 78.5 bhp in hybrid boost mode. We buy second-hand CNC machinery to manufacture ONLY our engines in-house, tender the vehicle body to Tier-1 suppliers, and scale globally through our DUALFORCE Factory Racing Club.">
+  <div class="slide-content-wrap">
+    <div class="hero">
+      <div>
+        <div class="brand-pill reveal-item">
+          <span>⚡</span> DUALFORCE MOTORS &nbsp;·&nbsp; THE 60-SECOND ELEVATOR PITCH
         </div>
-      </div>
-    </section>
-
-    <section class="concept-section page-wrap" id="concept">
-      <div class="section-marker"><span>01</span><i></i><span>THE CONCEPT</span></div>
-      <div class="concept-heading">
-        <h2>A combustion engine,<br><em>reconsidered.</em></h2>
-        <p>The DUALFORCE 350 is an experimental inline-twin concept pairing conventional combustion with a proposed electromagnetic piston-assistance architecture. The 3D view is a reference-inspired visualization—not production CAD.</p>
-      </div>
-      <div class="architecture-line" aria-label="Proposed powertrain architecture">
-        <article><span class="step-no">01 / COMBUSTION</span><h3>Two cylinders</h3><p>348 cc nominal inline-twin layout. Bore, stroke and internal phasing remain subject to design validation.</p></article>
-        <article><span class="step-no">02 / ELECTROMAGNETIC CONCEPT</span><h3>Coil interaction</h3><p>Copper windings and piston-associated magnetic elements are shown as a proposed system. Their force and timing are not validated.</p></article>
-        <article><span class="step-no">03 / MECHANICAL OUTPUT</span><h3>Shared crank</h3><p>A provisional connecting-rod and crank assembly illustrates reciprocating motion and mechanical output.</p></article>
-      </div>
-    </section>
-
-    <section class="spec-section" id="specifications">
-      <div class="page-wrap">
-        <div class="section-marker"><span>02</span><i></i><span>ENGINE DATA</span></div>
-        <div class="spec-layout">
-          <div class="spec-intro">
-            <p class="eyebrow">DUALFORCE / 350</p>
-            <h2>Defined in<br />the details.</h2>
-            <p class="spec-caveat">Preliminary concept values only. Estimated envelopes carry approximately ±10–15% uncertainty and are not manufacturing tolerances.</p>
+        <h1 class="reveal-item delay-1">One engine.<br><span class="gradient-text">Two energies.</span></h1>
+        
+        <div class="elevator-quote reveal-item delay-2">
+          <strong>"We electrify the inside of the cylinder block itself."</strong> Our patented <strong>Inline-2 In-Cylinder Hybrid Engine</strong> powers our <strong>350cc Twin Cafe Roadster (46.5 bhp · ₹2.69L)</strong> and <strong>650cc Twin Supersport (78.5 bhp · ₹4.45L)</strong> across a tunable <strong>18.0 to 78.5 bhp power range</strong>. We buy <strong>second-hand CNC machinery</strong> to manufacture <em>only</em> our high-margin engines in-house, outsource the <strong>vehicle body via Tier-1 tenders</strong> (dropping BOM to <strong>₹1.39L–₹1.95L</strong>), and promote globally through our own <strong>DUALFORCE Factory Racing Club</strong>.
+        </div>
+        
+        <!-- Interactive Powertrain Ratio Controller -->
+        <div class="hero-blend-ctrl reveal-item delay-3">
+          <div class="blend-header">
+            <span class="elec-label" id="hero-elec-pct">⚡ 50% ELECTRIC</span>
+            <span class="ratio-badge" id="hero-blend-badge">50:50 DUALFORCE (46.5 – 78.5 BHP)</span>
+            <span class="fuel-label" id="hero-fuel-pct">50% COMBUSTION 🔥</span>
           </div>
-          <dl class="spec-table">
-            <div><dt>Architecture</dt><dd>Inline-2 twin cylinder</dd></div>
-            <div><dt>Nominal displacement</dt><dd>≈ 348 cc</dd></div>
-            <div><dt>Bore × stroke</dt><dd>62 × 57.6 mm</dd></div>
-            <div><dt>Engine envelope estimate</dt><dd>400 × 375 × 350 mm</dd></div>
-            <div><dt>Stator block envelope estimate</dt><dd>225 × 138 × 114 mm</dd></div>
-          </dl>
+          <input type="range" class="blend-slider" id="hero-blend-slider" min="0" max="100" value="50">
+          <div class="blend-stats-row">
+            <div class="blend-stat-item">
+              <div class="val" id="stat-power">46.5–78.5 bhp</div>
+              <div class="lbl">Power Range</div>
+            </div>
+            <div class="blend-stat-item">
+              <div class="val" id="stat-torque">58–98 Nm</div>
+              <div class="lbl">Peak Torque</div>
+            </div>
+            <div class="blend-stat-item">
+              <div class="val" id="stat-accel">3.5–4.6 s</div>
+              <div class="lbl">0–100 km/h</div>
+            </div>
+            <div class="blend-stat-item">
+              <div class="val" id="stat-range">380–410 km</div>
+              <div class="lbl">Total Range</div>
+            </div>
+          </div>
         </div>
 
-        <div class="materials-heading"><span class="eyebrow">PROPOSED MATERIALS</span><span>Selection and validation remain in progress.</span></div>
-        <div class="materials-list">
-          <div><span>01</span><b>Cylinder liners</b><p>Nitronic 50 / slotted 316L</p></div>
-          <div><span>02</span><b>Stator windings</b><p>Copper Litz wire</p></div>
-          <div><span>03</span><b>Magnetic return core</b><p>Laminated silicon steel</p></div>
-          <div><span>04</span><b>Pistons</b><p>4032 aluminium</p></div>
-          <div><span>05</span><b>Magnetic teeth</b><p>Hiperco-50</p></div>
-          <div><span>06</span><b>Piston crown coating</b><p>YSZ ceramic</p></div>
-          <div><span>07</span><b>Connecting rods / crankshaft</b><p>Forged 4340 steel</p></div>
-          <div><span>08</span><b>Outer housing</b><p>Aluminium casing</p></div>
+        <p class="stamp reveal-item delay-4">SEED INVESTMENT PITCH &nbsp;·&nbsp; 350cc TWIN &amp; 650cc TWIN &nbsp;·&nbsp; <a href="models.html" style="color:var(--teal); text-decoration:underline;">VIEW FULL SPECS &amp; PRICING PAGE →</a></p>
+      </div>
+
+      <!-- Kinetic Plasma Dual-Energy Reactor -->
+      <div class="hero-visual-card reveal-item delay-2">
+        <div class="plasma-canvas-wrap">
+          <svg class="plasma-venn-svg" viewBox="0 0 320 320" aria-label="Kinetic Dual-Energy Reactor Core">
+            <defs>
+              <linearGradient id="elecGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#00F0D0" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#17C3B2" stop-opacity="0.2"/>
+              </linearGradient>
+              <linearGradient id="fuelGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FF9F43" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#FF4757" stop-opacity="0.2"/>
+              </linearGradient>
+              <radialGradient id="plasmaCenter" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.9"/>
+                <stop offset="40%" stop-color="#00F0D0" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#FF9F43" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <circle cx="160" cy="160" r="148" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4 8"/>
+            
+            <g class="venn-circle-elec">
+              <circle cx="195" cy="120" r="94" fill="none" stroke="url(#elecGlow)" stroke-width="2.5" stroke-dasharray="500"/>
+              <circle cx="195" cy="120" r="94" fill="rgba(0, 240, 208, 0.04)"/>
+            </g>
+            
+            <g class="venn-circle-fuel">
+              <circle cx="130" cy="200" r="94" fill="none" stroke="url(#fuelGlow)" stroke-width="2.5" stroke-dasharray="500"/>
+              <circle cx="130" cy="200" r="94" fill="rgba(255, 159, 67, 0.04)"/>
+            </g>
+            
+            <circle class="core-pulse" cx="162" cy="160" r="38" fill="url(#plasmaCenter)"/>
+            
+            <g color="#00F0D0" transform="translate(210,74) scale(1.6)"><use href="#bolt"/></g>
+            <text x="236" y="132" fill="#00F0D0" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="2.5" text-anchor="middle">Si-C EV</text>
+            
+            <g color="#FF9F43" transform="translate(74,196) scale(1.6)"><use href="#flame"/></g>
+            <text x="96" y="254" fill="#FF9F43" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="2.5" text-anchor="middle">INLINE-2</text>
+
+            <text x="162" y="164" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="800" letter-spacing="1.5" text-anchor="middle">350 &amp; 650</text>
+          </svg>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="status-section page-wrap" id="research-status">
-      <div class="section-marker"><span>03</span><i></i><span>PROJECT STATUS</span></div>
-      <div class="status-copy">
-        <h2>A study in progress.</h2>
-        <p>The mechanical visualization is provisional and replaceable by a future CAD/GLB asset. Electromagnetic force, coil alignment and timing, crank phasing, dyno results, power, torque, efficiency, emissions and vehicle integration have not been established.</p>
+<!-- ================= 2. PROBLEM STATEMENT ================= -->
+<section class="slide light" id="slide-2" data-title="PROBLEM STATEMENT" data-notes="Slide 2 defines the Problem Statement. Today's motorcycle market forces a broken compromise. Pure electric motorcycles require a 95 kg battery to travel 300 km, take 45 minutes to recharge on highways, and cost ₹8 to ₹12 Lakh. Pure petrol bikes face strict BS7 and Euro-7 emission laws that choke low-end torque while costing ₹4.5/km to run. And conventional bolt-on hybrids strap heavy external motors onto the gearbox, adding 40 kg and ruining lean angles.">
+  <div class="slide-content-wrap">
+    <p class="kicker reveal-item">Problem Statement — The Market Trilemma</p>
+    <h2 class="reveal-item delay-1">Every motorcycle drivetrain forces a compromise</h2>
+    <p class="sub reveal-item delay-2">Riders are forced to give up highway range, daily electric economy, or lightweight handling.</p>
+
+    <div class="grid g3">
+      <article class="card reveal-item delay-1">
+        <div class="disc teal"><svg><use href="#plug"/></svg></div>
+        <h3>Pure Electric Motorcycles</h3>
+        <ul class="ticks">
+          <li><strong>95 kg battery penalty</strong> needed for 300 km highway range</li>
+          <li>45-minute charging queues every 120–150 km</li>
+          <li>Thermal power throttling during aggressive track or hill rides</li>
+          <li>Expensive ₹8.0L–₹12.0L price tag with zero exhaust note</li>
+        </ul>
+      </article>
+
+      <article class="card reveal-item delay-2">
+        <div class="disc rose"><svg><use href="#smog"/></svg></div>
+        <h3>Pure Combustion (ICE)</h3>
+        <ul class="ticks">
+          <li><strong>Euro-7 / BS7 emission walls</strong> choke low-RPM torque</li>
+          <li>High urban fuel cost of ₹4.5/km (~22 km/L in city traffic)</li>
+          <li>Zero silent electric mode for green city zones</li>
+          <li>Heavy heat soak in stop-and-go metropolitan traffic</li>
+        </ul>
+      </article>
+
+      <article class="card reveal-item delay-3">
+        <div class="disc amber"><svg><use href="#weight"/></svg></div>
+        <h3>Bolt-On Parallel Hybrids</h3>
+        <ul class="ticks">
+          <li>External motors, belts &amp; clutches add <strong>+35 to +45 kg</strong></li>
+          <li>Electric assist quits above 40 km/h city speeds</li>
+          <li>Widens crankcase width, ruining motorcycle lean angle</li>
+          <li>Complex dual-transmission maintenance lock-in</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="banner reveal-item delay-4">
+      ⚡ Riders want <strong>140+ km of silent daily EV commute</strong> AND <strong>380–410 km of weekend twin-cylinder thrill</strong>. <strong>DUALFORCE removes the choice.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3. OUR SOLUTION & FLAGSHIP MOTORCYCLES ================= -->
+<section class="slide dark" id="slide-3" data-title="350cc CAFE & 650cc SPORT" data-notes="Here are our two flagship Inline-2 Twin motorcycles. On the left is our DUALFORCE 350 Twin Neo-Retro Cafe Roadster: a 348cc parallel-twin that qualifies for India's lower under-350cc tax bracket, delivering 46.5 bhp, 58 Nm, 138 km EV range, and a ₹1.39 Lakh build cost for ₹2.69 Lakh Ex-Showroom. On the right is our 650cc Inline-2 Vector-R Supersport delivering 78.5 bhp, 98 Nm, and 0 to 100 in 3.5 seconds for ₹4.45 Lakh. Click the button below to open our dedicated Specs & Pricing Showroom page!">
+  <div class="slide-content-wrap">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <p class="kicker reveal-item">Our Solution — Two Inline-2 Twin Motorcycles</p>
+        <h2 class="reveal-item delay-1">350cc Twin Cafe Roadster &amp; 650cc Twin Supersport</h2>
       </div>
-      <a class="back-to-model" href="#engine-sequence">RETURN TO THE ENGINE <span aria-hidden="true">↑</span></a>
-    </section>
-  </main>
+      <a href="models.html" class="cta-btn reveal-item delay-2" style="margin-bottom:0.2rem;">
+        <span>🏍️</span> OPEN FULL SPECS, POWER &amp; PRICING PAGE →
+      </a>
+    </div>
 
-  <footer class="site-footer">
-    <a class="wordmark" href="#top"><span class="mark" aria-hidden="true">D<span>/</span>F</span><span class="wordmark-copy">DUALFORCE <b>350</b></span></a>
-    <p>REFERENCE-INSPIRED ENGINE STUDY <span>·</span> NOT A VALIDATED PRODUCTION DESIGN</p>
-    <a href="#top" aria-label="Back to top">↑</a>
-  </footer>
+    <div class="grid g2" style="margin-top:1.1rem;">
+      <article class="card bike-showcase-card reveal-item delay-2" onclick="openLightbox('retro_inline2.jpg', 'DUALFORCE 350 Twin Neo-Retro Cafe Roadster — 348cc Inline-2 | 46.5 bhp | ₹2,69,000 Ex-Showroom')">
+        <img src="retro_inline2.jpg" alt="DUALFORCE 350 Twin Neo-Retro Roadster">
+        <div class="bike-showcase-body">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="kicker" style="margin:0;">MODEL 01 · 348cc INLINE-2 TWIN (&lt;350cc TAX TIER)</span>
+            <span style="font-family:var(--mono); font-size:0.88rem; font-weight:800; color:var(--teal);">₹2,69,000 Ex-Showroom</span>
+          </div>
+          <h3 style="margin:0.35rem 0;">DUALFORCE 350 Twin Cafe Roadster</h3>
+          <p>348cc Parallel-Twin (62.0 mm bore × 57.6 mm stroke × 2 cylinders = 348cc) with twin reluctance stators, 2.60 kWh Dual Si-C battery pack, brushed-aluminum radiator shrouds, and <strong>₹1,39,200 ($1,450) factory BOM</strong>.<br>
+          <strong style="color:var(--teal);">Power Range: 18.0 bhp (EV) – 46.5 bhp (Hybrid) · 58.0 Nm · 0–100 in 4.6s · 138 km EV / 410 km Blended.</strong></p>
+        </div>
+      </article>
+
+      <article class="card bike-showcase-card reveal-item delay-3" onclick="openLightbox('supersport_650.jpg', 'DUALFORCE 650 Vector-R Supersport — 648cc Inline-2 | 78.5 bhp | ₹4,45,000 Ex-Showroom')">
+        <img src="supersport_650.jpg" alt="DUALFORCE 650 Vector-R Supersport">
+        <div class="bike-showcase-body">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="kicker" style="margin:0; color:var(--amber);">MODEL 02 · 648cc INLINE-2 TWIN (TRACK SUPERSPORT)</span>
+            <span style="font-family:var(--mono); font-size:0.88rem; font-weight:800; color:var(--amber);">₹4,45,000 Ex-Showroom</span>
+          </div>
+          <h3 style="margin:0.35rem 0;">DUALFORCE 650 Vector-R Supersport</h3>
+          <p>648cc Parallel-Twin (78.0 mm bore × 67.8 mm stroke × 2 cylinders = 648cc) stressed-member monobloc stator engine, 3.80 kWh Dual Si-C pack, carbon-teal aero winglets, and <strong>₹1,95,360 ($2,035) factory BOM</strong>.<br>
+          <strong style="color:var(--amber);">Power Range: 24.1 bhp (EV) – 78.5 bhp (Hybrid) · 98.0 Nm · 0–100 in 3.5s · 215 km/h · 408.8 bhp/t.</strong></p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4. POWERTRAIN SIMULATION & PISTON FORCE ================= -->
+<section class="slide light" id="slide-4" data-title="FORCE & SIMULATION" data-notes="Let's look at the physics of how each piston generates force. Using Maxwell's variable-reluctance attraction across a 0.45 to 0.50 mm radial air gap at 1.65 Tesla, the 350cc Twin generates 1,980 N per piston (3,960 N total) and the 650cc Twin generates 3,680 N per piston (7,360 N total). That delivers 32 to 46 Nm of instant electric torque right from 0 RPM onto the shared 270-degree crankshaft.">
+  <div class="slide-content-wrap">
+    <p class="kicker reveal-item">Electromagnetic Physics &amp; Live Kinematics</p>
+    <h2 class="reveal-item delay-1">Up to 3,680 N pull per piston — 7,360 N twin force</h2>
+
+    <div class="tech">
+      <div>
+        <p class="lede reveal-item delay-2">By replacing weak magnetic repulsion with <strong>Maxwell Variable-Reluctance Attraction</strong> across a 0.50 mm radial air gap, sequenced stator coils pull the laminated piston teeth downward on every power stroke.</p>
+        
+        <div class="steps">
+          <div class="step reveal-item delay-2">
+            <div class="num">1</div>
+            <div>
+              <h4>Maxwell Reluctance Pull: Force = (B² × A) ÷ (2 × μ₀)</h4>
+              <p><strong>350cc Twin:</strong> 1,980 N per piston × 2 pistons = 3,960 N total &nbsp;|&nbsp; <strong>650cc Twin:</strong> 3,680 N per piston × 2 pistons = 7,360 N total across 45°–75° after top dead centre (ATDC).</p>
+              <p style="margin-top:0.4rem;font-size:0.82rem;color:var(--muted-d)"><strong>B</strong> = magnetic flux density in the air gap (tesla) &nbsp;·&nbsp; <strong>A</strong> = area of the gap facing the coil &nbsp;·&nbsp; <strong>μ₀</strong> = a physical constant (4π × 10⁻⁷ H/m). Because B is squared, doubling the flux gives four times the pull.</p>
+            </div>
+          </div>
+          <div class="step reveal-item delay-3">
+            <div class="num">2</div>
+            <div>
+              <h4>32.0 Nm (350) to 46.0 Nm (650) @ 0 RPM</h4>
+              <p>Instant electric launch torque eliminates low-RPM twin lag while acting as an <strong>8.5 kW linear regenerative brake</strong> on deceleration.</p>
+            </div>
+          </div>
+          <div class="step reveal-item delay-4">
+            <div class="num">3</div>
+            <div>
+              <h4>One Shared 270° Inline-2 Crankshaft</h4>
+              <p>Delivers authentic V-Twin exhaust cadence while both combustion pressure and magnetic attraction drive the exact same conrod and crankpin.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Interactive Engine Simulator Widget -->
+      <div class="sim-container reveal-item delay-2">
+        <div class="sim-toolbar">
+          <div class="sim-mode-pills">
+            <button class="sim-pill active" id="sim-btn-solenoid">⚡ Reluctance EV</button>
+            <button class="sim-pill" id="sim-btn-otto">🔥 Otto 4-Stroke</button>
+            <button class="sim-pill" id="sim-btn-dual">⚡🔥 50:50 DualForce</button>
+            <button class="sim-pill" id="sim-btn-3d" style="background:linear-gradient(135deg, #00F0D0, #D0713F);color:#070A0E;font-weight:800;">🌐 3D WebGL Model</button>
+            <a href="3d-engine.html" target="_blank" class="sim-pill" style="text-decoration:none;background:var(--slate-2);color:var(--teal);border:1px solid var(--teal);font-weight:700;">🚀 FULL LAB</a>
+          </div>
+          <span style="color:var(--muted-d)">3,680 N / PISTON</span>
+        </div>
+
+        <!-- 3D WebGL Engine Viewport (Toggled via button) -->
+        <div id="sim-3d-viewport" style="display:none; width:100%; height:450px; position:relative; border-radius:8px; overflow:hidden; margin-top:8px;"></div>
+
+        <div class="sim-svg-wrap" id="sim-2d-viewport">
+          <svg id="engine-svg" viewBox="0 0 420 470" aria-label="Interactive cutaway of running DUALFORCE engine">
+            <defs>
+              <linearGradient id="boreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#D9E2EC"/>
+                <stop offset="50%" stop-color="#F0F4F8"/>
+                <stop offset="100%" stop-color="#D9E2EC"/>
+              </linearGradient>
+              <linearGradient id="pistonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FF9F43"/>
+                <stop offset="100%" stop-color="#D98B3C"/>
+              </linearGradient>
+              <radialGradient id="sparkGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="50%" stop-color="#00F0D0"/>
+                <stop offset="100%" stop-color="transparent"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Outer Cooling Bore Channels (Cyan Dielectric Ester) -->
+            <rect x="108" y="60" width="8" height="200" rx="4" fill="#00F0D0" opacity="0.55"/>
+            <rect x="284" y="60" width="8" height="200" rx="4" fill="#00F0D0" opacity="0.55"/>
+
+            <!-- Cylinder Head -->
+            <rect x="120" y="30" width="160" height="30" rx="5" fill="#1E293B"/>
+            
+            <!-- Valves -->
+            <rect id="valve-in" x="145" y="38" width="8" height="14" rx="3" fill="#8A97A6"/>
+            <rect x="196" y="34" width="8" height="18" rx="3" fill="#FFFFFF"/>
+            <rect id="valve-ex" x="247" y="38" width="8" height="14" rx="3" fill="#8A97A6"/>
+
+            <!-- Spark Flash Arc -->
+            <circle id="spark-flash" cx="200" cy="54" r="14" fill="url(#sparkGlow)" opacity="0"/>
+
+            <!-- Cylinder Bore -->
+            <rect x="133" y="60" width="134" height="200" fill="url(#boreGrad)" stroke="#5D6B79" stroke-width="2"/>
+
+            <!-- Copper Windings (Left & Right) with Pulsing Glow -->
+            <g id="coil-windings" fill="#E6EBEF" stroke="#17C3B2" stroke-width="2.5">
+              <circle class="coil c1" cx="133" cy="82"  r="11"/><circle class="coil c1" cx="267" cy="82"  r="11"/>
+              <circle class="coil c2" cx="133" cy="118" r="11"/><circle class="coil c2" cx="267" cy="118" r="11"/>
+              <circle class="coil c3" cx="133" cy="154" r="11"/><circle class="coil c3" cx="267" cy="154" r="11"/>
+              <circle class="coil c4" cx="133" cy="190" r="11"/><circle class="coil c4" cx="267" cy="190" r="11"/>
+              <circle class="coil c5" cx="133" cy="226" r="11"/><circle class="coil c5" cx="267" cy="226" r="11"/>
+            </g>
+
+            <!-- Ghost-Weight Piston (Animated Y position) -->
+            <g id="piston-assembly" transform="translate(0, 0)">
+              <rect x="141" y="75" width="118" height="6" rx="2" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1"/>
+              <rect x="141" y="81" width="118" height="45" rx="4" fill="url(#pistonGrad)" stroke="#B36B20" stroke-width="2"/>
+              <rect x="145" y="88" width="22" height="14" rx="2" fill="#00F0D0" opacity="0.9"/>
+              <text x="156" y="98" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="800" fill="#000" text-anchor="middle">M250</text>
+              <rect x="233" y="88" width="22" height="14" rx="2" fill="#00F0D0" opacity="0.9"/>
+              <text x="244" y="98" font-family="'JetBrains Mono', monospace" font-size="8" font-weight="800" fill="#000" text-anchor="middle">268g</text>
+              <circle cx="200" cy="103" r="6" fill="#1E293B"/>
+            </g>
+
+            <!-- Connecting Rod -->
+            <line id="con-rod" x1="200" y1="103" x2="200" y2="290" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+
+            <!-- Crankshaft Flywheel & Crankpin -->
+            <circle cx="200" cy="330" r="42" fill="#E2E8F0" stroke="#475569" stroke-width="3"/>
+            <circle id="crank-pin" cx="200" cy="290" r="9" fill="#00F0D0" stroke="#0E131C" stroke-width="2"/>
+
+            <!-- Technical Leader Lines + Labels -->
+            <g stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="2 2">
+              <path d="M292 75h20"/><path d="M282 140h30"/><path d="M282 226h30"/><path d="M245 330h67"/>
+            </g>
+            <g font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600" fill="#475569">
+              <text x="315" y="78">Cooling Bores</text>
+              <text x="315" y="144">YSZ + M250 Piston</text>
+              <text x="315" y="230">Litz Stator Coils</text>
+              <text x="315" y="328">270° Crankshaft</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Simulator Speed & Control Strip -->
+        <div class="sim-controls-bar">
+          <button class="sim-play-btn" id="sim-play-toggle" title="Play/Pause Simulation">⏸</button>
+          <div class="sim-rpm-group">
+            <span style="color:var(--muted-d)">RPM</span>
+            <input type="range" class="sim-rpm-slider" id="sim-rpm-slider" min="600" max="8500" value="3200" step="100">
+          </div>
+          <div class="sim-telemetry-badge" id="sim-rpm-val">3,200 RPM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5. ENGINE CUTAWAY & PISTON MATERIAL SCIENCE ================= -->
+<section class="slide dark" id="slide-5" data-title="PISTON MATERIALS" data-notes="Slide 5 shows our 3D CAD cutaway of the proprietary Inline-2 engine alongside our Ghost-Weight Piston metallurgy. By spraying a 0.4mm YSZ ceramic barrier on the crown, CNC-pocketing aluminum from the inner pin boss, and stacking 0.2mm M250-35A silicon-steel laminations on the skirt, our hybrid pistons weigh 178g (on the 350cc Twin) and 268g (on the 650cc Twin)—matching stock pistons with zero vibration at 8,500 RPM.">
+  <div class="slide-content-wrap">
+    <p class="kicker reveal-item">Material Science — The "Ghost-Weight" Hybrid Piston</p>
+    <h2 class="reveal-item delay-1">Zero rare-earth magnets. Zero reciprocating mass penalty.</h2>
+
+    <div class="tech" style="margin-top:1.2rem;">
+      <article class="card bike-showcase-card reveal-item delay-1" style="padding:0;overflow:hidden;border:1px solid rgba(0,240,208,0.3);position:relative;">
+        <div id="slide5-3d-viewport" style="width:100%;height:320px;position:relative;background:#070A0E;"></div>
+        <div class="bike-showcase-body">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="kicker" style="margin:0;color:var(--teal);">LIVE 3D WEBGL CAD TWIN (DRAG TO ORBIT)</span>
+            <a href="3d-engine.html" target="_blank" class="sim-pill" style="text-decoration:none;background:var(--teal);color:#070A0E;font-weight:800;font-size:0.75rem;padding:4px 12px;border-radius:4px;">🚀 OPEN FULLSCREEN LAB</a>
+          </div>
+          <p style="margin-top:0.4rem;">Single monobloc A380 aluminum casting housing twin bores (62 mm on 350 Twin / 78 mm on 650 Twin), Class-R copper stator windings, white YSZ ceramic piston crowns, and peripheral dielectric cooling channels.</p>
+        </div>
+      </article>
+
+      <div class="grid g2" style="margin-top:0;">
+        <article class="card reveal-item delay-1">
+          <div class="disc teal"><svg><use href="#shield"/></svg></div>
+          <h3>0.4 mm YSZ Ceramic Crown</h3>
+          <p>Plasma-sprayed Yttria-Stabilized Zirconia (thermal conductivity 1.8 W/m·K) reflects 60% of combustion heat, keeping the piston core at just <strong>178°C–185°C</strong>.</p>
+        </article>
+
+        <article class="card reveal-item delay-2">
+          <div class="disc teal"><svg><use href="#magnet"/></svg></div>
+          <h3>M250-35A Laminated Teeth</h3>
+          <p>0.2 mm silicon-steel rings (Curie temperature 940°C, 2.15 T flux). Unlike NdFeB magnets that die at 150°C, M250-35A never demagnetizes.</p>
+        </article>
+
+        <article class="card reveal-item delay-3">
+          <div class="disc amber"><svg><use href="#layers"/></svg></div>
+          <h3>Forged 2618-T6 + DLC Pin</h3>
+          <p>Aerospace low-expansion alloy (420 MPa) with internal CNC pocketing and DLC-coated wrist pin (-65% dry EV friction).</p>
+        </article>
+
+        <article class="card reveal-item delay-4">
+          <div class="disc amber"><svg><use href="#weight"/></svg></div>
+          <h3>178g (350) / 268g (650) Mass</h3>
+          <p>Matches OEM piston weight (±3 g). Peak secondary inertia at 8,500 RPM stays 100% within factory conrod limits.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6. EXACT DIMENSIONS & ANATOMY ================= -->
+<section class="slide light" id="slide-6" data-title="PART DIMENSIONS" data-notes="Slide 6 details the exact physical dimensions and weights of all six core sub-assemblies across both our 350cc Twin Cafe Roadster and 650cc Twin Supersport.">
+  <div class="slide-content-wrap">
+    <p class="kicker reveal-item">Mechanical Architecture &amp; Packaging</p>
+    <h2 class="reveal-item delay-1">Six precision sub-assemblies — 350 Twin &amp; 650 Twin dimensions</h2>
+    <p class="sub reveal-item delay-2">Compact Inline-2 packaging centralizes mass and lowers Center of Gravity by 8.0 mm.</p>
+
+    <div class="grid g3">
+      <article class="card part reveal-item delay-1">
+        <div class="top"><span class="no">01</span><svg><use href="#layers"/></svg></div>
+        <h3>Inline-2 Monobloc Stator Block</h3>
+        <p>Die-cast A380 Al block + pressed ductile-iron liners + Litz copper windings + peripheral cooling bores.</p>
+        <span class="dim-pill">350: 225×138×114mm (8.2kg) | 650: 265×158×132mm (11.4kg)</span>
+      </article>
+
+      <article class="card part reveal-item delay-2">
+        <div class="top"><span class="no">02</span><svg><use href="#magnet"/></svg></div>
+        <h3>Ghost-Weight Pistons (Pair)</h3>
+        <p>Forged 2618-T6 Al body, 0.2 mm M250-35A magnetic tooth stack, 0.4 mm YSZ ceramic barrier.</p>
+        <span class="dim-pill">350: Ø61.94×44mm (178g) | 650: Ø77.94×52mm (268g)</span>
+      </article>
+
+      <article class="card part reveal-item delay-3">
+        <div class="top"><span class="no">03</span><svg><use href="#battery2"/></svg></div>
+        <h3>Split Fuel + Si-C Battery Tank</h3>
+        <p>Upper shell holds <strong>6.0–6.5 L Petrol</strong>; lower low-CG tunnel houses <strong>1.50 kWh (350) / 2.15 kWh (650) Si-C cells</strong>.</p>
+        <span class="dim-pill">590 × 310 × 220 mm · Box 230×210×125 mm</span>
+      </article>
+
+      <article class="card part warm reveal-item delay-2">
+        <div class="top"><span class="no">04</span><svg><use href="#battery"/></svg></div>
+        <h3>Under-Seat Tail Battery Pack 2</h3>
+        <p>IP67 extruded 6061-T6 Al box inside rear cowl: <strong>1.10 kWh (350 = 2.6 kWh tot) / 1.65 kWh (650 = 3.8 kWh tot)</strong>.</p>
+        <span class="dim-pill">270 × 140 × 115 mm · 2.8 kg (350) / 3.9 kg (650)</span>
+      </article>
+
+      <article class="card part warm reveal-item delay-3">
+        <div class="top"><span class="no">05</span><svg><use href="#snow"/></svg></div>
+        <h3>Downtube Radiator &amp; Ester Pump</h3>
+        <p>Brazed multi-louvered Al radiator + 12V brushless pump circulating MIDEL 7131 dielectric ester.</p>
+        <span class="dim-pill">350: 200×125×24mm | 650: 240×145×28mm (1.8kg)</span>
+      </article>
+
+      <article class="card part warm reveal-item delay-4">
+        <div class="top"><span class="no">06</span><svg><use href="#chip"/></svg></div>
+        <h3>2-in-1 SiC Inverter &amp; Hybrid VCU</h3>
+        <p>Merged single-board 100V SiC MOSFET H-bridge + Infineon AURIX 32-bit MCU + 360-tooth crank encoder.</p>
+        <span class="dim-pill">170 × 130 × 42 mm · Cold-Plate · 2.10 kg</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 7. THERMAL BORES & RADIATOR PERFORMANCE ================= -->
+<section class="slide light" id="slide-7" data-title="THERMAL & RADIATOR" data-notes="Slide 7 proves our thermal and radiator engineering. On the 350cc Twin (4.60 kW heat load, 16 bores) and 650cc Twin (8.20 kW heat load, 24 bores), vertical cooling channels circulate synthetic dielectric ester, limiting coolant temperature rise to 13.9°C–15.2°C and keeping stator windings more than 106°C below their 220°C limit.">
+  <div class="slide-content-wrap">
+    <p class="kicker reveal-item">Thermal &amp; Hydraulic Engineering — 4.60 kW (350) &amp; 8.20 kW (650)</p>
+    <h2 class="reveal-item delay-1">Cylinder-wall cooling bores &amp; radiator performance</h2>
+
+    <div class="grid" style="gap:0.95rem; margin-top:1.2rem;">
+      <article class="card fix reveal-item delay-1" style="padding:1rem 1.35rem">
+        <div class="side">
+          <div class="disc rose"><svg><use href="#temp"/></svg></div>
+          <div><span class="tag bad">Thermal Load</span><h4>4.60 kW (350) to 8.20 kW (650)</h4></div>
+        </div>
+        <div class="arrow"><svg><use href="#arrow"/></svg></div>
+        <div class="side">
+          <div class="disc teal"><svg><use href="#snow"/></svg></div>
+          <div><span class="tag good">16 to 24 Drilled Cooling Bores</span><p><strong>350 Twin:</strong> 16 bores (Ø 4.5 mm) &nbsp;|&nbsp; <strong>650 Twin:</strong> 24 bores (Ø 5.0 mm, A = 433.5 cm²) in outer stator yoke (+26.8% iron surplus = <strong>0% magnetic flux loss</strong>).</p></div>
+        </div>
+      </article>
+
+      <article class="card fix reveal-item delay-2" style="padding:1rem 1.35rem">
+        <div class="side">
+          <div class="disc rose"><svg><use href="#bolt"/></svg></div>
+          <div><span class="tag bad">HV Short Risk</span><h4>Water/Glycol Conducts Electricity</h4></div>
+        </div>
+        <div class="arrow"><svg><use href="#arrow"/></svg></div>
+        <div class="side">
+          <div class="disc teal"><svg><use href="#shield"/></svg></div>
+          <div><span class="tag good">Dielectric Ester (coolant warms by 13.9°C–15.2°C)</span><p><strong>MIDEL 7131 Synthetic Ester</strong> (over 75 kV insulation, specific heat 2,200 J/kg·K) flows at <strong>10–16 L/min</strong> (Reynolds number 4,800): <strong>Inlet 65.0°C → Outlet 78.9°C–80.2°C</strong>.<br><span style="font-size:0.82rem;color:var(--muted)">Temperature rise = heat load ÷ (coolant mass flow × specific heat).</span></p></div>
+        </div>
+      </article>
+
+      <article class="card fix reveal-item delay-3" style="padding:1rem 1.35rem">
+        <div class="side">
+          <div class="disc rose"><svg><use href="#magnet"/></svg></div>
+          <div><span class="tag bad">Insulation Limit</span><h4>220°C Coil &amp; 940°C Curie Limits</h4></div>
+        </div>
+        <div class="arrow"><svg><use href="#arrow"/></svg></div>
+        <div class="side">
+          <div class="disc teal"><svg><use href="#compass"/></svg></div>
+          <div><span class="tag good">Massive Thermal Buffers</span><p>Copper coils stabilize at <strong>108°C–114°C (220°C limit − 114°C = 106°C safety buffer)</strong>; Piston teeth run at <strong>178°C–185°C (940°C Curie limit − 185°C = 755°C buffer)</strong>; SiC MOSFETs at <strong>72.5°C</strong>.</p></div>
+        </div>
+      </article>
+
+      <article class="card fix reveal-item delay-4" style="padding:1rem 1.35rem">
+        <div class="side">
+          <div class="disc rose"><svg><use href="#gauge"/></svg></div>
+          <div><span class="tag bad">Radiator Load</span><h4>Continuous Heat Rejection in Traffic</h4></div>
+        </div>
+        <div class="arrow"><svg><use href="#arrow"/></svg></div>
+        <div class="side">
+          <div class="disc teal"><svg><use href="#rotate"/></svg></div>
+          <div><span class="tag good">Downtube Radiator (+7.3% reserve on 650)</span><p>Brazed multi-louvered aluminum core rejects <strong>5.2 kW (350) / 8.8 kW (650) at 60 km/h</strong>, backed by an automated 12V puller fan below 20 km/h.<br><span style="font-size:0.82rem;color:var(--muted)">Reserve = capacity ÷ load: 650 → 8.8 ÷ 8.2 kW = +7.3%; 350 → 5.2 ÷ 4.6 kW = +13.0%.</span></p></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 8. SCALABLE POWER OUTPUT RANGE & DRIVING MODES ================= -->
+<section class="slide light" id="slide-8" data-title="POWER OUTPUT RANGE" data-notes="Slide 8 demonstrates our interactive Power Output Range across both the 350cc Twin Cafe Roadster and 650cc Twin Supersport. Click any mode card to see the live dyno numbers update!">
+  <div class="slide-content-wrap">
+    <p class="kicker reveal-item">Dynamic Power Output Range — 350cc Twin Cafe vs 650cc Twin Sport</p>
+    <h2 class="reveal-item delay-1">Three rider-selectable modes across both twin engines</h2>
+
+    <div class="grid g3">
+      <article class="card mode teal reveal-item delay-1" id="mode-card-elec" data-mode="elec">
+        <div class="disc teal"><svg><use href="#plug"/></svg></div>
+        <h3>1. Pure EV Urban Glide</h3>
+        <p class="tagline">350 Twin: 18–24 bhp · 650 Twin: 24.1–33.5 bhp</p>
+        <p>Active cam decompression holds exhaust valves open 1.5 mm for zero pumping loss. Delivers <strong>32–46 Nm @ 0 RPM</strong> and <strong>138–146 km silent city range</strong>.</p>
+        <span class="mode-badge-select">CLICK TO TEST TELEMETRY</span>
+      </article>
+
+      <article class="card mode amber reveal-item delay-2" id="mode-card-fuel" data-mode="fuel">
+        <div class="disc amber"><svg><use href="#pump"/></svg></div>
+        <h3>2. Pure ICE Highway Roar</h3>
+        <p class="tagline">350 Twin: 28.5 bhp · 650 Twin: 52.0 bhp</p>
+        <p>270° Inline-2 combustion power for open highways with <strong>29.5–56.0 Nm torque</strong>, <strong>175–210 km petrol range</strong>, and linear piston regen charging.</p>
+        <span class="mode-badge-select">CLICK TO TEST TELEMETRY</span>
+      </article>
+
+      <article class="card mode rose active-mode reveal-item delay-3" id="mode-card-f1" data-mode="f1">
+        <div class="disc rose"><svg><use href="#flag"/></svg></div>
+        <h3>3. 50:50 DualForce Boost</h3>
+        <p class="tagline">350 Twin: 46.5 bhp · 650 Twin: 78.5 bhp</p>
+        <p>Simultaneous combustion fire + magnetic pull unleashes <strong>58.0 Nm (350) / 98.0 Nm (650)</strong>, <strong>0–100 km/h in 4.6s / 3.5s</strong>, and <strong>380–410+ km blended range</strong>.</p>
+        <span class="mode-badge-select">ACTIVE DYNO MODE</span>
+      </article>
+    </div>
+
+    <!-- Live Telemetry Dashboard for Selected Mode -->
+    <div class="mode-dashboard reveal-item delay-4">
+      <div class="dash-metric">
+        <div class="val" id="dash-power">46.5 / 78.5 bhp</div>
+        <div class="label">350 Cafe / 650 Sport Power</div>
+      </div>
+      <div class="dash-metric">
+        <div class="val" id="dash-torque">58.0 / 98.0 Nm</div>
+        <div class="label">Peak Wheel Torque</div>
+      </div>
+      <div class="dash-metric">
+        <div class="val" id="dash-accel">4.6s / 3.5s</div>
+        <div class="label">0–100 km/h Sprint</div>
+      </div>
+      <div class="dash-metric">
+        <div class="val" id="dash-speed">168 / 215 km/h</div>
+        <div class="label">Top Speed</div>
+      </div>
+      <div class="dash-metric">
+        <div class="val" id="dash-eff">410 km / 380 km</div>
+        <div class="label">Total Blended Range</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 9. LEAN MANUFACTURING, TENDER MODEL & RACING CLUB ================= -->
+<section class="slide dark" id="slide-9" data-title="LEAN EXECUTION & RACING CLUB" data-notes="Slide 9 explains our capital-lean manufacturing and marketing strategy. First: We buy certified second-hand 5-axis CNC and coil-winding machines, cutting factory CapEx by 65%. Second: We manufacture ONLY our patented Inline-2 engines in-house, and issue competitive tenders to Tier-1 vendors for the vehicle body, frame, suspension, and battery packs—cutting our factory workload by 70% and dropping full motorcycle BOM to ₹1.39 Lakh (350 Twin) and ₹1.95 Lakh (650 Twin). Third: We launch the DUALFORCE Racing Club to stress-test our engines on track while promoting our brand globally.">
+  <div class="slide-content-wrap">
+    <p class="kicker reveal-item">Capital-Lean Execution &amp; Go-To-Market</p>
+    <h2 class="reveal-item delay-1">Second-hand machines. Body tenders. Racing Club marketing.</h2>
+    <p class="lede reveal-item delay-2">We avoid the ₹100+ Crore factory trap by manufacturing <strong>only our high-margin patented Inline-2 engines in-house</strong> and leveraging India's Tier-1 automotive supply chain and motorsport culture.</p>
+
+    <div class="grid g3">
+      <article class="card reveal-item delay-1">
+        <div class="disc teal"><svg><use href="#wrench"/></svg></div>
+        <h3>1. Second-Hand CNC Line (-65% CapEx)</h3>
+        <p>We acquire certified <strong>second-hand 5-axis CNC VMCs, automated coil winders, and engine dynos</strong> from industrial auctions for <strong>₹4.80 Cr ($500k)</strong> instead of ₹14+ Cr new—machining both 350cc &amp; 650cc Inline-2 blocks on the same line.</p>
+      </article>
+
+      <article class="card reveal-item delay-2">
+        <div class="disc amber"><svg><use href="#layers"/></svg></div>
+        <h3>2. Engine In-House + Body via Tenders</h3>
+        <p>We build <strong>only our Inline-2 Engines &amp; ECU in-house (₹41.2k on 350 / ₹58.0k on 650)</strong>. The <strong>vehicle body, trellis frame, tank, suspension &amp; wheels are awarded via competitive tenders</strong> to Tier-1 vendors—cutting workload by <strong>70%</strong>.</p>
+      </article>
+
+      <article class="card reveal-item delay-3">
+        <div class="disc rose"><svg><use href="#flag"/></svg></div>
+        <h3>3. The DUALFORCE Racing Club</h3>
+        <p>Instead of burning cash on ads, we launch the <strong>DUALFORCE Factory Racing Club</strong>:
+        <br>• <strong>Track R&amp;D Lab:</strong> Validates engines &amp; cooling at 8,500 RPM race load.
+        <br>• <strong>Global Promotion:</strong> 3.5s drag-race wins create viral global demand while club memberships self-fund events.</p>
+      </article>
+    </div>
+
+    <div class="banner reveal-item delay-4">
+      ⚡ <strong>Sub-350cc Tax Advantage on Cafe Model:</strong> Keeping the Neo-Retro Cafe Twin at <strong>348cc</strong> keeps it in India's <strong>18% GST band instead of 40%</strong> (the rate above 350cc) and in a lower insurance slab—letting us price at <strong>₹2,69,000 Ex-Showroom</strong>!
+    </div>
+  </div>
+</section>
+
+<!-- ================= 10. INVESTMENT PLAN, UNIT ECONOMICS & ROADMAP ================= -->
+<section class="slide dark" id="slide-10" data-title="INVESTMENT PLAN & ECONOMICS" data-notes="Slide 10 is our Seed Investment Plan and Unit Economics at 1 USD = 96 INR. We are raising ₹9.60 Crores ($1.0M USD). With a ₹1.39 Lakh build cost on the 350cc Twin Cafe (selling at ₹2.69 Lakh) and ₹1.95 Lakh build cost on the 650cc Twin Supersport (selling at ₹4.45 Lakh), we earn 48.3% to 56.1% gross margins and break even at just 480 motorcycles!">
+  <div class="slide-content-wrap">
+    <div class="close">
+      <div>
+        <p class="kicker reveal-item">Seed Investment Plan &amp; Unit Economics (1 USD = ₹96 INR)</p>
+        <h1 class="reveal-item delay-1">₹1.39L–₹1.95L BOM.<br>48%–56% Gross Margin.<br><span style="color:var(--teal)">Breakeven in 480 bikes.</span></h1>
+        
+        <div class="roadmap">
+          <div class="rm reveal-item delay-1">
+            <span class="n">01</span>
+            <span class="t">₹4.80 Cr ($500k)</span>
+            <span class="d"><strong>Second-Hand Machinery Line:</strong> 5-axis CNC machining cell, coil winders &amp; dyno rig for 350cc &amp; 650cc Inline-2 engines.</span>
+          </div>
+          <div class="rm reveal-item delay-2">
+            <span class="n">02</span>
+            <span class="t">₹1.92 Cr ($200k)</span>
+            <span class="d"><strong>Prototypes &amp; ARAI Homologation:</strong> Build 5 Cafe 350 + 5 Supersport 650 bikes, PCT patents &amp; BS6-II certification.</span>
+          </div>
+          <div class="rm reveal-item delay-3">
+            <span class="n">03</span>
+            <span class="t">₹1.44 Cr ($150k)</span>
+            <span class="d"><strong>Vendor Tender Tooling:</strong> Lock in Tier-1 supplier tenders for trellis frames, split tanks &amp; Si-C battery packs.</span>
+          </div>
+          <div class="rm reveal-item delay-4">
+            <span class="n">04</span>
+            <span class="t">₹1.44 Cr ($150k)</span>
+            <span class="d"><strong>DUALFORCE Racing Club Launch:</strong> Factory race team, track-day test tour &amp; first 500 global Founder Edition pre-orders.</span>
+          </div>
+        </div>
+
+        <div class="closing-actions reveal-item delay-4">
+          <a href="models.html" class="cta-btn">
+            <span>🏍️</span> EXPLORE MODELS, SPECS &amp; PRICING PAGE →
+          </a>
+          <button class="cta-btn secondary" id="contact-btn">
+            <span>⚡</span> JOIN ₹9.60 CR ($1.0M) SEED ROUND
+          </button>
+        </div>
+
+        <p class="foot reveal-item delay-4">DUALFORCE MOTORS &nbsp;·&nbsp; 350cc TWIN CAFE &amp; 650cc TWIN SUPERSPORT &nbsp;·&nbsp; YEAR-3 TARGET (5,000 BIKES): ₹185+ CR REVENUE</p>
+      </div>
+
+      <!-- Unit Economics: step-by-step -->
+      <div class="card calc reveal-item delay-2">
+        <p class="kicker" style="margin-bottom:0.7rem;">HOW PROFIT PER BIKE IS WORKED OUT</p>
+
+        <div class="calc-row calc-head"><span></span><span class="c350">350 Twin Cafe</span><span class="c650">650 Supersport</span></div>
+
+        <p class="calc-step"><span class="calc-n">1</span>Add up what one bike costs to build</p>
+        <div class="calc-row"><span>Engine + ECU, built in-house</span><span>₹41,280</span><span>₹58,080</span></div>
+        <div class="calc-row"><span>+ Battery pack (Tender 1)</span><span>₹23,040</span><span>₹33,600</span></div>
+        <div class="calc-row"><span>+ Chassis (Tender 2)</span><span>₹42,240</span><span>₹58,080</span></div>
+        <div class="calc-row"><span>+ Body &amp; QC (Tender 3)</span><span>₹32,640</span><span>₹45,600</span></div>
+        <div class="calc-row calc-total"><span>= Factory cost (BOM)</span><span class="c350">₹1,39,200<small>$1,450</small></span><span class="c650">₹1,95,360<small>$2,035</small></span></div>
+
+        <p class="calc-step"><span class="calc-n">2</span>Take it away from the selling price</p>
+        <div class="calc-row"><span>Ex-showroom price</span><span>₹2,69,000</span><span>₹4,45,000</span></div>
+        <div class="calc-row"><span>− Factory cost</span><span>₹1,39,200</span><span>₹1,95,360</span></div>
+        <div class="calc-row calc-total"><span>= Profit per bike</span><span class="c350">₹1,29,800<small>$1,352</small></span><span class="c650">₹2,49,640<small>$2,600</small></span></div>
+
+        <p class="calc-step"><span class="calc-n">3</span>Divide profit by price to get the margin</p>
+        <div class="calc-row"><span>Profit ÷ price</span><span class="calc-sum">₹1,29,800 ÷ ₹2,69,000</span><span class="calc-sum">₹2,49,640 ÷ ₹4,45,000</span></div>
+        <div class="calc-row calc-total"><span>= Gross margin</span><span class="c350 calc-big">48.3%</span><span class="c650 calc-big">56.1%</span></div>
+
+        <div class="calc-split" aria-label="Where each 100 rupees of price goes">
+          <div class="calc-split-row"><span class="c350">350</span><div class="calc-bar"><i class="cost" style="width:51.7%"></i><i class="profit c350bg" style="width:48.3%"></i></div></div>
+          <div class="calc-split-row"><span class="c650">650</span><div class="calc-bar"><i class="cost" style="width:43.9%"></i><i class="profit c650bg" style="width:56.1%"></i></div></div>
+          <p class="calc-cap">Of every ₹100 a buyer pays: <strong>350</strong> ₹51.7 builds the bike, ₹48.3 is profit &nbsp;|&nbsp; <strong>650</strong> ₹43.9 builds the bike, ₹56.1 is profit.</p>
+        </div>
+
+        <p class="calc-step"><span class="calc-n">4</span>Breakeven check against the ₹9.60 Cr seed round</p>
+        <p class="calc-note">₹9.60 Cr ÷ 480 bikes = <strong>₹2,00,000 profit needed per bike</strong>, which sits between the ₹1,29,800 earned on a Cafe and the ₹2,49,640 earned on a Supersport.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<section class="engine-sequence" id="engine-sequence" aria-label="Interactive scroll-reveal engine model">
+  <div class="engine-pin">
+    <div id="engine-viewer-root"></div>
+  </div>
+</section>
+
+<!-- Speaker Pitch Script Drawer -->
+<div class="pitch-drawer" id="pitch-drawer">
+  <div class="pitch-drawer-title">🎤 Live Stage Pitch Script (Press [S] to Toggle)</div>
+  <div class="pitch-drawer-text" id="pitch-drawer-text"></div>
+</div>
+
+<!-- Image Lightbox Modal -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Zoomed Render">
+  <div class="lightbox-cap" id="lightbox-cap"></div>
+</div>
+
+<!-- Right Side Navigation Dots with Hover Tooltips -->
+<nav class="dots" id="dots" aria-label="Slide navigation"></nav>
+
+<!-- Keyboard Hint -->
+<p class="hint" id="hint">↑ ↓ or Space to navigate &nbsp;·&nbsp; [S] Pitch Script &nbsp;·&nbsp; [F] Fullscreen &nbsp;·&nbsp; [M] Engine Audio</p>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+function openLightbox(src, cap) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-cap').textContent = cap;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+(function () {
+  'use strict';
+
+  const deck        = document.getElementById('deck');
+  const slides      = Array.from(deck.querySelectorAll('.slide'));
+  const dotBar      = document.getElementById('dots');
+  const bar         = document.getElementById('progress');
+  const hint        = document.getElementById('hint');
+  const hudCurr     = document.getElementById('hud-curr');
+  const hudTotal    = document.getElementById('hud-total');
+  const fsToggle    = document.getElementById('fs-toggle');
+  const audioBtn    = document.getElementById('audio-toggle');
+  const audioIcon   = document.getElementById('audio-icon');
+  const scriptBtn   = document.getElementById('script-toggle');
+  const pitchDrawer = document.getElementById('pitch-drawer');
+  const pitchText   = document.getElementById('pitch-drawer-text');
+
+  if (hudTotal) {
+    hudTotal.textContent = String(slides.length).padStart(2, '0');
+  }
+
+  slides.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    const slideTitle = s.getAttribute('data-title') || ('Slide ' + (i + 1));
+    b.setAttribute('aria-label', 'Go to ' + slideTitle);
+    b.setAttribute('data-tooltip', (i + 1) + '. ' + slideTitle);
+    b.addEventListener('click', () => {
+      s.scrollIntoView({ behavior: 'smooth' });
+      playClickSound();
+    });
+    dotBar.appendChild(b);
+  });
+  const dots = Array.from(dotBar.children);
+
+  let current = 0;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        current = slides.indexOf(e.target);
+        e.target.classList.add('in-view');
+        dots.forEach((d, i) => d.setAttribute('aria-current', i === current));
+        bar.style.width = ((current + 1) / slides.length * 100) + '%';
+        if (hudCurr) {
+          hudCurr.textContent = String(current + 1).padStart(2, '0');
+        }
+        if (pitchText) {
+          pitchText.textContent = e.target.getAttribute('data-notes') || '';
+        }
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => io.observe(s));
+
+  function toggleScript() {
+    pitchDrawer.classList.toggle('open');
+    scriptBtn.classList.toggle('active');
+    playClickSound();
+  }
+  if (scriptBtn) scriptBtn.addEventListener('click', toggleScript);
+
+  function go(delta) {
+    const next = Math.min(slides.length - 1, Math.max(0, current + delta));
+    slides[next].scrollIntoView({ behavior: 'smooth' });
+    playClickSound();
+  }
+
+  window.addEventListener('keydown', e => {
+    if (document.getElementById('lightbox').classList.contains('open')) {
+      if (e.key === 'Escape' || e.key === ' ') closeLightbox();
+      return;
+    }
+    const keysNext = ['ArrowDown', 'ArrowRight', 'PageDown', ' '];
+    const keysPrev = ['ArrowUp', 'ArrowLeft', 'PageUp'];
+    
+    if (keysNext.includes(e.key)) {
+      e.preventDefault();
+      go(1);
+    } else if (keysPrev.includes(e.key)) {
+      e.preventDefault();
+      go(-1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      slides[0].scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      slides[slides.length - 1].scrollIntoView({ behavior: 'smooth' });
+    } else if (e.key === 'f' || e.key === 'F') {
+      toggleFullscreen();
+    } else if (e.key === 'm' || e.key === 'M') {
+      toggleAudio();
+    } else if (e.key === 's' || e.key === 'S') {
+      toggleScript();
+    }
+  });
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
+  }
+  if (fsToggle) fsToggle.addEventListener('click', toggleFullscreen);
+
+  const killHint = () => hint.classList.add('gone');
+  deck.addEventListener('scroll', killHint, { once: true });
+  window.addEventListener('keydown', killHint, { once: true });
+  setTimeout(killHint, 7000);
+
+  // 4. Interactive Hero Powertrain Blend Controller
+  const heroBlendSlider = document.getElementById('hero-blend-slider');
+  const heroElecPct     = document.getElementById('hero-elec-pct');
+  const heroFuelPct     = document.getElementById('hero-fuel-pct');
+  const heroBlendBadge  = document.getElementById('hero-blend-badge');
+  const statPower       = document.getElementById('stat-power');
+  const statTorque      = document.getElementById('stat-torque');
+  const statAccel       = document.getElementById('stat-accel');
+  const statRange       = document.getElementById('stat-range');
+
+  if (heroBlendSlider) {
+    heroBlendSlider.addEventListener('input', (e) => {
+      const fuelVal = parseInt(e.target.value, 10);
+      const elecVal = 100 - fuelVal;
+      
+      heroElecPct.textContent = `⚡ ${elecVal}% ELECTRIC`;
+      heroFuelPct.textContent = `${fuelVal}% COMBUSTION 🔥`;
+
+      if (fuelVal === 50) {
+        heroBlendBadge.textContent = '50:50 DUALFORCE (46.5 – 78.5 BHP)';
+        statPower.textContent  = '46.5–78.5 bhp';
+        statTorque.textContent = '58–98 Nm';
+        statAccel.textContent  = '3.5–4.6 s';
+        statRange.textContent  = '380–410 km';
+      } else if (fuelVal === 0) {
+        heroBlendBadge.textContent = '100% PURE EV GLIDE';
+        statPower.textContent  = '18–33.5 bhp';
+        statTorque.textContent = '32–46 Nm';
+        statAccel.textContent  = '6.8–7.8 s';
+        statRange.textContent  = '138–146 km';
+      } else if (fuelVal === 100) {
+        heroBlendBadge.textContent = '100% PURE ICE HIGHWAY';
+        statPower.textContent  = '28.5–52 bhp';
+        statTorque.textContent = '29.5–56 Nm';
+        statAccel.textContent  = '5.8–7.1 s';
+        statRange.textContent  = '175–210 km';
+      } else {
+        heroBlendBadge.textContent = `${elecVal}:${fuelVal} HYBRID BLEND`;
+        statPower.textContent  = '38–72 bhp';
+        statTorque.textContent = '48–88 Nm';
+        statAccel.textContent  = '3.9–5.2 s';
+        statRange.textContent  = '320–390 km';
+      }
+
+      updateEngineAudioPitch(2200 + (fuelVal * 30));
+    });
+  }
+
+  // 5. 3D Card Tilt on Mouse Move
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -4;
+      const rotateY = ((x - centerX) / centerX) * 4;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // 6. Driving Mode Selector & Live Dashboard Telemetry (Slide 8)
+  const modeCards  = document.querySelectorAll('.mode');
+  const dashPower  = document.getElementById('dash-power');
+  const dashTorque = document.getElementById('dash-torque');
+  const dashAccel  = document.getElementById('dash-accel');
+  const dashSpeed  = document.getElementById('dash-speed');
+  const dashEff    = document.getElementById('dash-eff');
+
+  const modeSpecs = {
+    elec: { power: '24.0 / 33.5 bhp', torque: '32.0 / 46.0 Nm', accel: '7.8s / 6.8s', speed: '108 / 122 km/h', eff: '138 km / 146 km EV' },
+    fuel: { power: '28.5 / 52.0 bhp', torque: '29.5 / 56.0 Nm', accel: '7.1s / 5.8s', speed: '145 / 180 km/h', eff: '210 km / 175 km ICE' },
+    f1:   { power: '46.5 / 78.5 bhp', torque: '58.0 / 98.0 Nm', accel: '4.6s / 3.5s', speed: '168 / 215 km/h', eff: '410 km / 380 km' }
+  };
+
+  modeCards.forEach(card => {
+    card.addEventListener('click', () => {
+      modeCards.forEach(c => {
+        c.classList.remove('active-mode');
+        const badge = c.querySelector('.mode-badge-select');
+        if (badge) badge.textContent = 'CLICK TO TEST TELEMETRY';
+      });
+      card.classList.add('active-mode');
+      const badge = card.querySelector('.mode-badge-select');
+      if (badge) badge.textContent = 'ACTIVE DYNO MODE';
+
+      const modeKey = card.getAttribute('data-mode');
+      if (modeSpecs[modeKey]) {
+        dashPower.textContent  = modeSpecs[modeKey].power;
+        dashTorque.textContent = modeSpecs[modeKey].torque;
+        dashAccel.textContent  = modeSpecs[modeKey].accel;
+        dashSpeed.textContent  = modeSpecs[modeKey].speed;
+        dashEff.textContent    = modeSpecs[modeKey].eff;
+      }
+      playModeWarpSound();
+    });
+  });
+
+  // 7. Live Engine Reciprocating Kinematics Simulator (Slide 4)
+  const pistonAssy  = document.getElementById('piston-assembly');
+  const conRod      = document.getElementById('con-rod');
+  const crankPin    = document.getElementById('crank-pin');
+  const valveIn     = document.getElementById('valve-in');
+  const valveEx     = document.getElementById('valve-ex');
+  const sparkFlash  = document.getElementById('spark-flash');
+  const coilCircles = document.querySelectorAll('#coil-windings .coil');
+
+  const btnSolenoid = document.getElementById('sim-btn-solenoid');
+  const btnOtto     = document.getElementById('sim-btn-otto');
+  const btnDual     = document.getElementById('sim-btn-dual');
+  const playToggle  = document.getElementById('sim-play-toggle');
+  const rpmSlider   = document.getElementById('sim-rpm-slider');
+  const rpmVal      = document.getElementById('sim-rpm-val');
+
+  let simRunning = true;
+  let simMode = 'solenoid';
+  let crankAngle = 0;
+  let targetRPM = 3200;
+  let lastTimestamp = 0;
+
+  const crankCenterX = 200;
+  const crankCenterY = 330;
+  const crankRadius  = 40;
+  const rodLength    = 180;
+
+  function engineSimLoop(timestamp) {
+    if (!lastTimestamp) lastTimestamp = timestamp;
+    const delta = (timestamp - lastTimestamp) / 1000;
+    lastTimestamp = timestamp;
+
+    if (simRunning) {
+      const omega = (targetRPM * 2 * Math.PI) / 60;
+      crankAngle += omega * delta;
+      if (crankAngle >= Math.PI * 4) {
+        crankAngle -= Math.PI * 4;
+      }
+
+      const pinX = crankCenterX + crankRadius * Math.sin(crankAngle);
+      const pinY = crankCenterY - crankRadius * Math.cos(crankAngle);
+      crankPin.setAttribute('cx', pinX);
+      crankPin.setAttribute('cy', pinY);
+
+      const sinTheta = Math.sin(crankAngle);
+      const cosTheta = Math.cos(crankAngle);
+      const pistonY = crankCenterY - (crankRadius * cosTheta + Math.sqrt(rodLength * rodLength - Math.pow(crankRadius * sinTheta, 2)));
+
+      const wristPinY = pistonY;
+      const wristPinX = crankCenterX;
+
+      const pistonOffset = wristPinY - 103;
+      pistonAssy.setAttribute('transform', `translate(0, ${pistonOffset})`);
+
+      conRod.setAttribute('x1', wristPinX);
+      conRod.setAttribute('y1', wristPinY);
+      conRod.setAttribute('x2', pinX);
+      conRod.setAttribute('y2', pinY);
+
+      const twoPi = Math.PI * 2;
+      const currentCycleAngle = crankAngle % twoPi;
+      const isDownstroke = (currentCycleAngle >= 0 && currentCycleAngle < Math.PI);
+
+      if (simMode === 'solenoid' || simMode === 'dual') {
+        if (isDownstroke) {
+          const intensity = Math.sin(currentCycleAngle);
+          coilCircles.forEach(c => {
+            c.setAttribute('stroke', '#00F0D0');
+            c.setAttribute('stroke-width', (2.5 + intensity * 4));
+            c.style.filter = `drop-shadow(0 0 ${8 * intensity}px #00F0D0)`;
+          });
+        } else {
+          coilCircles.forEach(c => {
+            c.setAttribute('stroke', '#5D6B79');
+            c.setAttribute('stroke-width', '2');
+            c.style.filter = 'none';
+          });
+        }
+      } else {
+        coilCircles.forEach(c => {
+          c.setAttribute('stroke', '#5D6B79');
+          c.setAttribute('stroke-width', '2');
+          c.style.filter = 'none';
+        });
+      }
+
+      if (simMode === 'otto' || simMode === 'dual') {
+        if (crankAngle < 0.25 || (crankAngle > Math.PI * 2 - 0.25 && crankAngle < Math.PI * 2 + 0.25)) {
+          sparkFlash.setAttribute('opacity', '1');
+        } else {
+          sparkFlash.setAttribute('opacity', '0');
+        }
+
+        if (crankAngle >= Math.PI * 2 && crankAngle < Math.PI * 3) {
+          valveIn.setAttribute('transform', 'translate(0, 5)');
+        } else {
+          valveIn.setAttribute('transform', 'translate(0, 0)');
+        }
+
+        if (crankAngle >= Math.PI && crankAngle < Math.PI * 2) {
+          valveEx.setAttribute('transform', 'translate(0, 5)');
+        } else {
+          valveEx.setAttribute('transform', 'translate(0, 0)');
+        }
+      } else {
+        sparkFlash.setAttribute('opacity', '0');
+        valveIn.setAttribute('transform', 'translate(0, 0)');
+        valveEx.setAttribute('transform', 'translate(0, 3)');
+      }
+    }
+
+    requestAnimationFrame(engineSimLoop);
+  }
+
+  requestAnimationFrame(engineSimLoop);
+
+  function setSimMode(mode) {
+    simMode = mode;
+    [btnSolenoid, btnOtto, btnDual].forEach(b => b.classList.remove('active', 'fuel-mode', 'blend-mode'));
+    if (mode === 'solenoid') {
+      btnSolenoid.classList.add('active');
+    } else if (mode === 'otto') {
+      btnOtto.classList.add('active', 'fuel-mode');
+    } else if (mode === 'dual') {
+      btnDual.classList.add('active', 'blend-mode');
+    }
+    playClickSound();
+  }
+
+  if (btnSolenoid) btnSolenoid.addEventListener('click', () => setSimMode('solenoid'));
+  if (btnOtto)     btnOtto.addEventListener('click', () => setSimMode('otto'));
+  if (btnDual)     btnDual.addEventListener('click', () => setSimMode('dual'));
+
+  if (playToggle) {
+    playToggle.addEventListener('click', () => {
+      simRunning = !simRunning;
+      playToggle.textContent = simRunning ? '⏸' : '▶';
+    });
+  }
+
+  if (rpmSlider) {
+    rpmSlider.addEventListener('input', (e) => {
+      targetRPM = parseInt(e.target.value, 10);
+      rpmVal.textContent = `${targetRPM.toLocaleString()} RPM`;
+      updateEngineAudioPitch(targetRPM);
+    });
+  }
+
+  // 8. Interactive Particle Canvas
+  const canvas = document.getElementById('particle-canvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    const particleCount = 65;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = (Math.random() - 0.5) * 0.8;
+        this.size = Math.random() * 2.2 + 0.8;
+        this.color = Math.random() > 0.4 ? 'rgba(0, 240, 208, ' : 'rgba(255, 159, 67, ';
+        this.alpha = Math.random() * 0.6 + 0.2;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+      }
+      draw() {
+        ctx.fillStyle = this.color + this.alpha + ')';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function renderParticles() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 110) {
+            ctx.strokeStyle = `rgba(0, 240, 208, ${0.15 * (1 - dist / 110)})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(renderParticles);
+    }
+    requestAnimationFrame(renderParticles);
+  }
+
+  // 9. Web Audio API Engine Sound Synthesizer
+  let audioCtx = null;
+  let audioEnabled = false;
+  let engineOsc = null;
+  let subOsc = null;
+  let engineGain = null;
+
+  function initAudio() {
+    if (audioCtx) return;
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContext();
+      engineGain = audioCtx.createGain();
+      engineGain.gain.setValueAtTime(0, audioCtx.currentTime);
+
+      engineOsc = audioCtx.createOscillator();
+      engineOsc.type = 'sine';
+      engineOsc.frequency.setValueAtTime(140, audioCtx.currentTime);
+
+      subOsc = audioCtx.createOscillator();
+      subOsc.type = 'sawtooth';
+      subOsc.frequency.setValueAtTime(70, audioCtx.currentTime);
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(260, audioCtx.currentTime);
+
+      subOsc.connect(filter);
+      engineOsc.connect(engineGain);
+      filter.connect(engineGain);
+      engineGain.connect(audioCtx.destination);
+
+      engineOsc.start();
+      subOsc.start();
+    } catch (e) {}
+  }
+
+  function toggleAudio() {
+    initAudio();
+    if (!audioCtx) return;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    audioEnabled = !audioEnabled;
+    if (audioEnabled) {
+      engineGain.gain.setTargetAtTime(0.08, audioCtx.currentTime, 0.1);
+      audioIcon.textContent = '🔊';
+      audioBtn.classList.add('active');
+    } else {
+      engineGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+      audioIcon.textContent = '🔇';
+      audioBtn.classList.remove('active');
+    }
+  }
+  if (audioBtn) audioBtn.addEventListener('click', toggleAudio);
+
+  function updateEngineAudioPitch(rpm) {
+    if (!audioCtx || !audioEnabled || !engineOsc) return;
+    const baseFreq = (rpm / 60) * 4;
+    engineOsc.frequency.setTargetAtTime(baseFreq * 1.5, audioCtx.currentTime, 0.1);
+    subOsc.frequency.setTargetAtTime(baseFreq * 0.75, audioCtx.currentTime, 0.1);
+  }
+
+  function playClickSound() {
+    if (!audioCtx || !audioEnabled) return;
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
+      gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.05);
+    } catch (e) {}
+  }
+
+  function playModeWarpSound() {
+    if (!audioCtx || !audioEnabled) return;
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(280, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.2);
+    } catch (e) {}
+  }
+
+  const contactBtn = document.getElementById('contact-btn');
+  function showToast(msg) {
+    let toast = document.getElementById('deck-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'deck-toast';
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: rgba(0, 240, 208, 0.95);
+        color: #070A0E;
+        padding: 0.75rem 1.6rem;
+        border-radius: 999px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        box-shadow: 0 10px 30px rgba(0, 240, 208, 0.4);
+        z-index: 1000;
+        opacity: 0;
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        pointer-events: none;
+      `;
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(20px)';
+    }, 3200);
+  }
+
+  if (contactBtn) {
+    contactBtn.addEventListener('click', () => {
+      showToast('⚡ SEED INVESTMENT BRIEFING LOGGED — ₹9.60 CR ($1.0M) ROUND');
+      playClickSound();
+    });
+  }
+
+})();
+</script>
+
+<!-- 3D Powertrain Engine WebGL Scripts -->
+<script src="three.min.js"></script>
+<script>
+  if (typeof THREE === 'undefined') {
+    document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+  }
+</script>
+<script src="dualforce-3d-engine.js"></script>
+<script>
+  window.addEventListener('load', function () {
+    // 1. Slide 5 Engine Twin (Live inside Material Card)
+    var s5Container = document.getElementById('slide5-3d-viewport');
+    if (s5Container && window.DualForce3DEngine) {
+      window.slide5Engine = new DualForce3DEngine(s5Container, {
+        compact: true,
+        theme: 'dark',
+        rpm: 2800,
+        playing: true,
+        cutaway: true,
+        electromagnetic: true,
+        cameraMode: 'hero',
+        annotationsEnabled: true
+      });
+    }
+
+    // 2. Slide 4 3D Toggle
+    var btn3d = document.getElementById('sim-btn-3d');
+    var s4Container = document.getElementById('sim-3d-viewport');
+    var s4SvgWrap = document.getElementById('sim-2d-viewport');
+    var s4ControlsBar = document.querySelector('.sim-controls-bar');
+    var simPills = document.querySelectorAll('.sim-pill');
+
+    if (btn3d && s4Container && s4SvgWrap) {
+      btn3d.addEventListener('click', function () {
+        simPills.forEach(function (p) { p.classList.remove('active'); });
+        btn3d.classList.add('active');
+        s4SvgWrap.style.display = 'none';
+        if (s4ControlsBar) s4ControlsBar.style.display = 'none';
+        s4Container.style.display = 'block';
+
+        if (!window.slide4Engine && window.DualForce3DEngine) {
+          window.slide4Engine = new DualForce3DEngine(s4Container, {
+            compact: true,
+            theme: 'light',
+            rpm: 3200,
+            playing: true,
+            cutaway: true,
+            electromagnetic: true,
+            cameraMode: 'hero',
+            annotationsEnabled: true
+          });
+        }
+      });
+
+      ['sim-btn-solenoid', 'sim-btn-otto', 'sim-btn-dual'].forEach(function (id) {
+        var b = document.getElementById(id);
+        if (b) {
+          b.addEventListener('click', function () {
+            s4Container.style.display = 'none';
+            s4SvgWrap.style.display = 'block';
+            if (s4ControlsBar) s4ControlsBar.style.display = 'flex';
+          });
+        }
+      });
+    }
+  });
+</script>
 </body>
 </html>

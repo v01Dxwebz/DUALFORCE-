@@ -1,12 +1,861 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0;url=./index.html#specifications">
-  <title>DUALFORCE 350 — Engine Data</title>
-  <link rel="canonical" href="https://v01dxwebz.github.io/DUALFORCE-/#specifications">
-  <script>location.replace('./index.html#specifications')</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DualForce Motorrad | 650 Vector-RR and 350 Twin Cafe: models, specifications and pricing</title>
+<meta name="description" content="The DualForce 650 Vector-RR supersport and 350 Twin Cafe roadster: inline-2 hybrid engines, specifications, variants, ex-showroom prices and EMI estimates.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--black:#000;
+  --ink:#1b1b1b;--text:#444;--muted:#6b6b6b;--line:#d9d9d9;--panel:#f1f1f1;
+  --accent:#00707a;--accent-light:#3cc4cd;--red:#e0483e;
+  --display:'Barlow Condensed','Arial Narrow','Liberation Sans Narrow',Arial,sans-serif;
+  --body:'Barlow',Arial,Helvetica,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:#fff;color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{min-height:100vh;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.site-header :focus-visible,.model-hero :focus-visible,.dark-section :focus-visible,.site-footer :focus-visible{outline-color:var(--accent-light)}
+[id]{scroll-margin-top:76px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:100;background:#000;color:#fff;border-bottom:1px solid #262626}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;gap:24px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.4rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:#fff;white-space:nowrap}
+.brand span{font-weight:500;color:#9a9a9a}
+.main-nav{display:flex;align-items:stretch;align-self:stretch;flex:1;overflow-x:auto;scrollbar-width:none}
+.main-nav::-webkit-scrollbar{display:none}
+.main-nav a{display:flex;align-items:center;padding:0 11px;color:#c4c4c4;text-decoration:none;font-size:.92rem;font-weight:500;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+.main-nav a:hover{color:#fff}
+.main-nav a.is-current{color:#fff;border-bottom-color:var(--accent-light)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border:1px solid transparent;border-radius:2px;font-family:var(--body);font-weight:600;font-size:.95rem;line-height:1;text-decoration:none;transition:background-color .15s,color .15s,border-color .15s}
+.btn-solid{background:#000;color:#fff}.btn-solid:hover{background:#333}
+.btn-line{border-color:#000;color:#000;background:transparent}.btn-line:hover{background:#000;color:#fff}
+.btn-light{background:#fff;color:#000}.btn-light:hover{background:#e2e2e2}
+.btn-line-light{border-color:#8a8a8a;color:#fff;background:transparent}.btn-line-light:hover{border-color:#fff;background:#fff;color:#000}
+.btn-sm{min-height:38px;padding:0 16px;font-size:.88rem}
+.btn-block{width:100%}
+
+/* Typography */
+h2{font-family:var(--display);font-weight:600;font-size:clamp(2rem,3.2vw,2.8rem);line-height:1.05;color:#000;margin-bottom:14px}
+h3{font-family:var(--display);font-weight:600;font-size:1.55rem;line-height:1.15;color:#000}
+.lead{max-width:64ch;color:#555;font-size:1.05rem}
+.sec-head{margin-bottom:36px}
+.fine{font-size:.85rem;color:var(--muted)}
+
+/* Model hero */
+.model-hero{background:#000;color:#fff}
+.hero-head{max-width:1280px;margin:0 auto;padding:60px 32px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:end}
+.hero-type{color:#9c9c9c;margin-bottom:8px}
+.hero-title{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,5.2vw,4.6rem);line-height:.98;letter-spacing:.01em;text-transform:uppercase;color:#fff;margin-bottom:18px}
+.hero-sub{color:#bdbdbd;max-width:56ch;font-size:1.05rem}
+.hero-buy{justify-self:end;min-width:300px}
+.price-label{color:#9c9c9c;font-size:.9rem}
+.price{font-family:var(--display);font-weight:600;font-size:2.7rem;line-height:1.1;color:#fff}
+.price-usd{color:#9c9c9c;font-size:.9rem;margin-bottom:18px}
+.buy-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-img{position:relative;background:#000}
+.hero-img img{width:100%;max-height:78vh;min-height:300px;object-fit:cover;object-position:center}
+.hero-img::before,.hero-img::after{content:'';position:absolute;left:0;right:0;height:16%;pointer-events:none}
+.hero-img::before{top:0;background:linear-gradient(#000,rgba(0,0,0,0))}
+.hero-img::after{bottom:0;background:linear-gradient(rgba(0,0,0,0),#000)}
+.specstrip{background:#000;border-top:1px solid #2a2a2a}
+.specstrip-grid{max-width:1280px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(5,1fr)}
+.spec{padding:28px 20px 30px 0;border-right:1px solid #2a2a2a}
+.spec+.spec{padding-left:22px}
+.spec:last-child{border-right:0}
+.spec-val{font-family:var(--display);font-weight:600;font-size:1.85rem;line-height:1.1;color:#fff}
+.spec-label{font-size:.92rem;color:#d0d0d0;margin-top:4px}
+.spec-sub{font-size:.82rem;color:#8d8d8d}
+
+/* Sections */
+.section{padding:88px 0}
+.model-body{padding:88px 0 96px}
+.block+.block{margin-top:88px}
+
+/* Hotspots */
+.hotspots{border:1px solid var(--line)}
+.hs-stage{background:#000;display:flex;align-items:center}
+.hs-canvas{position:relative;width:100%}
+.hs-canvas img{width:100%;height:auto}
+.hs-pin{position:absolute;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;border:0;background:#fff;color:#000;font-weight:700;font-size:.85rem;display:grid;place-items:center;box-shadow:0 0 0 1px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.5);transition:background-color .15s,color .15s}
+.hs-pin:hover{background:#dcdcdc}
+.hs-pin[aria-pressed="true"]{background:var(--accent);color:#fff;box-shadow:0 0 0 2px #fff,0 2px 6px rgba(0,0,0,.5)}
+.hs-panel{padding:32px 36px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:0 56px;background:#fff}
+.hs-info{display:flex;flex-direction:column;gap:16px}
+.hs-kicker{font-size:.88rem;color:var(--muted);font-weight:500}
+.hs-title{font-size:1.8rem}
+.hs-body{color:var(--text);font-size:.98rem}
+.hs-figure{border-top:1px solid var(--line);padding-top:14px}
+.hs-figure dt{font-size:.82rem;color:var(--muted)}
+.hs-figure dd{font-weight:600;color:#000}
+.hs-list{list-style:none;border-top:1px solid var(--line);align-self:start}
+.hs-list button{width:100%;display:flex;gap:14px;text-align:left;background:none;border:0;border-left:3px solid transparent;border-bottom:1px solid var(--line);padding:10px 0 10px 12px;font-size:.95rem;color:var(--text)}
+.hs-list button b{font-weight:600;min-width:1.2em;color:#000}
+.hs-list button:hover{background:var(--panel)}
+.hs-list button[aria-current="true"]{border-left-color:var(--accent);color:#000;font-weight:600}
+
+/* Colour + ride mode */
+.configure{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.configure>div{padding:36px 40px 0 0}
+.configure>div+div{padding:36px 0 0 40px;border-left:1px solid var(--line)}
+.configure h3{margin-bottom:6px}
+.configure .fine{margin-bottom:20px}
+.swatches{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 22px;padding:3px}
+.swatch{width:128px;background:none;border:0;padding:0;text-align:left}
+.chip{display:block;height:52px;border:1px solid var(--line);border-radius:2px;margin-bottom:8px}
+.swatch[aria-pressed="true"] .chip{outline:2px solid #000;outline-offset:2px}
+.swatch-name{display:block;font-weight:600;color:#000;font-size:.9rem;line-height:1.3}
+.swatch-price{display:block;font-size:.82rem;color:var(--muted)}
+.livery-desc{color:var(--text);font-size:.95rem;max-width:52ch}
+.tabs{display:flex;gap:24px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:20px}
+.tab{background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:10px 0;font-weight:600;color:var(--muted)}
+.tab:hover{color:#000}
+.tab[aria-selected="true"]{color:#000;border-bottom-color:var(--accent)}
+.readout-hp{font-family:var(--display);font-weight:600;font-size:2.4rem;line-height:1.1;color:#000}
+.readout-tq{color:var(--text);font-size:.95rem;margin-bottom:14px}
+.bar{height:4px;background:var(--line)}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.readout-note{margin-top:14px;color:var(--text);font-size:.95rem;max-width:52ch}
+
+/* Variants */
+.variants{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.variant{display:flex;flex-direction:column;padding:28px 28px 8px}
+.variant:first-child{padding-left:0}
+.variant+.variant{border-left:1px solid var(--line)}
+.variant:last-child{padding-right:0}
+.variant.is-popular{box-shadow:inset 0 3px 0 var(--accent)}
+.variant-flag{min-height:1.5rem;color:var(--accent);font-weight:600;font-size:.88rem}
+.variant h3{margin-bottom:4px}
+.variant-price{font-family:var(--display);font-weight:600;font-size:2rem;color:#000;line-height:1.1}
+.variant-usd{font-size:.85rem;color:var(--muted);margin-bottom:16px}
+.variant-intro{font-size:.92rem;font-weight:600;color:#000;margin-bottom:4px;min-height:1.5rem}
+.variant ul{list-style:none;margin-bottom:24px}
+.variant li{padding:9px 0;border-top:1px solid var(--line);font-size:.93rem}
+.variant .btn{margin-top:auto;margin-bottom:20px}
+
+/* Gallery */
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:36px 24px}
+.gallery figure{margin:0}
+.gallery figure>button{display:block;width:100%;padding:0;border:0;background:#000;cursor:zoom-in}
+.gallery img{width:100%;aspect-ratio:1376/768;object-fit:cover}
+.gallery figcaption{padding-top:12px}
+.gallery figcaption strong{display:block;color:#000;font-weight:600}
+.gallery figcaption span{color:var(--muted);font-size:.92rem}
+
+/* Technology */
+.dark-section{background:#000;color:#c9c9c9}
+.dark-section h2,.dark-section h3{color:#fff}
+.dark-section .lead{color:#b0b0b0}
+.tech{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:64px;align-items:start}
+.tft{background:#191919;padding:14px;border-radius:14px;border:1px solid #2e2e2e}
+.tft-screen{background:#050607;border-radius:6px;padding:22px 24px;color:#fff}
+.tft-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 16px;font-size:.88rem;color:#a6a6a6;border-bottom:1px solid #232323;padding-bottom:10px;margin-bottom:16px}
+.tft-top strong{color:#fff;font-weight:600}
+.tft-rpm{position:relative;height:14px;margin-bottom:22px;background:repeating-linear-gradient(90deg,#1e2225 0 7px,transparent 7px 10px)}
+.tft-rpm i{position:absolute;left:0;top:0;bottom:0;transition:width .3s;background:repeating-linear-gradient(90deg,var(--accent-light) 0 7px,transparent 7px 10px)}
+.tft-rpm.is-hot i{background:repeating-linear-gradient(90deg,var(--red) 0 7px,transparent 7px 10px)}
+.tft-main{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:12px;align-items:center;text-align:center;margin-bottom:18px}
+.tft-lbl{font-size:.78rem;color:#8a8a8a}
+.tft-big{font-family:var(--display);font-weight:600;line-height:1}
+.tft-gear{font-size:3.4rem}
+.tft-speed{font-size:4.2rem}
+.tft-speed small{font-size:1rem;font-weight:500;color:#a6a6a6;margin-left:4px}
+.tft-lean{font-size:1.9rem}
+.tft-power{color:var(--accent-light);font-weight:600;font-size:.95rem;margin-top:6px}
+.tft-note{font-size:.8rem;color:#8a8a8a;margin-top:4px}
+.tft-foot{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;border-top:1px solid #232323;padding-top:12px;font-size:.82rem;color:#8a8a8a}
+.tft-foot strong{display:block;color:#fff;font-weight:600;font-size:.95rem}
+.tft-tabs{margin-top:16px;border-bottom-color:#2e2e2e}
+.dark-section .tab{color:#8f8f8f}.dark-section .tab:hover{color:#fff}
+.dark-section .tab[aria-selected="true"]{color:#fff;border-bottom-color:var(--accent-light)}
+.tech-text p{margin-bottom:16px;max-width:60ch}
+.engine-pair{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #2c2c2c;margin-top:28px}
+.engine-pair>div{padding:18px 20px 0 0}
+.engine-pair>div+div{padding-left:20px;border-left:1px solid #2c2c2c}
+.engine-pair .k{font-size:.85rem;color:#8f8f8f}
+.engine-pair .v{font-family:var(--display);font-weight:600;font-size:1.5rem;color:#fff;line-height:1.2}
+.engine-pair .s{font-size:.88rem;color:#a6a6a6}
+
+/* Packages */
+.pkg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px 36px}
+.pkg{border-top:2px solid #000;padding-top:16px}
+.pkg h3{font-size:1.35rem;margin-bottom:8px}
+.pkg p{font-size:.93rem}
+.notice{margin-top:56px;background:var(--panel);padding:32px 36px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+.notice p{max-width:70ch;margin-top:6px}
+
+/* Specs */
+.table-wrap{overflow-x:auto}
+table.data{width:100%;min-width:680px;border-collapse:collapse;font-size:.95rem}
+table.data th{text-align:left;font-family:var(--display);font-weight:600;font-size:1.25rem;color:#000;padding:12px 20px 12px 0;border-bottom:2px solid #000}
+table.data td{padding:13px 20px 13px 0;border-bottom:1px solid var(--line);vertical-align:top;color:#333}
+table.data td:first-child{font-weight:600;color:#000;width:27%}
+table.data tr.group td{background:var(--panel);padding-left:10px}
+.tabs-spec{margin-bottom:8px}
+
+/* Pricing */
+.pricing{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.calc{background:var(--panel);padding:36px}
+.calc h3{margin-bottom:22px}
+.field{margin-bottom:22px}
+.field label{display:flex;justify-content:space-between;gap:12px;font-weight:600;color:#000;font-size:.92rem;margin-bottom:8px}
+.field label span:last-child{font-weight:500;color:var(--text)}
+select,input[type=text]{width:100%;min-height:44px;padding:0 12px;border:1px solid #b9b9b9;border-radius:2px;background:#fff;color:#000}
+input[type=range]{width:100%;accent-color:#000}
+.emi-out{border-top:1px solid #cfcfcf;padding-top:22px;margin-top:8px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.emi-amt{font-family:var(--display);font-weight:600;font-size:2.9rem;line-height:1;color:#000}
+.emi-amt small{font-size:1.1rem;font-weight:500;color:var(--muted)}
+.emi-sub{font-size:.85rem;color:var(--muted);margin-top:6px}
+.price-table .num{white-space:nowrap}
+.price-table td.num{font-weight:600;color:#000}
+.price-table td.usd{color:var(--muted);white-space:nowrap}
+.price-note{margin-top:14px}
+
+/* FAQ */
+.faq{max-width:900px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:first-child{border-top:1px solid var(--line)}
+.faq summary{list-style:none;display:flex;justify-content:space-between;gap:24px;padding:20px 0;font-weight:600;font-size:1.05rem;color:#000;cursor:pointer}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-size:1.5rem;font-weight:400;line-height:1}
+.faq details[open] summary::after{content:'\2212'}
+.faq .a{padding:0 48px 22px 0;max-width:76ch}
+
+/* Investor */
+.investor{background:var(--panel)}
+.investor .table-wrap{max-width:900px;margin-top:28px}
+.investor tr.total td{font-weight:700;color:#000;border-top:2px solid #000}
+
+/* Footer */
+.site-footer{background:#000;color:#bdbdbd}
+.footer-cta{max-width:1280px;margin:0 auto;padding:64px 32px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;border-bottom:1px solid #262626}
+.footer-cta h2{color:#fff;margin-bottom:6px}
+.footer-cta p{max-width:56ch}
+.footer-main{max-width:1280px;margin:0 auto;padding:40px 32px;display:flex;gap:48px 80px;flex-wrap:wrap}
+.footer-main h3{font-family:var(--body);font-size:.9rem;font-weight:600;color:#fff;margin-bottom:10px}
+.footer-main ul{list-style:none}
+.footer-main li{margin-bottom:6px}
+.footer-main a{text-decoration:none;font-size:.92rem}
+.footer-main a:hover{color:#fff;text-decoration:underline}
+.legal{max-width:1280px;margin:0 auto;padding:0 32px 40px;font-size:.8rem;color:#8a8a8a;max-width:1280px}
+
+/* Dialogs */
+dialog{border:0;padding:0;background:#fff;color:var(--text);max-width:calc(100vw - 32px);max-height:calc(100vh - 32px);margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.8)}
+.dlg-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border:0;border-radius:50%;background:#fff;color:#000;font-size:1.1rem;line-height:1;box-shadow:0 0 0 1px #bbb;z-index:2}
+.dlg-close:hover{background:#e6e6e6}
+#testRide{width:560px;padding:36px}
+#testRide h2{font-size:2rem;margin-bottom:6px}
+#testRide .picked{margin-bottom:22px;font-size:.95rem}
+.form-row{margin-bottom:18px}
+.form-row label{display:block;font-weight:600;color:#000;font-size:.9rem;margin-bottom:6px}
+#trSuccess{margin-top:16px;padding:14px 16px;background:#e7f3f3;color:#064c52;font-size:.92rem}
+#lightbox{width:min(1100px,100vw - 32px);background:#000;color:#ddd}
+#lightbox img{width:100%;max-height:72vh;object-fit:contain;background:#000}
+.lb-cap{padding:16px 22px 20px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.lb-cap strong{display:block;color:#fff;font-size:1.05rem}
+.lb-cap span{font-size:.9rem;color:#a8a8a8}
+
+/* Responsive */
+@media (max-width:1100px){
+  .pkg-grid{grid-template-columns:repeat(2,1fr)}
+  .specstrip-grid{grid-template-columns:repeat(3,1fr)}
+  .spec:nth-child(3){border-right:0}
+  .spec:nth-child(n+4){border-top:1px solid #2a2a2a}
+  .spec:nth-child(4){padding-left:0}
+}
+@media (max-width:900px){
+  [id]{scroll-margin-top:112px}
+  .wrap,.hero-head,.specstrip-grid,.footer-cta,.footer-main,.legal{padding-left:20px;padding-right:20px}
+  .header-inner{flex-wrap:wrap;height:auto;padding:10px 20px 0;gap:6px 16px}
+  .brand{font-size:1.3rem}
+  .header-inner .btn{margin-left:auto}
+  .main-nav{order:3;flex:1 0 100%;margin:0 -20px;padding:0 8px;min-height:44px}
+  .hero-head{grid-template-columns:1fr;gap:28px;padding-top:40px}
+  .hero-buy{justify-self:start;min-width:0}
+  .specstrip-grid{grid-template-columns:repeat(2,1fr)}
+  .spec,.spec+.spec{padding:18px 12px 18px 0;border-right:0;border-top:1px solid #2a2a2a}
+  .spec:nth-child(even){padding-left:16px}
+  .section,.model-body{padding:60px 0}
+  .block+.block{margin-top:60px}
+  .configure,.tech,.pricing,.hs-panel{grid-template-columns:1fr}
+  .hs-panel{padding:24px 20px;gap:24px}
+  .configure>div,.configure>div+div{padding:28px 0 0;border-left:0}
+  .variants{grid-template-columns:1fr}
+  .variant,.variant:first-child,.variant:last-child{padding:24px 0 8px}
+  .variant+.variant{border-left:0;border-top:1px solid var(--line)}
+  .gallery{grid-template-columns:1fr}
+  .tech{gap:40px}
+  .pkg-grid{grid-template-columns:1fr}
+  .calc{padding:24px 20px}
+  .pricing{gap:40px}
+  .tft-speed{font-size:3.2rem}
+  .tft-gear{font-size:2.6rem}
+  .tft-foot{grid-template-columns:repeat(2,1fr)}
+  #testRide{padding:28px 20px}
+}
+@media (max-width:480px){
+  .header-inner .btn{display:none}
+  .hs-pin{width:26px;height:26px;font-size:.78rem}
+  .buy-actions .btn{flex:1 1 auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+</style>
 </head>
-<body><p>The engine data has moved. <a href="./index.html#specifications">Open DUALFORCE 350 specifications</a>.</p></body>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">DualForce <span>Motorrad</span></a>
+    <nav class="main-nav" aria-label="Page sections">
+      <a href="#model-650rr">650 Vector-RR</a>
+      <a href="#model-350cafe">350 Twin Cafe</a>
+      <a href="engine.html" style="color:var(--accent-light);font-weight:600">Powertrain Tech</a>
+      <a href="#section-images">Gallery</a>
+      <a href="#section-tft">Technology</a>
+      <a href="#section-techdata">Specifications</a>
+      <a href="#section-pricing">Pricing</a>
+      <a href="#section-faq">FAQ</a>
+    </nav>
+    <button type="button" class="btn btn-light btn-sm" data-ride="DualForce 650 Vector-RR">Book a test ride</button>
+  </div>
+</header>
+
+<main>
+<h1 class="sr-only">DualForce Motorrad models</h1>
+
+
+<section id="model-650rr" data-model="650" aria-labelledby="t650">
+  <div class="model-hero">
+    <div class="hero-head">
+      <div>
+        <p class="hero-type">Supersport · 648 cc inline-2 hybrid</p>
+        <h2 class="hero-title" id="t650">DualForce 650 Vector-RR</h2>
+        <p class="hero-sub">A track-focused supersport built around our 648 cc inline-2 hybrid engine. Carbon-teal aerodynamic winglets, a 3.8 kWh battery and three ride modes give it 78.5 bhp and 98 Nm in a 174 kg package.</p>
+      </div>
+      <div class="hero-buy">
+        <p class="price-label">Ex-showroom price from</p>
+        <p class="price" data-price>₹4,45,000*</p>
+        <p class="price-usd" data-usd>$4,635 USD · Standard variant</p>
+        <div class="buy-actions">
+          <button type="button" class="btn btn-light" data-ride="DualForce 650 Vector-RR">Book a test ride</button>
+          <a class="btn btn-line-light" href="#section-techdata">Specifications</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-img"><img src="supersport_650.jpg" alt="DualForce 650 Vector-RR supersport in carbon-teal, side view" width="1376" height="768" fetchpriority="high"></div>
+    <div class="specstrip"><div class="specstrip-grid"><div class="spec"><div class="spec-val">78.5 bhp</div><div class="spec-label">Peak hybrid output</div><div class="spec-sub">58.5 kW at 9,000 rpm</div></div><div class="spec"><div class="spec-val">98.0 Nm</div><div class="spec-label">Combined peak torque</div><div class="spec-sub">46.0 Nm electric at 0 rpm</div></div><div class="spec"><div class="spec-val">648 cc</div><div class="spec-label">Inline-2 hybrid engine</div><div class="spec-sub">78.0 × 67.8 mm · 270° crank</div></div><div class="spec"><div class="spec-val">3.5 s</div><div class="spec-label">0–100 km/h</div><div class="spec-sub">Top speed 215 km/h</div></div><div class="spec"><div class="spec-val">146 km</div><div class="spec-label">Pure EV range</div><div class="spec-sub">380 km combined · 3.8 kWh</div></div></div></div>
+  </div>
+
+  <div class="model-body">
+    <div class="wrap">
+      <div class="block">
+        <div class="sec-head"><h2>Explore the Vector-RR</h2><p class="lead">Select a numbered point on the bike to see how the aerodynamics, engine, battery and electronics work together.</p></div>
+        <div class="hotspots">
+          <div class="hs-stage"><div class="hs-canvas"><img src="supersport_650.jpg" alt="DualForce 650 Vector-RR supersport in carbon-teal, side view, with numbered feature points" loading="lazy" width="1376" height="768"><button type="button" class="hs-pin" style="left:66%;top:40%" data-i="0" aria-label="Point 1: Aero winglets" aria-pressed="true">1</button><button type="button" class="hs-pin" style="left:46%;top:60%" data-i="1" aria-label="Point 2: 648 cc inline-2 engine" aria-pressed="false">2</button><button type="button" class="hs-pin" style="left:54%;top:45%" data-i="2" aria-label="Point 3: 268 g ceramic piston" aria-pressed="false">3</button><button type="button" class="hs-pin" style="left:50%;top:73%" data-i="3" aria-label="Point 4: 3.8 kWh battery" aria-pressed="false">4</button><button type="button" class="hs-pin" style="left:67%;top:25%" data-i="4" aria-label="Point 5: 6.5&quot; TFT and controls" aria-pressed="false">5</button><button type="button" class="hs-pin" style="left:70%;top:67%" data-i="5" aria-label="Point 6: Brake ducts and regen" aria-pressed="false">6</button><button type="button" class="hs-pin" style="left:28%;top:24%" data-i="6" aria-label="Point 7: Tail-hump camera mount" aria-pressed="false">7</button></div></div>
+          <div class="hs-panel">
+            <div class="hs-info">
+              <p class="hs-kicker" data-hs="kicker">1 of 7 · Aerodynamics</p>
+              <h3 class="hs-title" data-hs="title">Shark-Gill Fairing &amp; Carbon-Teal Bi-Plane Winglets</h3>
+              <p class="hs-body" data-hs="body">Redesigned front and side trim panels with characteristic shark gills reduce helmet turbulence while generating up to +18.4 kg of front-wheel downforce at 200+ km/h. This counteracts front-wheel lift under 98 Nm hybrid acceleration so traction control never has to cut power on corner exit.</p>
+              <dl class="hs-figure"><dt>Key figures</dt><dd data-hs="metric">+18.4 kg Downforce · -14° Quick-Action Throttle Path</dd></dl>
+            </div>
+            <ul class="hs-list"><li><button type="button" data-i="0" aria-current="true"><b>1</b><span>Aero winglets</span></button></li><li><button type="button" data-i="1" aria-current="false"><b>2</b><span>648 cc inline-2 engine</span></button></li><li><button type="button" data-i="2" aria-current="false"><b>3</b><span>268 g ceramic piston</span></button></li><li><button type="button" data-i="3" aria-current="false"><b>4</b><span>3.8 kWh battery</span></button></li><li><button type="button" data-i="4" aria-current="false"><b>5</b><span>6.5&quot; TFT and controls</span></button></li><li><button type="button" data-i="5" aria-current="false"><b>6</b><span>Brake ducts and regen</span></button></li><li><button type="button" data-i="6" aria-current="false"><b>7</b><span>Tail-hump camera mount</span></button></li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="block configure" style="padding-top:0">
+        <div>
+          <h3>Colour</h3>
+          <p class="fine">Photographs show the Carbon-Teal Works finish.</p>
+          <div class="swatches"><button type="button" class="swatch" data-i="0" aria-pressed="true"><span class="chip" style="background:linear-gradient(90deg,#1f2528 0 55%,#2b8f98 55% 100%)"></span><span class="swatch-name">Carbon-Teal Works</span><span class="swatch-price">Included</span></button><button type="button" class="swatch" data-i="1" aria-pressed="false"><span class="chip" style="background:linear-gradient(90deg,#17181a 0 70%,#b88a2c 70% 100%)"></span><span class="swatch-name">Blackstorm Metallic</span><span class="swatch-price">+₹8,000 ($83)</span></button><button type="button" class="swatch" data-i="2" aria-pressed="false"><span class="chip" style="background:linear-gradient(90deg,#efefec 0 55%,#1f9fa8 55% 80%,#c8352e 80% 100%)"></span><span class="swatch-name">Light White Motorsport</span><span class="swatch-price">+₹15,000 ($156)</span></button></div>
+          <p class="livery-desc" data-livery><strong>Carbon-Teal Works:</strong> Exposed carbon-weave fairing with DualForce teal aero winglets and a bronze-tinted stator inspection window.</p>
+        </div>
+        <div>
+          <h3>Ride mode</h3>
+          <p class="fine">How the 648 cc inline-2 delivers power in each mode.</p>
+          <div class="tabs" role="tablist"><button type="button" class="tab" role="tab" data-mode="0" aria-selected="false">Pure EV</button><button type="button" class="tab" role="tab" data-mode="1" aria-selected="false">Pure ICE</button><button type="button" class="tab" role="tab" data-mode="2" aria-selected="true">50:50 Race Pro</button></div>
+          <p class="readout-hp" data-mode-hp>78.5 bhp (58.5 kW)</p>
+          <p class="readout-tq" data-mode-tq>98.0 Nm · 0–100 in 3.5s · 215 km/h Track Max</p>
+          <div class="bar"><i data-mode-bar style="width:100%"></i></div>
+          <p class="readout-note" data-mode-note><strong>50:50 DualForce Race Pro:</strong> Simultaneous 14,500 RPM spark ignition + 60V H-Bridge stator boost. Delivers 7,360 N combined twin-piston Lorentz thrust and 380+ km range (47.6 km/L).</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="sec-head"><h2>Vector-RR variants</h2></div>
+        <div class="variants"><div class="variant"><p class="variant-flag"></p><h3>Standard</h3><p class="variant-price">₹4,45,000*</p><p class="variant-usd">$4,635 USD</p><p class="variant-intro"></p><ul><li>648 cc inline-2 monobloc hybrid engine (78.5 bhp / 98 Nm)</li><li>3.80 kWh silicon-carbon battery (146 km pure EV range)</li><li>3 core ride modes: Pure EV, Pure ICE, 50:50 Hybrid</li><li>6.5" full-colour TFT with Pure Ride and Core screens</li><li>43 mm USD forks, dual 320 mm radial calipers and 8.5 kW regen</li></ul><button type="button" class="btn btn-line btn-block" data-ride="DF 650 Vector-RR Standard (₹4.45L)">Enquire about Standard</button></div><div class="variant is-popular"><p class="variant-flag">Most popular</p><h3>Dynamics Pro</h3><p class="variant-price">₹4,85,000*</p><p class="variant-usd">$5,052 USD</p><p class="variant-intro">Everything in Standard, plus:</p><ul><li>Shift Assistant Pro (bi-directional clutchless quickshifter)</li><li>6-axis IMU with Cornering ABS Pro and Brake Slide Assist</li><li>DTC slip/slide control, launch control and pit-lane limiter</li><li>58° quick-action throttle (−14° stroke) and heated grips</li></ul><button type="button" class="btn btn-solid btn-block" data-ride="DF 650 Vector-RR Dynamics Pro (₹4.85L)">Enquire about Dynamics Pro</button></div><div class="variant"><p class="variant-flag"></p><h3>Club Works</h3><p class="variant-price">₹5,35,000*</p><p class="variant-usd">$5,573 USD</p><p class="variant-intro">Everything in Dynamics Pro, plus:</p><ul><li>Carbon-matrix wheels and front mudguard brake ducts</li><li>Titanium slip-on silencer and low-friction endurance chain</li><li>Carbon tail hump with action-cam and GPS lap logger mount</li><li>One year of DualForce Factory Racing Club track membership</li></ul><button type="button" class="btn btn-line btn-block" data-ride="DF 650 Vector-RR Club Works (₹5.35L)">Enquire about Club Works</button></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="model-350cafe" data-model="350" aria-labelledby="t350">
+  <div class="model-hero">
+    <div class="hero-head">
+      <div>
+        <p class="hero-type">Café roadster · 348 cc inline-2 hybrid</p>
+        <h2 class="hero-title" id="t350">DualForce 350 Twin Cafe</h2>
+        <p class="hero-sub">A compact café roadster with a 348 cc inline-2 hybrid engine, brushed aluminium radiator shrouds and a 2.6 kWh battery in the belly pan. It makes 46.5 bhp and 58 Nm and weighs 162 kg wet.</p>
+      </div>
+      <div class="hero-buy">
+        <p class="price-label">Ex-showroom price from</p>
+        <p class="price" data-price>₹2,69,000*</p>
+        <p class="price-usd" data-usd>$2,802 USD · Standard variant</p>
+        <div class="buy-actions">
+          <button type="button" class="btn btn-light" data-ride="DualForce 350 Twin Cafe">Book a test ride</button>
+          <a class="btn btn-line-light" href="#section-techdata">Specifications</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-img"><img src="retro_inline2.jpg" alt="DualForce 350 Twin Cafe roadster in brushed aluminium, side view" width="1376" height="768" fetchpriority="auto"></div>
+    <div class="specstrip"><div class="specstrip-grid"><div class="spec"><div class="spec-val">46.5 bhp</div><div class="spec-label">Peak hybrid output</div><div class="spec-sub">34.7 kW in 50:50 hybrid mode</div></div><div class="spec"><div class="spec-val">58.0 Nm</div><div class="spec-label">Combined peak torque</div><div class="spec-sub">32.0 Nm electric at 0 rpm</div></div><div class="spec"><div class="spec-val">348 cc</div><div class="spec-label">Inline-2 hybrid engine</div><div class="spec-sub">62.0 × 57.6 mm · 270° crank</div></div><div class="spec"><div class="spec-val">4.6 s</div><div class="spec-label">0–100 km/h</div><div class="spec-sub">Top speed 168 km/h</div></div><div class="spec"><div class="spec-val">138 km</div><div class="spec-label">Pure EV range</div><div class="spec-sub">410+ km combined · 2.6 kWh</div></div></div></div>
+  </div>
+
+  <div class="model-body">
+    <div class="wrap">
+      <div class="block">
+        <div class="sec-head"><h2>Explore the Twin Cafe</h2><p class="lead">Select a numbered point on the bike to see how the radiator shrouds, engine and belly-pan battery fill the frame.</p></div>
+        <div class="hotspots">
+          <div class="hs-stage"><div class="hs-canvas"><img src="retro_inline2.jpg" alt="DualForce 350 Twin Cafe roadster in brushed aluminium, side view, with numbered feature points" loading="lazy" width="1376" height="768"><button type="button" class="hs-pin" style="left:61%;top:52%" data-i="0" aria-label="Point 1: Alloy radiator shrouds" aria-pressed="true">1</button><button type="button" class="hs-pin" style="left:46%;top:60%" data-i="1" aria-label="Point 2: 348 cc inline-2 engine" aria-pressed="false">2</button><button type="button" class="hs-pin" style="left:54%;top:43%" data-i="2" aria-label="Point 3: 178 g ceramic piston" aria-pressed="false">3</button><button type="button" class="hs-pin" style="left:50%;top:77%" data-i="3" aria-label="Point 4: 2.6 kWh belly-pan battery" aria-pressed="false">4</button><button type="button" class="hs-pin" style="left:71%;top:29%" data-i="4" aria-label="Point 5: Matrix-LED headlight" aria-pressed="false">5</button><button type="button" class="hs-pin" style="left:51%;top:27%" data-i="5" aria-label="Point 6: Tank and seat" aria-pressed="false">6</button></div></div>
+          <div class="hs-panel">
+            <div class="hs-info">
+              <p class="hs-kicker" data-hs="kicker">1 of 6 · Zero-gap packaging</p>
+              <h3 class="hs-title" data-hs="title">Brushed CNC Aluminum Radiator Shrouds</h3>
+              <p class="hs-body" data-hs="body">Eliminates the hollow front-triangle gap found on conventional retro bikes. Laser-brushed alloy shrouds bridge the fuel tank directly to the upright Inline-2 cylinder head while directing high-velocity air into the MIDEL 7131 dielectric cooler.</p>
+              <dl class="hs-figure"><dt>Key figures</dt><dd data-hs="metric">100% Visual Density · 10 L/min Dielectric Flow</dd></dl>
+            </div>
+            <ul class="hs-list"><li><button type="button" data-i="0" aria-current="true"><b>1</b><span>Alloy radiator shrouds</span></button></li><li><button type="button" data-i="1" aria-current="false"><b>2</b><span>348 cc inline-2 engine</span></button></li><li><button type="button" data-i="2" aria-current="false"><b>3</b><span>178 g ceramic piston</span></button></li><li><button type="button" data-i="3" aria-current="false"><b>4</b><span>2.6 kWh belly-pan battery</span></button></li><li><button type="button" data-i="4" aria-current="false"><b>5</b><span>Matrix-LED headlight</span></button></li><li><button type="button" data-i="5" aria-current="false"><b>6</b><span>Tank and seat</span></button></li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="block configure" style="padding-top:0">
+        <div>
+          <h3>Colour</h3>
+          <p class="fine">Photographs show the Brushed Alloy & Teal finish.</p>
+          <div class="swatches"><button type="button" class="swatch" data-i="0" aria-pressed="true"><span class="chip" style="background:linear-gradient(90deg,#aeb2b6 0 60%,#2a2f33 60% 85%,#2b8f98 85% 100%)"></span><span class="swatch-name">Brushed Alloy &amp; Teal</span><span class="swatch-price">Included</span></button><button type="button" class="swatch" data-i="1" aria-pressed="false"><span class="chip" style="background:linear-gradient(90deg,#15161a 0 65%,#9c5b2a 65% 100%)"></span><span class="swatch-name">Obsidian Copper</span><span class="swatch-price">+₹6,000 ($62)</span></button><button type="button" class="swatch" data-i="2" aria-pressed="false"><span class="chip" style="background:linear-gradient(90deg,#14402f 0 70%,#b8913b 70% 100%)"></span><span class="swatch-name">Heritage Racing Green</span><span class="swatch-price">+₹10,000 ($104)</span></button></div>
+          <p class="livery-desc" data-livery><strong>Brushed Alloy & Teal:</strong> Hand-finished CNC aluminium radiator shrouds and knee-recess tank panels against a matte gunmetal trellis frame, with exposed copper stator coils.</p>
+        </div>
+        <div>
+          <h3>Ride mode</h3>
+          <p class="fine">Switch between silent commuting and 46.5 bhp weekend riding.</p>
+          <div class="tabs" role="tablist"><button type="button" class="tab" role="tab" data-mode="0" aria-selected="false">Pure EV</button><button type="button" class="tab" role="tab" data-mode="1" aria-selected="false">Pure ICE</button><button type="button" class="tab" role="tab" data-mode="2" aria-selected="true">50:50 Hybrid</button></div>
+          <p class="readout-hp" data-mode-hp>46.5 bhp (34.7 kW)</p>
+          <p class="readout-tq" data-mode-tq>58.0 Nm · 0–100 in 4.6s · 168 km/h Top Speed</p>
+          <div class="bar"><i data-mode-bar style="width:100%"></i></div>
+          <p class="readout-note" data-mode-note><strong>50:50 DualForce Hybrid:</strong> 348cc Inline-2 combustion + EM stator coils fire together for 3,960 N twin-piston thrust, 62.0 km/L blended economy, and 410+ km total range.</p>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="sec-head"><h2>Twin Cafe variants</h2></div>
+        <div class="variants"><div class="variant"><p class="variant-flag"></p><h3>Standard</h3><p class="variant-price">₹2,69,000*</p><p class="variant-usd">$2,802 USD</p><p class="variant-intro"></p><ul><li>348 cc inline-2 monobloc hybrid engine (46.5 bhp / 58 Nm)</li><li>2.60 kWh silicon-carbon battery (138 km pure EV city range)</li><li>Under 350 cc: 18% GST band and a lower insurance slab</li><li>Round matrix-LED headlight and brushed aluminium shrouds</li><li>41 mm USD forks, 300 mm radial disc and dual-channel ABS</li></ul><button type="button" class="btn btn-line btn-block" data-ride="DF 350 Twin Cafe Standard (₹2.69L)">Enquire about Standard</button></div><div class="variant"><p class="variant-flag">Best value</p><h3>Dynamics Pro</h3><p class="variant-price">₹2,94,000*</p><p class="variant-usd">$3,062 USD</p><p class="variant-intro">Everything in Standard, plus:</p><ul><li>Shift Assistant Pro (bi-directional quickshifter)</li><li>Cornering ABS Pro and dynamic regen engine-brake control</li><li>Electronic cruise control and turn-by-turn navigation on the TFT</li><li>USB-C fast-charge port and heated café grips</li></ul><button type="button" class="btn btn-line btn-block" data-ride="DF 350 Twin Cafe Dynamics Pro (₹2.94L)">Enquire about Dynamics Pro</button></div><div class="variant"><p class="variant-flag"></p><h3>Billet Edition</h3><p class="variant-price">₹3,24,000*</p><p class="variant-usd">$3,375 USD</p><p class="variant-intro">Everything in Dynamics Pro, plus:</p><ul><li>CNC-milled anodised billet levers, lever guard and rearsets</li><li>Removable café tail-hump cowl and bar-end CNC mirrors</li><li>Brushed titanium twin-exit silencer (−2.8 kg)</li><li>Complimentary Factory Racing Club weekend track pass</li></ul><button type="button" class="btn btn-line btn-block" data-ride="DF 350 Twin Cafe Billet Edition (₹3.24L)">Enquire about Billet Edition</button></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="section" id="section-images" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Gallery</h2>
+      <p class="lead">Studio profiles, the cockpit on track and a cutaway of the shared inline-2 engine. Select an image to enlarge it.</p>
+    </div>
+    <div class="gallery">
+      <figure>
+        <button type="button" data-zoom data-src="supersport_650.jpg" data-title="DualForce 650 Vector-RR" data-sub="648 cc inline-2 hybrid · 78.5 bhp and 98.0 Nm · from ₹4,45,000"><img src="supersport_650.jpg" alt="DualForce 650 Vector-RR" loading="lazy" width="1376" height="768"></button>
+        <figcaption><strong>DualForce 650 Vector-RR</strong><span>Carbon-teal winglets, exposed trellis frame and copper stator window.</span></figcaption>
+      </figure>
+      <figure>
+        <button type="button" data-zoom data-src="tft_cockpit.jpg" data-title="6.5-inch TFT on track" data-sub="50:50 hybrid mode, 78.5 BHP, 114°C stator temperature, 48° lean angle and battery charge"><img src="tft_cockpit.jpg" alt="Rider's view of the 6.5-inch TFT on a race circuit" loading="lazy" width="1376" height="768"></button>
+        <figcaption><strong>6.5-inch TFT on track</strong><span>Live power, stator temperature, lean angle and battery charge.</span></figcaption>
+      </figure>
+      <figure>
+        <button type="button" data-zoom data-src="retro_inline2.jpg" data-title="DualForce 350 Twin Cafe" data-sub="Brushed aluminium radiator shrouds · 348 cc inline-2 · from ₹2,69,000"><img src="retro_inline2.jpg" alt="DualForce 350 Twin Cafe" loading="lazy" width="1376" height="768"></button>
+        <figcaption><strong>DualForce 350 Twin Cafe</strong><span>Brushed aluminium shrouds around a compact 348 cc inline-2.</span></figcaption>
+      </figure>
+      <figure>
+        <button type="button" data-zoom data-src="engine_cutaway.jpg" data-title="Inline-2 hybrid engine cutaway" data-sub="0.4 mm YSZ ceramic piston crowns, laminated skirt teeth, copper stator coils and dielectric cooling channels"><img src="engine_cutaway.jpg" alt="Cutaway illustration of the inline-2 hybrid engine" loading="lazy" width="1376" height="768"></button>
+        <figcaption><strong>Inline-2 hybrid engine cutaway</strong><span>Ceramic crowns, laminated skirts, copper stator coils and dielectric cooling.</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- Technology -->
+<section class="section dark-section" id="section-tft">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Instruments and engine</h2>
+      <p class="lead">The 6.5-inch TFT shows the last screen you used when you switch on. Select a screen to see what each one displays.</p>
+    </div>
+    <div class="tech">
+      <div>
+        <div class="tft">
+          <div class="tft-screen" aria-live="polite">
+            <div class="tft-top">
+              <strong id="tftMode">CORE 3: DUALFORCE 50:50 PRO</strong>
+              <span>Stator <strong id="tftTemp">114°C</strong></span>
+              <span>Battery <strong id="tftSoc">88%</strong></span>
+            </div>
+            <div class="tft-rpm is-hot" id="tftRpm"><i style="width:88%"></i></div>
+            <div class="tft-main">
+              <div><div class="tft-lbl">Gear</div><div class="tft-big tft-gear" id="tftGear">4</div></div>
+              <div><div class="tft-lbl">Speed</div><div class="tft-big tft-speed" id="tftSpeed">184<small>km/h</small></div><div class="tft-power" id="tftPower">78.5 BHP · 98.0 Nm</div></div>
+              <div><div class="tft-lbl">Lean angle</div><div class="tft-big tft-lean" id="tftLean">48° L</div><div class="tft-note" id="tftAssist">DTC + SLIDE PRO</div></div>
+            </div>
+            <div class="tft-foot">
+              <div>Stator force<strong id="tftForce">7,360 N</strong></div>
+              <div>Coolant<strong>16 L/min</strong></div>
+              <div>Lap<strong id="tftLap">01:42.18</strong></div>
+              <div>Range<strong id="tftRange">380 km</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="tabs tft-tabs" role="tablist"><button type="button" class="tab" role="tab" data-tft="0" aria-selected="false">Pure ride</button><button type="button" class="tab" role="tab" data-tft="1" aria-selected="false">Core 1: EV silent</button><button type="button" class="tab" role="tab" data-tft="2" aria-selected="false">Core 2: ICE purist</button><button type="button" class="tab" role="tab" data-tft="3" aria-selected="true">Core 3: 50:50 race pro</button></div>
+      </div>
+
+      <div class="tech-text">
+        <h3 style="font-size:1.9rem;margin-bottom:16px">One engine architecture, two displacements</h3>
+        <p>Instead of two separate cylinder castings and two cam chains, both engines use a single monobloc inline-2 block, which cuts CNC machining time by 38%. The 348 cc and 648 cc versions share a 270° crossplane crankshaft that gives the exhaust note of a 90° V-twin in a package that sits neatly across the frame.</p>
+        <p>Each piston has a 0.4 mm yttria-stabilised zirconia (YSZ) ceramic crown that keeps combustion heat away from the M250-35A laminated silicon-steel skirt. MIDEL 7131 synthetic dielectric ester flows through vertical cooling bores to hold the stator coils at 108–114°C.</p>
+        <div class="engine-pair">
+          <div><div class="k">350 Twin Cafe</div><div class="v">62.0 × 57.6 mm × 2</div><div class="s">16 cooling bores · 178 g piston</div></div>
+          <div><div class="k">650 Vector-RR</div><div class="v">78.0 × 67.8 mm × 2</div><div class="s">24 cooling bores · 268 g piston</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Packages -->
+<section class="section" id="section-packages">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Packages and accessories</h2>
+      <p class="lead">Factory-engineered equipment for the 350 Twin Cafe and 650 Vector-RR.</p>
+    </div>
+    <div class="pkg-grid">
+      <div class="pkg"><h3>Club Works package</h3><p>Carbon-matrix wheels (−1.8 kg unsprung mass), high-grip endurance seat, six-way adjustable CNC rearsets, GPS lap trigger and one year of DualForce Racing Club track entry.</p></div>
+      <div class="pkg"><h3>Dynamics Pro assist</h3><p>Unlocks Race Pro 1–3 custom hybrid maps, 6-axis Cornering ABS Pro, Brake Slide Assist, DTC slip/slide control, launch control, pit-lane limiter and heated grips.</p></div>
+      <div class="pkg"><h3>Titanium acoustic pack</h3><p>Brushed titanium slip-on silencer tuned for the 270° inline-2 firing order (−2.8 kg), paired with a low-friction endurance drive chain.</p></div>
+      <div class="pkg"><h3>Anodised billet pack</h3><p>CNC-milled aluminium folding clutch and brake levers, track brake-lever guard, bronze stator inspection cover and dielectric cooler stone guard.</p></div>
+    </div>
+    <div class="notice">
+      <div>
+        <h3>Warranty</h3>
+        <p>Every DualForce motorcycle includes a 3-year, unlimited-kilometre vehicle warranty and a 5-year / 80,000 km warranty on the high-voltage stator and silicon-carbon battery.</p>
+      </div>
+      <button type="button" class="btn btn-solid" data-ride="Warranty and factory allocation enquiry">Request early allocation</button>
+    </div>
+  </div>
+</section>
+
+<!-- Specifications -->
+<section class="section" id="section-techdata" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Specifications</h2>
+      <p class="lead">Compare the 350 Twin Cafe and 650 Vector-RR. Filter by power output, engine, battery and cooling, or chassis.</p>
+    </div>
+    <div class="tabs tabs-spec" role="tablist">
+      <button type="button" class="tab" role="tab" data-spec="all" aria-selected="true">All</button>
+      <button type="button" class="tab" role="tab" data-spec="power" aria-selected="false">Power output</button>
+      <button type="button" class="tab" role="tab" data-spec="engine" aria-selected="false">Engine and stator</button>
+      <button type="button" class="tab" role="tab" data-spec="thermal" aria-selected="false">Battery and cooling</button>
+      <button type="button" class="tab" role="tab" data-spec="chassis" aria-selected="false">Chassis and dimensions</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data" id="specTable">
+        <thead><tr><th scope="col"><span class="sr-only">Parameter</span></th><th scope="col">350 Twin Cafe</th><th scope="col">650 Vector-RR</th></tr></thead>
+        <tbody><tr data-cat="power"><td>Mode 1: Pure EV City Output</td><td>18.0 – 24.0 bhp (13.4–17.9 kW) · 32.0 Nm @ 0 RPM</td><td>24.1 – 33.5 bhp (18.0–25.0 kW) · 46.0 Nm @ 0 RPM</td></tr><tr data-cat="power"><td>Mode 1: Pure EV Range & Top Speed</td><td>138 km Real-World City Range · 105 km/h EV Top Speed</td><td>146 km Real-World City Range · 125 km/h EV Top Speed</td></tr><tr data-cat="power"><td>Mode 2: Pure ICE Highway Output</td><td>28.5 bhp (21.2 kW) @ 8,500 RPM · 29.5 Nm</td><td>52.0 bhp (38.8 kW) @ 9,000 RPM · 56.0 Nm</td></tr><tr data-cat="power"><td>Mode 3: 50:50 DualForce Hybrid Peak</td><td>46.5 bhp (34.7 kW) · 58.0 Nm Combined Torque</td><td>78.5 bhp (58.5 kW) · 98.0 Nm Combined Torque</td></tr><tr data-cat="power"><td>0–100 km/h & Max Track Speed</td><td>4.6 seconds · 168 km/h Top Speed</td><td>3.5 seconds · 215 km/h Top Speed</td></tr><tr data-cat="power"><td>Blended Fuel Efficiency & Total Range</td><td>62.0 km/L Effective · 410+ km Combined Range</td><td>47.6 km/L Effective · 380+ km Combined Range</td></tr><tr data-cat="engine"><td>Engine Configuration & Crank</td><td>348 cc Liquid/Dielectric-Cooled Inline-2 · 270° Crossplane</td><td>648 cc Liquid/Dielectric-Cooled Inline-2 · 270° Crossplane</td></tr><tr data-cat="engine"><td>Bore × Stroke & Compression</td><td>62.0 mm × 57.6 mm (×2) · 11.2 : 1 Compression</td><td>78.0 mm × 67.8 mm (×2) · 11.8 : 1 Compression</td></tr><tr data-cat="engine"><td>EM Stator Force & Winding Spec</td><td>1,980 N/piston (3,960 N Total) · 360-Turn Class-220 Copper</td><td>3,680 N/piston (7,360 N Total) · 480-Turn Class-220 Copper</td></tr><tr data-cat="engine"><td>Ghost-Weight Hybrid Piston Mass</td><td>178 g (Ø61.94 × 44.0 mm) · 0.4mm YSZ Ceramic Crown</td><td>268 g (Ø77.94 × 52.0 mm) · 0.4mm YSZ Ceramic Crown</td></tr><tr data-cat="engine"><td>Gearbox & Clutch</td><td>6-Speed Claw-Shifted · Assist & Slipper Clutch</td><td>6-Speed Close-Ratio · Slipper Clutch + Shift Assistant Pro</td></tr><tr data-cat="thermal"><td>Battery Chemistry & Capacity</td><td>60V 2.60 kWh Silicon-Carbon Pack (350 Wh/kg · 11.2 kg)</td><td>60V 3.80 kWh Silicon-Carbon Pack (350 Wh/kg · 15.8 kg)</td></tr><tr data-cat="thermal"><td>Dielectric Cooling Architecture</td><td>4.60 kW Load · 16 Vertical Bores (Ø4.5 mm) · 10 L/min MIDEL 7131</td><td>8.20 kW Load · 24 Vertical Bores (Ø5.0 mm) · 16 L/min MIDEL 7131</td></tr><tr data-cat="thermal"><td>Continuous Stator Coil Temp</td><td>108°C Steady-State (112°C below 220°C insulation limit)</td><td>114°C Steady-State (106°C below 220°C insulation limit)</td></tr><tr data-cat="chassis"><td>Frame & Front/Rear Suspension</td><td>Tubular Steel Trellis · 41mm USD Forks / Preload Monoshock</td><td>High-Tensile Trellis · 43mm Fully Adjustable USD / Linkage Pro</td></tr><tr data-cat="chassis"><td>Brakes & Regenerative Recovery</td><td>Single 300mm Radial 4-Piston + 5.5 kW Regen (89% Eff.)</td><td>Dual 320mm Radial 4-Piston + M-Ducts + 8.5 kW Regen (89% Eff.)</td></tr><tr data-cat="chassis"><td>Wheels & Tyres</td><td>17" Cast Alloy · 110/70 R17 Front & 150/60 R17 Rear</td><td>17" Forged/Carbon · 120/70 ZR17 Front & 180/55 ZR17 Rear</td></tr><tr data-cat="chassis"><td>Seat Height, Tank & Wet Weight</td><td>795 mm Seat · 13.5 L Tank · 162 kg Wet Weight</td><td>815 mm Seat · 14.5 L Tank · 174 kg Wet Weight</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section" id="section-pricing" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Pricing and finance</h2>
+      <p class="lead">Ex-showroom prices for all six variants, and an EMI estimate for the one you choose.</p>
+    </div>
+    <div class="pricing">
+      <div class="calc">
+        <h3>Estimate your monthly payment</h3>
+        <div class="field">
+          <label for="emiVariant"><span>Model and variant</span><span id="emiPrice">₹2,69,000</span></label>
+          <select id="emiVariant">
+            <option value="269000">DF 350 Twin Cafe Standard (₹2,69,000)</option>
+            <option value="294000">DF 350 Twin Cafe Dynamics Pro (₹2,94,000)</option>
+            <option value="324000">DF 350 Twin Cafe Billet Edition (₹3,24,000)</option>
+            <option value="445000">DF 650 Vector-RR Standard (₹4,45,000)</option>
+            <option value="485000">DF 650 Vector-RR Dynamics Pro (₹4,85,000)</option>
+            <option value="535000">DF 650 Vector-RR Club Works (₹5,35,000)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="emiDown"><span>Down payment</span><span id="emiDownLbl"></span></label>
+          <input type="range" id="emiDown" min="25000" max="250000" step="5000" value="50000">
+        </div>
+        <div class="field">
+          <label for="emiMonths"><span>Loan tenure</span><span id="emiMonthsLbl"></span></label>
+          <input type="range" id="emiMonths" min="12" max="60" step="12" value="48">
+        </div>
+        <div class="field">
+          <label for="emiRate"><span>Annual interest rate</span><span id="emiRateLbl"></span></label>
+          <input type="range" id="emiRate" min="7.5" max="12.5" step="0.5" value="8.5">
+        </div>
+        <div class="emi-out">
+          <div>
+            <div class="fine">Estimated monthly EMI</div>
+            <div class="emi-amt" id="emiOut"></div>
+            <div class="emi-sub" id="emiSub"></div>
+          </div>
+          <button type="button" class="btn btn-solid" data-ride="Finance and EMI pre-approval">Apply for finance</button>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="margin-bottom:14px">Ex-showroom price list</h3>
+        <div class="table-wrap">
+          <table class="data price-table" style="min-width:0">
+            <thead><tr><th scope="col">Variant</th><th scope="col" class="num">Price</th><th scope="col" class="num">US$</th></tr></thead>
+            <tbody>
+              <tr class="group"><td colspan="3">350 Twin Cafe</td></tr>
+              <tr><td>Standard</td><td class="num">₹2,69,000*</td><td class="usd">$2,802</td></tr>
+              <tr><td>Dynamics Pro</td><td class="num">₹2,94,000*</td><td class="usd">$3,062</td></tr>
+              <tr><td>Billet Edition</td><td class="num">₹3,24,000*</td><td class="usd">$3,375</td></tr>
+              <tr class="group"><td colspan="3">650 Vector-RR</td></tr>
+              <tr><td>Standard</td><td class="num">₹4,45,000*</td><td class="usd">$4,635</td></tr>
+              <tr><td>Dynamics Pro</td><td class="num">₹4,85,000*</td><td class="usd">$5,052</td></tr>
+              <tr><td>Club Works</td><td class="num">₹5,35,000*</td><td class="usd">$5,573</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fine price-note">*Ex-showroom prices in INR. US dollar figures use US$1 = ₹96. EMI is an estimate; actual rates and tenure depend on the lender.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="section-faq" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Frequently asked questions</h2>
+      <p class="lead">Common questions from riders, track-day regulars and investors.</p>
+    </div>
+    <div class="faq"><details open><summary>Why is the Cafe Roadster 348cc (under 350cc) while the Supersport is 648cc?</summary><div class="a">In India, motorcycles up to 350 cc attract 18% GST, while those above 350 cc attract 40% (the compensation cess was abolished in September 2025). Insurance premiums are also set by engine-capacity band. At <strong>348 cc</strong> (62.0 × 57.6 mm × 2), the <strong>DualForce 350 Twin Cafe</strong> is a genuine twin-cylinder bike with <strong>46.5 bhp and 58.0 Nm</strong> in 50:50 hybrid mode, and it sits in the lower tax band at <strong>₹2.69 lakh</strong>. The <strong>648 cc Vector-RR (78.5 bhp / 98 Nm)</strong> is aimed at track riders at <strong>₹4.45 lakh</strong>.</div></details><details><summary>How does the motorcycle achieve 138–146 km in Pure EV mode without a massive, heavy battery?</summary><div class="a">We use high-density <strong>Silicon-Carbon (Si-C) pouch cells (350 Wh/kg)</strong> packaged inside the structural bellypan (2.60 kWh on the 350 Cafe weighing just 11.2 kg; 3.80 kWh on the 650 Vector-RR weighing 15.8 kg). In Pure EV urban mode, fuel injectors and valves deactivate to eliminate pumping losses, and 89%-efficient electromagnetic regenerative braking recovers kinetic energy at every traffic stop.</div></details><details><summary>Will the 2,500°C combustion heat damage the electromagnetic stator coils?</summary><div class="a">No. We eliminated fragile permanent magnets (which demagnetize above 150°C) from the piston and replaced them with a <strong>laminated M250-35A silicon-steel variable-reluctance skirt</strong> shielded by a <strong>0.4mm YSZ white ceramic crown</strong>. Combined with 16 to 24 vertical cooling bores flushing <strong>MIDEL 7131 synthetic dielectric ester</strong> directly around the Class-220 copper coils, continuous stator temperature stays locked at 108°C–114°C.</div></details><details><summary>Do I need an external charging station, or can the engine charge the battery while riding?</summary><div class="a">You can do both! Plug into any standard 15A home socket (0–80% in 55 minutes) for ₹0-fuel daily Pure EV commuting, OR ride in Pure ICE / 50:50 Hybrid mode where downward combustion strokes and regenerative corner braking automatically recharge the Silicon-Carbon battery on the move.</div></details><details><summary>What is the DualForce Factory Racing Club and how do owners join?</summary><div class="a">Instead of spending crores on traditional billboards, DualForce operates the <strong>Factory Racing Club</strong>—hosting monthly championship track days where owners race alongside factory engineers. Selecting the <strong>Club Works / Billet Edition</strong> includes complimentary track membership, pit-lane telemetry support, and priority access to factory upgrades.</div></details></div>
+  </div>
+</section>
+
+<!-- Investor information -->
+<section class="section investor" id="section-investors">
+  <div class="wrap">
+    <h2>Factory cost and margin</h2>
+    <p class="lead">For investors. DualForce builds only the patented inline-2 hybrid engine and ECU in-house, on refurbished 5-axis CNC machines (₹4.80 crore capex), and sources the frame, body and battery through competitive Tier-1 tenders. US$1 = ₹96.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th scope="col">Subsystem</th><th scope="col">350 Twin Cafe</th><th scope="col">650 Vector-RR</th></tr></thead>
+        <tbody>
+          <tr><td>In-house: inline-2 engine and ECU</td><td>₹41,280 ($430)</td><td>₹58,080 ($605)</td></tr>
+          <tr><td>Tender 1: 60V silicon-carbon battery pack</td><td>₹23,040 ($240)</td><td>₹33,600 ($350)</td></tr>
+          <tr><td>Tender 2: frame, USD forks and brakes</td><td>₹42,240 ($440)</td><td>₹58,080 ($605)</td></tr>
+          <tr><td>Tender 3: bodywork, TFT and final QC</td><td>₹32,640 ($340)</td><td>₹45,600 ($475)</td></tr>
+          <tr class="total"><td>Total factory cost</td><td>₹1,39,200 ($1,450)</td><td>₹1,95,360 ($2,035)</td></tr>
+          <tr><td>Base ex-showroom price</td><td>₹2,69,000 ($2,802)</td><td>₹4,45,000 ($4,635)</td></tr>
+          <tr class="total"><td>Gross profit and margin</td><td>₹1,29,800 (48.3%)</td><td>₹2,49,640 (56.1%)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-cta">
+    <div>
+      <h2>Book a test ride</h2>
+      <p>Street rides cover Pure EV and 50:50 hybrid modes. Track days are run by the DualForce Factory Racing Club.</p>
+    </div>
+    <button type="button" class="btn btn-light" data-ride="Full lineup test ride">Book a test ride</button>
+  </div>
+  <div class="footer-main">
+    <div>
+      <h3>Models</h3>
+      <ul><li><a href="#model-650rr">650 Vector-RR</a></li><li><a href="#model-350cafe">350 Twin Cafe</a></li></ul>
+    </div>
+    <div>
+      <h3>Explore</h3>
+      <ul><li><a href="#section-images">Gallery</a></li><li><a href="#section-packages">Packages and accessories</a></li><li><a href="#section-techdata">Specifications</a></li><li><a href="#section-pricing">Pricing and finance</a></li><li><a href="#section-faq">FAQ</a></li></ul>
+    </div>
+    <div>
+      <h3>Company</h3>
+      <ul><li><a href="index.html">Investor pitch</a></li><li><a href="engine.html">Powertrain R&amp;D &amp; Q&amp;A</a></li><li><a href="#section-investors">Factory cost and margin</a></li></ul>
+    </div>
+  </div>
+  <p class="legal">© 2026 DualForce Motorrad. Prices are indicative ex-showroom figures in INR and exclude registration, insurance and accessories. Specifications and equipment may change without notice.</p>
+</footer>
+
+<dialog id="testRide" aria-labelledby="trTitle">
+  <button type="button" class="dlg-close" aria-label="Close">✕</button>
+  <h2 id="trTitle">Book a test ride</h2>
+  <p class="picked">Selected: <strong id="trModel">DualForce 650 Vector-RR</strong></p>
+  <form id="trForm">
+    <div class="form-row"><label for="trName">Full name</label><input type="text" id="trName" required autocomplete="name"></div>
+    <div class="form-row"><label for="trContact">Phone or WhatsApp, and city</label><input type="text" id="trContact" required placeholder="+91 98765 43210, Chennai"></div>
+    <div class="form-row"><label for="trType">Preferred experience</label>
+      <select id="trType">
+        <option>Street test ride: Pure EV and 50:50 hybrid demo</option>
+        <option>Factory Racing Club track day (650 Vector-RR)</option>
+        <option>Investor or partnership enquiry</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-solid btn-block">Confirm priority slot</button>
+  </form>
+  <p id="trSuccess" role="status" hidden>Your request is registered. Our team will contact you within 24 hours.</p>
+</dialog>
+
+<dialog id="lightbox" aria-label="Image preview">
+  <button type="button" class="dlg-close" aria-label="Close">✕</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-cap">
+    <div><strong id="lbTitle"></strong><span id="lbSub"></span></div>
+    <button type="button" class="btn btn-light btn-sm" id="lbRide">Book a test ride</button>
+  </div>
+</dialog>
+
+<script>
+const DATA = {"650": {"hotspots": [{"kicker": "1 of 7 · Aerodynamics", "title": "Shark-Gill Fairing & Carbon-Teal Bi-Plane Winglets", "body": "Redesigned front and side trim panels with characteristic shark gills reduce helmet turbulence while generating up to +18.4 kg of front-wheel downforce at 200+ km/h. This counteracts front-wheel lift under 98 Nm hybrid acceleration so traction control never has to cut power on corner exit.", "metric": "+18.4 kg Downforce · -14° Quick-Action Throttle Path"}, {"kicker": "2 of 7 · Monobloc hybrid heart", "title": "648cc Inline-2 Monobloc Stator Engine", "body": "Single-casting aluminum-silicon block housing two 78.0 × 67.8 mm cylinders with a 270° crossplane crank and 480-turn Class-220 copper stator windings. Eliminates V-Twin duplicate castings to cut machining cost by 38%.", "metric": "7,360 N Total Twin Lorentz Force · ₹58,080 ($605) In-House Cost"}, {"kicker": "3 of 7 · Thermal barrier piston", "title": "268g \"Ghost-Weight\" Hybrid Piston", "body": "Features a 0.4mm plasma-sprayed YSZ white ceramic crown (blocking 2,500°C combustion flash heat) and a 0.35mm M250-35A laminated silicon-steel skirt that acts as a high-force linear reluctance translator with zero permanent magnets to demagnetize.", "metric": "268g Total Mass · Curbs Eddy Losses below 130 W"}, {"kicker": "4 of 7 · Energy storage", "title": "3.80 kWh Silicon-Carbon Bellypan Battery Pack", "body": "Mounted at the lowest point of the chassis for optimal roll inertia. Uses 350 Wh/kg Silicon-Carbon anode pouch cells to deliver 146 km of silent Pure EV city range while weighing just 15.8 kg.", "metric": "146 km Pure EV Range · 0–80% Charge in 55 Mins"}, {"kicker": "5 of 7 · Rider electronics", "title": "6.5\" TFT Core Display & Steering Angle Sensor", "body": "Remembers your last active track screen on ignition. Combines a 6-axis IMU with a steering-angle sensor to enable Brake Slide Assist on corner entry and DTC Slip-Slide Control on corner exit.", "metric": "1 Pure Ride + 3 Core Telemetry Screens · <0.5ms ECU Sync"}, {"kicker": "6 of 7 · Braking & energy recovery", "title": "Front Mudguard Brake Ducts + 8.5 kW Regen", "body": "Integrated front mudguard air ducts cool the dual 320mm radial 4-piston calipers on track days, while electromagnetic stator regeneration captures 8.5 kW under braking with 89% recovery efficiency.", "metric": "Dual 320mm Radial Discs + 8.5 kW Stator Regen Braking"}, {"kicker": "7 of 7 · Track ready rear", "title": "Carbon Tail-Hump with Action-Cam & GPS Logger Mount", "body": "Lightweight sporty rear end with a recessed adapter in the carbon tail-hump for mounting an action camera or Factory Racing Club GPS lap timer mouse, plus a quick-release number plate carrier.", "metric": "174 kg Wet Weight · Quick-Release Track Cover Kit"}], "liveries": [{"price": "₹4,45,000*", "usd": "$4,635 USD · Carbon-Teal Works", "desc": "<strong>Carbon-Teal Works:</strong> Exposed carbon-weave fairing with DualForce teal aero winglets and a bronze-tinted stator inspection window."}, {"price": "₹4,53,000*", "usd": "$4,719 USD · Blackstorm Metallic (+₹8,000)", "desc": "<strong>Blackstorm Metallic:</strong> Matte obsidian paint with gold-anodised 43 mm USD fork tubes and dark-smoked aerodynamic winglets."}, {"price": "₹4,60,000*", "usd": "$4,792 USD · Light White Motorsport (+₹15,000)", "desc": "<strong>Light White Motorsport:</strong> White base with teal and red racing graphics, the colours of the DualForce Factory Racing Club."}], "modes": [{"hp": "24.1 – 33.5 bhp (18–25 kW)", "tq": "46.0 Nm @ 0 RPM · 146 km EV Range · 125 km/h", "w": "43%", "note": "<strong>Pure EV Stealth Mode:</strong> Fuel cut-off & valves decompressed. Silent electromagnetic Lorentz drive through the 648cc twin pistons with 146 km city range on the 3.80 kWh Si-C pack."}, {"hp": "52.0 bhp (38.8 kW)", "tq": "56.0 Nm @ 7,200 RPM · 188 km/h Highway", "w": "66%", "note": "<strong>Pure ICE Mechanical Mode:</strong> 648cc 270° crossplane twin runs purely on petrol while downward strokes passively top up the 60V Silicon-Carbon battery."}, {"hp": "78.5 bhp (58.5 kW)", "tq": "98.0 Nm · 0–100 in 3.5s · 215 km/h Track Max", "w": "100%", "note": "<strong>50:50 DualForce Race Pro:</strong> Simultaneous 14,500 RPM spark ignition + 60V H-Bridge stator boost. Delivers 7,360 N combined twin-piston Lorentz thrust and 380+ km range (47.6 km/L)."}]}, "350": {"hotspots": [{"kicker": "1 of 6 · Zero-gap packaging", "title": "Brushed CNC Aluminum Radiator Shrouds", "body": "Eliminates the hollow front-triangle gap found on conventional retro bikes. Laser-brushed alloy shrouds bridge the fuel tank directly to the upright Inline-2 cylinder head while directing high-velocity air into the MIDEL 7131 dielectric cooler.", "metric": "100% Visual Density · 10 L/min Dielectric Flow"}, {"kicker": "2 of 6 · Sub-350cc twin heart", "title": "348cc Upright Inline-2 Monobloc Stator Engine", "body": "Engineered at 62.0 × 57.6 mm (×2) = 348 cc to sit under India’s 350 cc tax threshold (18% GST instead of 40%), with smooth twin-cylinder refinement and exposed copper stator coils.", "metric": "348cc Inline-2 · 3,960 N Total Twin Lorentz Thrust"}, {"kicker": "3 of 6 · Ultra-light reciprocating assembly", "title": "178g Ceramic-Crown Hybrid Piston", "body": "Weighing just 178 grams, the Ø61.94 mm piston pairs a 0.4mm YSZ thermal barrier crown with laminated reluctance skirt teeth, allowing an effortless 10,500 RPM redline with zero vibration.", "metric": "178g Mass · 16 Vertical Dielectric Cooling Bores (Ø4.5mm)"}, {"kicker": "4 of 6 · Structural lower bay", "title": "2.60 kWh Bellypan Battery & Underbelly Cowl", "body": "Tucks the 11.2 kg Silicon-Carbon battery pack and stainless 2-into-1 collector neatly underneath the crankcases, filling out the lower silhouette and providing 138 km of ₹0-fuel Pure EV city commuting.", "metric": "138 km Pure EV City Range · ₹23,040 ($240) Tender Cost"}, {"kicker": "5 of 6 · Neo-retro optics", "title": "Round Matrix-LED Headlight with Cyan DRL Halo", "body": "Combines timeless cafe racer circular proportions with adaptive cornering LED projectors and a signature DualForce cyan daytime running halo.", "metric": "Adaptive Cornering Beam · CNC Aluminum Headlight Brackets"}, {"kicker": "6 of 6 · Rider ergonomics", "title": "Sculpted 13.5L Knee-Recess Tank & Cafe Saddle", "body": "Deep knee cutouts and a 795mm accessible seat height give riders commanding urban control and weekend canyon comfort, delivering 410+ km combined tank range.", "metric": "795 mm Seat Height · 162 kg Wet Weight · 62.0 km/L"}], "liveries": [{"price": "₹2,69,000*", "usd": "$2,802 USD · Brushed Alloy & Teal", "desc": "<strong>Brushed Alloy & Teal:</strong> Hand-finished CNC aluminium radiator shrouds and knee-recess tank panels against a matte gunmetal trellis frame, with exposed copper stator coils."}, {"price": "₹2,75,000*", "usd": "$2,865 USD · Obsidian Copper (+₹6,000)", "desc": "<strong>Obsidian Copper:</strong> Deep gloss obsidian tank with copper pinstriping, a bronze stator window and a stitched café saddle."}, {"price": "₹2,79,000*", "usd": "$2,906 USD · Heritage Racing Green (+₹10,000)", "desc": "<strong>Heritage Racing Green:</strong> Metallic racing-green tank and tail cowl with brushed bronze stator covers and gold rim stripes."}], "modes": [{"hp": "18.0 – 24.0 bhp (13.4–17.9 kW)", "tq": "32.0 Nm @ 0 RPM · 138 km EV Range · 105 km/h", "w": "48%", "note": "<strong>Pure EV Urban Commute:</strong> Zero petrol, zero tailpipe heat, zero noise. Delivers 32 Nm instant torque from 0 RPM and 138 km city range on the 2.60 kWh Si-C pack."}, {"hp": "28.5 bhp (21.2 kW)", "tq": "29.5 Nm @ 6,500 RPM · 142 km/h Cruise", "w": "62%", "note": "<strong>Pure ICE Classic Mode:</strong> Soulful 270° parallel-twin exhaust note on open highways while magnetic skirt regeneration recharges the battery."}, {"hp": "46.5 bhp (34.7 kW)", "tq": "58.0 Nm · 0–100 in 4.6s · 168 km/h Top Speed", "w": "100%", "note": "<strong>50:50 DualForce Hybrid:</strong> 348cc Inline-2 combustion + EM stator coils fire together for 3,960 N twin-piston thrust, 62.0 km/L blended economy, and 410+ km total range."}]}, "tft": [{"mode": "PURE RIDE: STREET FOCUS", "temp": "106°C", "soc": "92%", "rpm": "52%", "gear": "3", "speed": "78", "power": "46.5 BHP · ROAD MODE", "lean": "14° R", "assist": "ABS PRO + REGEN", "force": "3,960 N", "lap": "STREET", "range": "410 km"}, {"mode": "CORE 1: PURE EV SILENT", "temp": "84°C", "soc": "86%", "rpm": "38%", "gear": "D", "speed": "64", "power": "33.5 BHP · NO FUEL", "lean": "8° L", "assist": "MAX REGEN 89%", "force": "3,680 N", "lap": "EV CITY", "range": "146 km"}, {"mode": "CORE 2: PURE ICE MECHANICAL", "temp": "110°C", "soc": "94%", "rpm": "74%", "gear": "5", "speed": "152", "power": "52.0 BHP · 270° TWIN", "lean": "32° R", "assist": "DTC DYNAMIC", "force": "ICE ONLY", "lap": "01:46.80", "range": "310 km"}, {"mode": "CORE 3: DUALFORCE 50:50 PRO", "temp": "114°C", "soc": "88%", "rpm": "88%", "gear": "4", "speed": "184", "power": "78.5 BHP · 98.0 Nm", "lean": "48° L", "assist": "DTC + SLIDE PRO", "force": "7,360 N", "lap": "01:42.18", "range": "380 km"}]};
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+
+/* Per-model interactions: hotspots, colour, ride mode */
+$$('[data-model]').forEach(root => {
+  const d = DATA[root.dataset.model];
+
+  const showHotspot = i => {
+    const h = d.hotspots[i];
+    $('[data-hs=kicker]', root).textContent = h.kicker;
+    $('[data-hs=title]', root).textContent = h.title;
+    $('[data-hs=body]', root).textContent = h.body;
+    $('[data-hs=metric]', root).textContent = h.metric;
+    $$('.hs-pin', root).forEach((p, n) => p.setAttribute('aria-pressed', n === i));
+    $$('.hs-list button', root).forEach((b, n) => b.setAttribute('aria-current', n === i ? 'true' : 'false'));
+  };
+  $$('.hs-pin, .hs-list button', root).forEach(b => b.addEventListener('click', () => showHotspot(+b.dataset.i)));
+
+  $$('.swatch', root).forEach(b => b.addEventListener('click', () => {
+    const l = d.liveries[+b.dataset.i];
+    $('[data-price]', root).textContent = l.price;
+    $('[data-usd]', root).textContent = l.usd;
+    $('[data-livery]', root).innerHTML = l.desc;
+    $$('.swatch', root).forEach(s => s.setAttribute('aria-pressed', s === b));
+  }));
+
+  $$('.tab[data-mode]', root).forEach(b => b.addEventListener('click', () => {
+    const m = d.modes[+b.dataset.mode];
+    $('[data-mode-hp]', root).textContent = m.hp;
+    $('[data-mode-tq]', root).textContent = m.tq;
+    $('[data-mode-bar]', root).style.width = m.w;
+    $('[data-mode-note]', root).innerHTML = m.note;
+    $$('.tab[data-mode]', root).forEach(t => t.setAttribute('aria-selected', t === b));
+  }));
+});
+
+/* Instrument cluster */
+$$('[data-tft]').forEach(b => b.addEventListener('click', () => {
+  const s = DATA.tft[+b.dataset.tft];
+  $('#tftMode').textContent = s.mode;
+  $('#tftTemp').textContent = s.temp;
+  $('#tftSoc').textContent = s.soc;
+  const bar = $('#tftRpm'); $('i', bar).style.width = s.rpm; bar.classList.toggle('is-hot', parseInt(s.rpm) >= 85);
+  $('#tftGear').textContent = s.gear;
+  $('#tftSpeed').innerHTML = s.speed + '<small>km/h</small>';
+  $('#tftPower').textContent = s.power;
+  $('#tftLean').textContent = s.lean;
+  $('#tftAssist').textContent = s.assist;
+  $('#tftForce').textContent = s.force;
+  $('#tftLap').textContent = s.lap;
+  $('#tftRange').textContent = s.range;
+  $$('[data-tft]').forEach(t => t.setAttribute('aria-selected', t === b));
+}));
+
+/* Spec filter */
+$$('[data-spec]').forEach(b => b.addEventListener('click', () => {
+  $$('[data-spec]').forEach(t => t.setAttribute('aria-selected', t === b));
+  $$('#specTable tbody tr').forEach(r => r.hidden = !(b.dataset.spec === 'all' || r.dataset.cat === b.dataset.spec));
+}));
+
+/* EMI calculator (US$1 = Rs 96) */
+const inr = n => n.toLocaleString('en-IN');
+function calcEmi(){
+  const price = +$('#emiVariant').value;
+  let down = +$('#emiDown').value;
+  if (down > price - 20000){ down = price - 20000; $('#emiDown').value = down; }
+  const months = +$('#emiMonths').value, rate = +$('#emiRate').value;
+  const principal = price - down, r = rate / 1200;
+  const emi = Math.round(principal * r * Math.pow(1+r, months) / (Math.pow(1+r, months) - 1));
+  $('#emiPrice').textContent = '₹' + inr(price);
+  $('#emiDownLbl').textContent = '₹' + inr(down) + ' ($' + inr(Math.round(down/96)) + ')';
+  $('#emiMonthsLbl').textContent = months + ' months (' + months/12 + (months === 12 ? ' year)' : ' years)');
+  $('#emiRateLbl').textContent = rate.toFixed(1) + '% a year';
+  $('#emiOut').innerHTML = '₹' + inr(emi) + '<small> /month</small>';
+  $('#emiSub').textContent = 'About $' + Math.round(emi/96) + ' a month · Loan amount ₹' + inr(principal);
+}
+$$('#emiVariant,#emiDown,#emiMonths,#emiRate').forEach(el => el.addEventListener('input', calcEmi));
+calcEmi();
+
+/* Dialogs */
+const testRide = $('#testRide'), lightbox = $('#lightbox');
+function openTestRide(name){
+  $('#trModel').textContent = name;
+  $('#trSuccess').hidden = true;
+  testRide.showModal();
+}
+$$('[data-ride]').forEach(b => b.addEventListener('click', () => openTestRide(b.dataset.ride)));
+$('#trForm').addEventListener('submit', e => { e.preventDefault(); $('#trSuccess').hidden = false; e.target.reset(); });
+$$('.dlg-close').forEach(b => b.addEventListener('click', () => b.closest('dialog').close()));
+[testRide, lightbox].forEach(dlg => dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); }));
+$$('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+  $('#lbImg').src = b.dataset.src; $('#lbImg').alt = b.dataset.title;
+  $('#lbTitle').textContent = b.dataset.title; $('#lbSub').textContent = b.dataset.sub;
+  lightbox.showModal();
+}));
+$('#lbRide').addEventListener('click', () => { lightbox.close(); openTestRide('Gallery enquiry'); });
+
+/* Current section in the nav */
+const links = $$('.main-nav a');
+const targets = links.map(a => $(a.getAttribute('href'))).filter(Boolean);
+if ('IntersectionObserver' in window){
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) links.forEach(a => a.classList.toggle('is-current', a.getAttribute('href') === '#' + e.target.id));
+  }), {rootMargin: '-30% 0px -60% 0px'});
+  targets.forEach(t => io.observe(t));
+}
+
+</script>
+</body>
 </html>

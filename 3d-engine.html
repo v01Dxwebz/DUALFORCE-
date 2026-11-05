@@ -1,12 +1,231 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0;url=./index.html#engine-sequence">
-  <title>DUALFORCE 350 — Engine Model</title>
-  <link rel="canonical" href="https://v01dxwebz.github.io/DUALFORCE-/#engine-sequence">
-  <script>location.replace('./index.html#engine-sequence')</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DUALFORCE — Interactive 3D Powertrain Digital Twin & Engine Laboratory</title>
+  <link rel="stylesheet" href="dualforce-3d-engine.css">
+  <style>
+    :root {
+      --bg: #070A0E;
+      --panel: #0E141C;
+      --teal: #00F0D0;
+      --copper: #D0713F;
+      --text: #F0F4F8;
+      --muted: #8A97A6;
+      --mono: 'JetBrains Mono', 'DM Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    header.showcase-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(7, 10, 14, 0.95);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .brand-badge {
+      width: 24px;
+      height: 24px;
+      border: 1px solid var(--teal);
+      transform: rotate(45deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-badge::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--teal);
+    }
+    .brand-title {
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+    }
+    .brand-title span { color: var(--teal); }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .nav-btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .nav-btn.primary {
+      border-color: var(--teal);
+      background: rgba(0, 240, 208, 0.15);
+      color: var(--teal);
+    }
+    .nav-btn.primary:hover {
+      background: var(--teal);
+      color: #070A0E;
+    }
+    main.showcase-body {
+      flex: 1;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-bottom: 8px;
+    }
+    .hero-strip h1 {
+      font-size: clamp(24px, 3.2vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .hero-strip h1 span {
+      background: linear-gradient(135deg, #00F0D0, #D0713F);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-strip p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 600px;
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+    .spec-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .spec-pill {
+      display: flex;
+      flex-direction: column;
+      padding: 8px 14px;
+      border-radius: 6px;
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-family: var(--mono);
+    }
+    .spec-pill b { font-size: 15px; color: var(--teal); }
+    .spec-pill span { font-size: 9px; color: var(--muted); letter-spacing: 0.08em; }
+
+    /* Viewer Container */
+    #dualforce-main-viewer {
+      width: 100%;
+      height: 720px;
+      min-height: 600px;
+    }
+  </style>
 </head>
-<body><p>The engine lab has moved. <a href="./index.html#engine-sequence">Open the DUALFORCE 350 engine model</a>.</p></body>
+<body>
+  <header class="showcase-header">
+    <a href="index.html" class="brand">
+      <div class="brand-badge"></div>
+      <div class="brand-title">DUALFORCE <span>ENGINE TWIN</span></div>
+    </a>
+    <div class="header-actions">
+      <a href="index.html#slide-4" class="nav-btn">← Back to Presentation Deck</a>
+      <a href="models.html" class="nav-btn">Motorcycle Lineup</a>
+      <a href="DUALFORCE_Investor_Technical_Documentary.html" class="nav-btn primary">Technical Documentary</a>
+    </div>
+  </header>
+
+  <main class="showcase-body">
+    <div class="hero-strip">
+      <div>
+        <h1>Interactive 3D <span>Powertrain Architecture</span></h1>
+        <p>Real-time WebGL twin of the DUALFORCE inline-twin hybrid propulsion system. Drag to orbit 360°, inspect the synchronized magnetic piston stroke, transparent aluminium casing, and copper reluctance coils.</p>
+      </div>
+      <div class="spec-pills">
+        <div class="spec-pill">
+          <b>348 / 648 cc</b>
+          <span>DISPLACEMENT</span>
+        </div>
+        <div class="spec-pill">
+          <b>3,680 N</b>
+          <span>PEAK FORCE / PISTON</span>
+        </div>
+        <div class="spec-pill">
+          <b>0.50 mm</b>
+          <span>RADIAL AIR GAP</span>
+        </div>
+        <div class="spec-pill">
+          <b>270°</b>
+          <span>SHARED CRANK</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D Interactive Engine Mount -->
+    <div id="dualforce-main-viewer"></div>
+  </main>
+
+  <!-- Local fallback + CDN Three.js -->
+  <script src="three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+  <script src="dualforce-3d-engine.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var container = document.getElementById('dualforce-main-viewer');
+      if (container && window.DualForce3DEngine) {
+        window.engineViewer = new DualForce3DEngine(container, {
+          theme: 'dark',
+          rpm: 2800,
+          playing: true,
+          exploded: 0,
+          cutaway: true,
+          electromagnetic: true,
+          cameraMode: 'hero',
+          autoOrbit: false,
+          annotationsEnabled: true
+        });
+      }
+    });
+  </script>
+</body>
 </html>

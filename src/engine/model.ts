@@ -608,7 +608,7 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
   // Annular extruded gears with true centre holes; teeth count/ratio are provisional visual assumptions.
   const largeTeeth = 28;
   const smallTeeth = 14;
-  const largeGear = mesh(makeGearGeometry(largeTeeth, 0.235, 0.315, 0.105, 0.075), brass);
+  const largeGear = mesh(makeGearGeometry(largeTeeth, 0.235, 0.315, 0.105, 0.075), silver);
   largeGear.name = 'large-shaft-gear';
   largeGear.position.set(0.49, 0, 0);
   largeGear.rotation.y = Math.PI / 2;

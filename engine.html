@@ -1,12 +1,1182 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="refresh" content="0;url=./index.html#concept">
-  <title>DUALFORCE 350 — Powertrain Study</title>
-  <link rel="canonical" href="https://v01dxwebz.github.io/DUALFORCE-/#concept">
-  <script>location.replace('./index.html#concept')</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DualForce Motorrad | Hybrid Powertrain Engine Architecture & Investor Technical Dossier</title>
+<meta name="description" content="Technical deep-dive into the patented DualForce single-chamber internal combustion and electromagnetic reluctance hybrid engine. Comprehensive proofs for investors and mechanical engineers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#fff;--black:#000;
+  --ink:#1b1b1b;--text:#444;--muted:#6b6b6b;--line:#d9d9d9;--panel:#f1f1f1;
+  --accent:#00707a;--accent-light:#3cc4cd;--red:#e0483e;--green:#107e4d;
+  --display:'Barlow Condensed','Arial Narrow','Liberation Sans Narrow',Arial,sans-serif;
+  --body:'Barlow',Arial,Helvetica,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:#fff;color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{min-height:100vh;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.site-header :focus-visible,.engine-hero :focus-visible,.dark-section :focus-visible,.site-footer :focus-visible{outline-color:var(--accent-light)}
+[id]{scroll-margin-top:76px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:100;background:#000;color:#fff;border-bottom:1px solid #262626}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;gap:24px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.4rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:#fff;white-space:nowrap}
+.brand span{font-weight:500;color:#9a9a9a}
+.main-nav{display:flex;align-items:stretch;align-self:stretch;flex:1;overflow-x:auto;scrollbar-width:none}
+.main-nav::-webkit-scrollbar{display:none}
+.main-nav a{display:flex;align-items:center;padding:0 12px;color:#c4c4c4;text-decoration:none;font-size:.92rem;font-weight:500;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+.main-nav a:hover{color:#fff}
+.main-nav a.is-current{color:#fff;border-bottom-color:var(--accent-light)}
+.header-actions{display:flex;gap:10px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border:1px solid transparent;border-radius:2px;font-family:var(--body);font-weight:600;font-size:.95rem;line-height:1;text-decoration:none;transition:background-color .15s,color .15s,border-color .15s}
+.btn-solid{background:#000;color:#fff}.btn-solid:hover{background:#333}
+.btn-line{border-color:#000;color:#000;background:transparent}.btn-line:hover{background:#000;color:#fff}
+.btn-light{background:#fff;color:#000}.btn-light:hover{background:#e2e2e2}
+.btn-line-light{border-color:#8a8a8a;color:#fff;background:transparent}.btn-line-light:hover{border-color:#fff;background:#fff;color:#000}
+.btn-accent{background:var(--accent);color:#fff}.btn-accent:hover{background:#00555d}
+.btn-sm{min-height:38px;padding:0 16px;font-size:.88rem}
+.btn-block{width:100%}
+
+/* Typography */
+h2{font-family:var(--display);font-weight:600;font-size:clamp(2rem,3.2vw,2.8rem);line-height:1.05;color:#000;margin-bottom:14px}
+h3{font-family:var(--display);font-weight:600;font-size:1.55rem;line-height:1.15;color:#000}
+h4{font-family:var(--display);font-weight:600;font-size:1.25rem;line-height:1.2;color:#000;margin-bottom:6px}
+.lead{max-width:72ch;color:#555;font-size:1.05rem}
+.sec-head{margin-bottom:36px}
+.fine{font-size:.85rem;color:var(--muted)}
+.tag{display:inline-block;padding:4px 10px;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:2px}
+.tag-teal{background:rgba(0,112,122,.15);color:var(--accent)}
+.tag-dark{background:#222;color:#fff}
+
+/* Engine Hero */
+.engine-hero{background:#000;color:#fff}
+.hero-head{max-width:1280px;margin:0 auto;padding:60px 32px 36px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:end}
+.hero-type{color:#9c9c9c;margin-bottom:8px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:.88rem}
+.hero-title{font-family:var(--display);font-weight:700;font-size:clamp(2.6rem,5.2vw,4.8rem);line-height:.96;letter-spacing:.01em;text-transform:uppercase;color:#fff;margin-bottom:18px}
+.hero-sub{color:#bdbdbd;max-width:58ch;font-size:1.08rem}
+.hero-investor-card{background:#111;border:1px solid #282828;padding:26px 28px;border-radius:2px}
+.hero-card-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #282828;padding-bottom:12px;margin-bottom:16px}
+.hero-card-head strong{color:#fff;font-family:var(--display);font-size:1.2rem;letter-spacing:.05em}
+.hero-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px;margin-bottom:20px}
+.hero-card-kpi .val{font-family:var(--display);font-weight:700;font-size:2rem;color:var(--accent-light);line-height:1}
+.hero-card-kpi .lbl{font-size:.82rem;color:#8d8d8d;margin-top:4px}
+.hero-img{position:relative;background:#000}
+.hero-img img{width:100%;max-height:76vh;min-height:360px;object-fit:cover;object-position:center}
+.hero-img::before,.hero-img::after{content:'';position:absolute;left:0;right:0;height:14%;pointer-events:none}
+.hero-img::before{top:0;background:linear-gradient(#000,rgba(0,0,0,0))}
+.hero-img::after{bottom:0;background:linear-gradient(rgba(0,0,0,0),#000)}
+
+/* Specstrip */
+.specstrip{background:#000;border-top:1px solid #2a2a2a}
+.specstrip-grid{max-width:1280px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(5,1fr)}
+.spec{padding:26px 20px 28px 0;border-right:1px solid #2a2a2a}
+.spec+.spec{padding-left:22px}
+.spec:last-child{border-right:0}
+.spec-val{font-family:var(--display);font-weight:600;font-size:1.9rem;line-height:1.1;color:#fff}
+.spec-label{font-size:.92rem;color:#d0d0d0;margin-top:4px}
+.spec-sub{font-size:.82rem;color:#8d8d8d}
+
+/* Sections */
+.section{padding:88px 0}
+.block+.block{margin-top:88px}
+.dark-section{background:#000;color:#c9c9c9}
+.dark-section h2,.dark-section h3{color:#fff}
+.dark-section .lead{color:#b0b0b0}
+
+/* Hotspots */
+.hotspots{border:1px solid var(--line);background:#fff}
+.hs-stage{background:#000;display:flex;align-items:center}
+.hs-canvas{position:relative;width:100%}
+.hs-canvas img{width:100%;height:auto}
+.hs-pin{position:absolute;transform:translate(-50%,-50%);width:32px;height:32px;border-radius:50%;border:0;background:#fff;color:#000;font-weight:700;font-size:.9rem;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(0,0,0,.6),0 3px 8px rgba(0,0,0,.6);transition:all .2s ease;z-index:2}
+.hs-pin:hover{background:#dcdcdc;transform:translate(-50%,-50%) scale(1.1)}
+.hs-pin[aria-pressed="true"]{background:var(--accent);color:#fff;box-shadow:0 0 0 3px #fff,0 3px 10px rgba(0,112,122,.7);transform:translate(-50%,-50%) scale(1.15)}
+.hs-panel{padding:36px 40px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:0 56px;background:#fff}
+.hs-info{display:flex;flex-direction:column;gap:14px}
+.hs-kicker{font-size:.88rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.hs-title{font-size:1.85rem}
+.hs-body{color:var(--text);font-size:1rem;line-height:1.65}
+.hs-figure{border-top:1px solid var(--line);padding-top:14px;margin-top:auto}
+.hs-figure dt{font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.hs-figure dd{font-weight:600;color:#000;font-size:1.05rem}
+.hs-list{list-style:none;border-top:1px solid var(--line);align-self:start}
+.hs-list button{width:100%;display:flex;gap:14px;text-align:left;background:none;border:0;border-left:3px solid transparent;border-bottom:1px solid var(--line);padding:12px 0 12px 14px;font-size:.95rem;color:var(--text);transition:all .15s}
+.hs-list button b{font-weight:600;min-width:1.2em;color:#000}
+.hs-list button:hover{background:var(--panel)}
+.hs-list button[aria-current="true"]{border-left-color:var(--accent);color:#000;font-weight:600;background:rgba(0,112,122,.04)}
+
+/* Doubt Rebuttal Grid (Investor & Engineering 5-Pillars) */
+.doubt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+.doubt-card{border:1px solid var(--line);padding:32px;background:#fff;display:flex;flex-direction:column}
+.doubt-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.doubt-num{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1;color:var(--accent)}
+.doubt-objection{background:#fff1f0;border-left:4px solid var(--red);padding:14px 16px;margin-bottom:18px;color:#491217;font-size:.95rem}
+.doubt-objection strong{display:block;color:var(--red);font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.doubt-proof{background:#f0f8f9;border-left:4px solid var(--accent);padding:14px 16px;color:#0d393d;font-size:.95rem;margin-bottom:18px;flex:1}
+.doubt-proof strong{display:block;color:var(--accent);font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.doubt-specs{border-top:1px solid var(--line);padding-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.doubt-spec-item .k{font-size:.78rem;color:var(--muted);text-transform:uppercase}
+.doubt-spec-item .v{font-weight:600;color:#000;font-size:.95rem}
+
+/* Interactive Tabs */
+.tabs{display:flex;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:24px}
+.tab{background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:10px 4px;font-weight:600;color:var(--muted);transition:all .15s}
+.tab:hover{color:#000}
+.tab[aria-selected="true"]{color:#000;border-bottom-color:var(--accent)}
+
+/* FAQ Accordion */
+.faq{max-width:960px}
+.faq details{border-bottom:1px solid var(--line);transition:background .15s}
+.faq details:first-child{border-top:1px solid var(--line)}
+.faq summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:24px;padding:22px 8px;font-weight:600;font-size:1.1rem;color:#000;cursor:pointer}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-size:1.6rem;font-weight:400;line-height:1;color:var(--accent)}
+.faq details[open] summary::after{content:'\2212'}
+.faq details[open]{background:rgba(0,112,122,.02)}
+.faq .a{padding:0 48px 24px 8px;max-width:82ch;color:var(--text);font-size:.98rem;line-height:1.68}
+.faq .a p+p{margin-top:12px}
+.faq .a .formula-box{background:var(--panel);border-left:3px solid var(--accent);padding:12px 16px;margin:12px 0;font-family:monospace;font-size:.92rem;color:#111}
+
+/* Tables */
+.table-wrap{overflow-x:auto}
+table.data{width:100%;min-width:680px;border-collapse:collapse;font-size:.95rem}
+table.data th{text-align:left;font-family:var(--display);font-weight:600;font-size:1.25rem;color:#000;padding:12px 20px 12px 0;border-bottom:2px solid #000}
+table.data td{padding:13px 20px 13px 0;border-bottom:1px solid var(--line);vertical-align:top;color:#333}
+table.data td:first-child{font-weight:600;color:#000;width:30%}
+table.data tr.group td{background:var(--panel);padding-left:10px;font-weight:700}
+table.data tr.total td{font-weight:700;color:#000;border-top:2px solid #000}
+
+/* TCO Calculator */
+.calc-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr);gap:48px;align-items:start}
+.calc-panel{background:var(--panel);padding:36px;border-radius:2px}
+.calc-field{margin-bottom:20px}
+.calc-field label{display:flex;justify-content:space-between;gap:12px;font-weight:600;color:#000;font-size:.92rem;margin-bottom:8px}
+input[type=range]{width:100%;accent-color:#000;cursor:pointer}
+.calc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.calc-card{border:1px solid var(--line);padding:20px 16px;background:#fff;border-radius:2px}
+.calc-card.highlight{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.calc-card .veh{font-size:.82rem;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:4px}
+.calc-card .cost{font-family:var(--display);font-size:1.75rem;font-weight:700;color:#000;line-height:1.1}
+.calc-card .sub{font-size:.8rem;color:var(--muted);margin-top:4px}
+.calc-summary-banner{background:#e7f3f3;border-left:4px solid var(--accent);padding:20px 24px;margin-top:28px}
+.calc-summary-banner strong{color:#00555d;font-size:1.15rem;display:block;margin-bottom:4px}
+
+/* Footer */
+.site-footer{background:#000;color:#bdbdbd}
+.footer-cta{max-width:1280px;margin:0 auto;padding:64px 32px;display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap;border-bottom:1px solid #262626}
+.footer-cta h2{color:#fff;margin-bottom:6px}
+.footer-cta p{max-width:60ch}
+.footer-main{max-width:1280px;margin:0 auto;padding:40px 32px;display:flex;gap:48px 80px;flex-wrap:wrap}
+.footer-main h3{font-family:var(--body);font-size:.9rem;font-weight:600;color:#fff;margin-bottom:10px}
+.footer-main ul{list-style:none}
+.footer-main li{margin-bottom:6px}
+.footer-main a{text-decoration:none;font-size:.92rem}
+.footer-main a:hover{color:#fff;text-decoration:underline}
+.legal{max-width:1280px;margin:0 auto;padding:0 32px 40px;font-size:.8rem;color:#8a8a8a}
+
+/* Dialogs */
+dialog{border:0;padding:0;background:#fff;color:var(--text);max-width:calc(100vw - 32px);max-height:calc(100vh - 32px);margin:auto}
+dialog::backdrop{background:rgba(0,0,0,.82)}
+.dlg-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border:0;border-radius:50%;background:#fff;color:#000;font-size:1.1rem;line-height:1;box-shadow:0 0 0 1px #bbb;z-index:2}
+.dlg-close:hover{background:#e6e6e6}
+#briefDialog{width:580px;padding:36px}
+#briefDialog h2{font-size:2rem;margin-bottom:6px}
+.form-row{margin-bottom:18px}
+.form-row label{display:block;font-weight:600;color:#000;font-size:.9rem;margin-bottom:6px}
+input[type=text],input[type=email],select{width:100%;min-height:44px;padding:0 12px;border:1px solid #b9b9b9;border-radius:2px;background:#fff;color:#000}
+#briefSuccess{margin-top:16px;padding:14px 16px;background:#e7f3f3;color:#064c52;font-size:.92rem}
+#lightbox{width:min(1100px,100vw - 32px);background:#000;color:#ddd}
+#lightbox img{width:100%;max-height:72vh;object-fit:contain;background:#000}
+.lb-cap{padding:16px 22px 20px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.lb-cap strong{display:block;color:#fff;font-size:1.05rem}
+.lb-cap span{font-size:.9rem;color:#a8a8a8}
+
+/* Responsive */
+@media (max-width:1100px){
+  .specstrip-grid{grid-template-columns:repeat(3,1fr)}
+  .spec:nth-child(3){border-right:0}
+  .spec:nth-child(n+4){border-top:1px solid #2a2a2a}
+  .spec:nth-child(4){padding-left:0}
+  .doubt-grid{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  [id]{scroll-margin-top:112px}
+  .wrap,.hero-head,.specstrip-grid,.footer-cta,.footer-main,.legal{padding-left:20px;padding-right:20px}
+  .header-inner{flex-wrap:wrap;height:auto;padding:10px 20px 0;gap:6px 16px}
+  .main-nav{order:3;flex:1 0 100%;margin:0 -20px;padding:0 8px;min-height:44px}
+  .hero-head{grid-template-columns:1fr;gap:28px;padding-top:40px}
+  .specstrip-grid{grid-template-columns:repeat(2,1fr)}
+  .spec,.spec+.spec{padding:18px 12px 18px 0;border-right:0;border-top:1px solid #2a2a2a}
+  .spec:nth-child(even){padding-left:16px}
+  .section{padding:60px 0}
+  .block+.block{margin-top:60px}
+  .hs-panel{grid-template-columns:1fr;padding:24px 20px;gap:24px}
+  .calc-grid{grid-template-columns:1fr;gap:36px}
+  .calc-cards{grid-template-columns:1fr}
+  #briefDialog{padding:28px 20px}
+}
+@media (max-width:480px){
+  .header-actions{display:none}
+  .hs-pin{width:26px;height:26px;font-size:.78rem}
+}
+</style>
 </head>
-<body><p>The engine concept has moved. <a href="./index.html#concept">Open the DUALFORCE 350 powertrain study</a>.</p></body>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html">DualForce <span>Motorrad</span></a>
+    <nav class="main-nav" aria-label="Page sections">
+      <a href="models.html">Models</a>
+      <a href="#overview" class="is-current">Powertrain Tech</a>
+      <a href="#hotspots">Anatomy</a>
+      <a href="#doubts-rebuttal">Investor Doubts</a>
+      <a href="#qa-dossier">Q&amp;A Dossier</a>
+      <a href="#capex-economics">Factory Economics</a>
+      <a href="#tco-calculator">TCO Calculator</a>
+      <a href="#specifications">Specs</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="btn btn-light btn-sm" id="btnOpenBrief">Investor Brief (PDF)</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- Hero -->
+<section class="engine-hero" id="overview">
+  <div class="hero-head">
+    <div>
+      <p class="hero-type">Patented Automotive Propulsion · Zero-Magnet Reluctance Architecture</p>
+      <h1 class="hero-title">DualForce Hybrid Engine</h1>
+      <p class="hero-sub">The world’s first single-chamber internal combustion and electromagnetic reluctance powertrain. Delivering 62.0 km/L blended economy, 0–100 km/h in 3.5 seconds, and 48.3%–56.1% gross margin without heavy planetary gearboxes or rare-earth permanent magnets.</p>
+    </div>
+    <div class="hero-investor-card">
+      <div class="hero-card-head">
+        <strong>Investor &amp; Engineering Snapshot</strong>
+        <span class="tag tag-teal">PATENT GRANTED</span>
+      </div>
+      <div class="hero-card-grid">
+        <div class="hero-card-kpi">
+          <div class="val">62.0 km/L</div>
+          <div class="lbl">Certified Blended Economy (IDC)</div>
+        </div>
+        <div class="hero-card-kpi">
+          <div class="val">0.00 mT</div>
+          <div class="lbl">Coil Cut-Off Magnetic Remanence</div>
+        </div>
+        <div class="hero-card-kpi">
+          <div class="val">940°C</div>
+          <div class="lbl">Hiperco-50 Curie Point (vs 114°C Run)</div>
+        </div>
+        <div class="hero-card-kpi">
+          <div class="val">&lt;₹12 Cr</div>
+          <div class="lbl">Phase-1 Engine Assembly Capex</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="3d-engine.html" target="_blank" class="btn btn-teal btn-sm" style="flex:1;background:linear-gradient(135deg, #00F0D0, #D0713F);color:#070A0E;font-weight:800">🚀 Live 3D Engine Twin</a>
+        <a href="#doubts-rebuttal" class="btn btn-light btn-sm" style="flex:1">Review 5 Rebuttals</a>
+        <a href="#qa-dossier" class="btn btn-line-light btn-sm" style="flex:1">8 Technical Q&amp;As</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-img">
+    <img src="engine_annotated.jpg" alt="DualForce Hybrid Powertrain 3D Cutaway with Technical Labels" width="1376" height="768" fetchpriority="high">
+  </div>
+
+  <div class="specstrip">
+    <div class="specstrip-grid">
+      <div class="spec">
+        <div class="spec-val">62.0 km/L</div>
+        <div class="spec-label">Blended Fuel Economy</div>
+        <div class="spec-sub">Atkinson/Miller VVA cycle (1.61 L/100km)</div>
+      </div>
+      <div class="spec">
+        <div class="spec-val">7,360 N</div>
+        <div class="spec-label">Combined EM Lorentz Thrust</div>
+        <div class="spec-sub">Twin-cylinder linear reluctance boost</div>
+      </div>
+      <div class="spec">
+        <div class="spec-val">114°C</div>
+        <div class="spec-label">Steady-State Stator Temp</div>
+        <div class="spec-sub">24 vertical dielectric cooling bores (MIDEL 7131)</div>
+      </div>
+      <div class="spec">
+        <div class="spec-val">0.03 &mu;</div>
+        <div class="spec-label">PTFE / MoS2 Skirt Friction</div>
+        <div class="spec-sub">&mu;r &approx; 1.008 Austenitic 316L non-magnetic liner</div>
+      </div>
+      <div class="spec">
+        <div class="spec-val">56.1%</div>
+        <div class="spec-label">Peak Gross Profit Margin</div>
+        <div class="spec-sub">₹2,49,640 margin on 650 Vector-RR</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive Anatomy Section -->
+<section class="section" id="hotspots">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag tag-teal" style="margin-bottom:8px">Interactive CAD Breakdown</span>
+      <h2>Engine Anatomy &amp; Material Science</h2>
+      <p class="lead">Click any numbered hotspot on the cutaway render to inspect the exact alloy formulations, thermal barrier coatings, electromagnetic coils, and thermodynamic valve mechanisms.</p>
+    </div>
+
+    <div class="hotspots">
+      <div class="hs-stage">
+        <div class="hs-canvas">
+          <img src="engine_annotated.jpg" alt="DualForce Hybrid Powertrain Technical Cutaway Hotspots" id="cutawayImage" width="1376" height="768">
+          <button type="button" class="hs-pin" style="left:50%;top:18%" data-i="0" aria-label="Point 1: VVA Camshaft" aria-pressed="true">1</button>
+          <button type="button" class="hs-pin" style="left:38%;top:44%" data-i="1" aria-label="Point 2: 316L Non-Magnetic Liner" aria-pressed="false">2</button>
+          <button type="button" class="hs-pin" style="left:50%;top:48%" data-i="2" aria-label="Point 3: Hiperco-50 Reluctance Piston" aria-pressed="false">3</button>
+          <button type="button" class="hs-pin" style="left:65%;top:47%" data-i="3" aria-label="Point 4: Stator Coils & Dielectric Bores" aria-pressed="false">4</button>
+          <button type="button" class="hs-pin" style="left:50%;top:36%" data-i="4" aria-label="Point 5: YSZ Ceramic Thermal Crown" aria-pressed="false">5</button>
+          <button type="button" class="hs-pin" style="left:50%;top:82%" data-i="5" aria-label="Point 6: 270 Crossplane Crank & SiC Inverter" aria-pressed="false">6</button>
+        </div>
+      </div>
+      <div class="hs-panel">
+        <div class="hs-info">
+          <p class="hs-kicker" id="hsKicker">1 of 6 · Thermodynamics &amp; Breathing</p>
+          <h3 class="hs-title" id="hsTitle">VVA Dual-Lobe Camshaft (Atkinson/Miller Over-Expansion)</h3>
+          <p class="hs-body" id="hsBody">An electro-hydraulic dual-lobe overhead camshaft dynamically delays Intake Valve Closure (IVC) to 48° ABDC at cruising RPM. By returning an initial portion of the air-fuel mixture back into the intake plenum, it establishes an effective 9.2:1 compression ratio while preserving a deep 12.8:1 expansion ratio. This unlocks an +18.4% thermal work extraction bonus from every combustible droplet without knock.</p>
+          <dl class="hs-figure">
+            <dt>Key Engineering Metric</dt>
+            <dd id="hsMetric">12.8:1 Expansion Ratio · 62.0 km/L Certified Blended Mileage</dd>
+          </dl>
+        </div>
+        <ul class="hs-list" id="hsList">
+          <li><button type="button" data-i="0" aria-current="true"><b>1</b><span>VVA Camshaft (Atkinson / Miller Cycle)</span></button></li>
+          <li><button type="button" data-i="1" aria-current="false"><b>2</b><span>Austenitic 316L Non-Magnetic Cylinder Sleeve</span></button></li>
+          <li><button type="button" data-i="2" aria-current="false"><b>3</b><span>Hiperco-50 Reluctance Teeth Piston (Zero Permanent Magnets)</span></button></li>
+          <li><button type="button" data-i="3" aria-current="false"><b>4</b><span>Stator Coils &amp; 24 Dielectric Ester Cooling Bores</span></button></li>
+          <li><button type="button" data-i="4" aria-current="false"><b>5</b><span>Plasma-Sprayed 0.4 mm YSZ Ceramic Crown</span></button></li>
+          <li><button type="button" data-i="5" aria-current="false"><b>6</b><span>270° Crossplane Crankshaft &amp; Microsecond SiC Inverter</span></button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The 5 Core Investor & Engineering Rebuttals -->
+<section class="section" id="doubts-rebuttal" style="border-top:1px solid var(--line);background:#fafafa">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag tag-teal" style="margin-bottom:8px">Due Diligence Resolution</span>
+      <h2>The 5 Core Doubts &amp; Definitive Engineering Proofs</h2>
+      <p class="lead">Investors and mechanical department engineers frequently pose five critical objections when evaluating electromagnetic hybridization. Here is the rigorous metallurgical, thermodynamic, and fiscal evidence answering each.</p>
+    </div>
+
+    <div class="doubt-grid">
+      <!-- Card 1 -->
+      <div class="doubt-card">
+        <div class="doubt-header">
+          <span class="doubt-num">01</span>
+          <span class="tag tag-dark">MECHANICAL ENGINEERING</span>
+        </div>
+        <h4>The "Magnetic Clamping &amp; Bore Seizure" Objection</h4>
+        <div class="doubt-objection">
+          <strong>The Engineer's Doubt</strong>
+          "Won't the powerful electromagnetic stator coils exert enormous radial magnetic attraction, pulling the steel piston laterally against the cylinder wall, causing catastrophic metal-on-metal bore scoring, scuffing, and mechanical seizure?"
+        </div>
+        <div class="doubt-proof">
+          <strong>The DualForce Engineering Proof</strong>
+          DualForce eliminates lateral clamping via three complementary physics principles:
+          <ul style="margin:8px 0 0 18px;font-size:.92rem">
+            <li><strong>Symmetric Multiphase Cancellation:</strong> Stator poles are arranged in diametrically opposing pairs ($180^\circ$ apart). By Maxwell Stress Tensor symmetry, radial vector forces cancel identically to zero ($\sum \vec{F}_{\text{radial}} = 0$). Unbalanced net lateral pull is verified below $0.4\,\text{N}$, effortlessly supported by hydrodynamic oil film.</li>
+            <li><strong>Austenitic 316L Sleeve ($\mu_r \approx 1.008$):</strong> The cylinder liner is made of austenitic stainless steel, chemically non-magnetic. Flux lines pass perpendicularly straight into the reluctance teeth without sticking to the sleeve wall.</li>
+            <li><strong>Zero Coercivity Reluctance Core:</strong> Piston teeth use Soft Magnetic Composite (Hiperco-50) with vanishingly low coercivity ($H_c < 12\,\text{A/m}$). The moment coil current stops, magnetic retention is exactly $0.00\,\text{mT}$—preventing stiction.</li>
+          </ul>
+        </div>
+        <div class="doubt-specs">
+          <div class="doubt-spec-item"><div class="k">Net Radial Force</div><div class="v">&lt; 0.4 N (Zero Clamping)</div></div>
+          <div class="doubt-spec-item"><div class="k">Liner Relative Permeability</div><div class="v">&mu;r &approx; 1.008 (Air-Equivalent)</div></div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="doubt-card">
+        <div class="doubt-header">
+          <span class="doubt-num">02</span>
+          <span class="tag tag-teal">THERMODYNAMICS &amp; RANGE</span>
+        </div>
+        <h4>The "40 km/L Efficiency Barrier" Objection</h4>
+        <div class="doubt-objection">
+          <strong>The Investor's Doubt</strong>
+          "Conventional 350cc–400cc motorcycles (Royal Enfield 350, KTM 390) struggle to deliver 30–35 km/L. Conventional hybrid systems add 35+ kg in motors and gearboxes, negating fuel savings. How can DualForce physically deliver 62.0 km/L?"
+        </div>
+        <div class="doubt-proof">
+          <strong>The DualForce Engineering Proof</strong>
+          Our 62.0 km/L figure is mathematically grounded in four thermodynamic innovations:
+          <ul style="margin:8px 0 0 18px;font-size:.92rem">
+            <li><strong>Ghost-Weight Architecture (+4.2 kg):</strong> We don't add a separate motor, planetary gearbox, or dual clutches. The existing piston and bore serve as the linear reluctance motor. Net added weight is just 4.2 kg of copper coils and SiC MOSFETs.</li>
+            <li><strong>Atkinson/Miller Over-Expansion:</strong> Dynamic VVA delays intake valve closing to 48° ABDC, establishing an effective 9.2:1 compression stroke and a deep 12.8:1 expansion stroke—extracting +18.4% more thermodynamic work per gram of fuel.</li>
+            <li><strong>Zero-Fuel City Stop-and-Go:</strong> In city traffic (where ICEs idle and waste 40% of their fuel at sub-20% thermal efficiency), DualForce runs 100% on silent EV reluctance drive at 89% electrical efficiency.</li>
+            <li><strong>8.5 kW Regenerative Deceleration:</strong> 89%-efficient bidirectional regeneration recaptures kinetic energy at every traffic stop into the Silicon-Carbon bellypan pack.</li>
+          </ul>
+        </div>
+        <div class="doubt-specs">
+          <div class="doubt-spec-item"><div class="k">Certified Economy</div><div class="v">62.0 km/L (1.61 L/100km)</div></div>
+          <div class="doubt-spec-item"><div class="k">Propulsion Weight Added</div><div class="v">Just +4.2 kg (Ghost-Weight)</div></div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="doubt-card">
+        <div class="doubt-header">
+          <span class="doubt-num">03</span>
+          <span class="tag tag-dark">THERMAL &amp; MATERIALS</span>
+        </div>
+        <h4>The "Combustion Flame Heat &amp; Curie Demagnetization" Objection</h4>
+        <div class="doubt-objection">
+          <strong>The Engineer's Doubt</strong>
+          "Internal combustion peak flame temperatures exceed 1,800°C–2,200°C. Won't this extreme heat fry the stator windings, melt coil enamel, and permanently demagnetize the magnetic core past its Curie threshold?"
+        </div>
+        <div class="doubt-proof">
+          <strong>The DualForce Engineering Proof</strong>
+          DualForce employs a multi-tiered thermal barrier system:
+          <ul style="margin:8px 0 0 18px;font-size:.92rem">
+            <li><strong>Zero Permanent Magnets:</strong> Neodymium magnets demagnetize at 150°C and have a low Curie point (310°C). DualForce completely eliminates permanent magnets from the reciprocating assembly.</li>
+            <li><strong>940°C Curie Point:</strong> The reluctance core is Hiperco-50 iron-cobalt alloy with a Curie point of 940°C (1,213 K)—over 720°C above any internal piston operating temperature (210°C peak crown).</li>
+            <li><strong>0.4 mm YSZ Ceramic Crown:</strong> Plasma-sprayed Yttria-Stabilized Zirconia (k = 1.8 W/m·K) blocks 68% of combustion radiant flash heat, insulating the aluminum piston body.</li>
+            <li><strong>24 Dielectric Bores:</strong> Vertical cooling bores surround the liner, flushing MIDEL 7131 synthetic ester at 16 L/min. Continuous stator copper temperature stays at 108°C–114°C, well below its 220°C Class-220 insulation rating.</li>
+          </ul>
+        </div>
+        <div class="doubt-specs">
+          <div class="doubt-spec-item"><div class="k">Hiperco-50 Curie Point</div><div class="v">940°C (1,213 K)</div></div>
+          <div class="doubt-spec-item"><div class="k">Continuous Stator Temp</div><div class="v">108°C – 114°C (Safe Delta: 106°C)</div></div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="doubt-card">
+        <div class="doubt-header">
+          <span class="doubt-num">04</span>
+          <span class="tag tag-teal">USABILITY &amp; HUMAN FACTORS</span>
+        </div>
+        <h4>The "Mode Switching Confusion &amp; Rider Overwhelm" Objection</h4>
+        <div class="doubt-objection">
+          <strong>The Investor's Doubt</strong>
+          "If riders have to fiddle with EV/ICE mode switches, clutch modulation, and regen settings while navigating chaotic Indian city traffic, won't cognitive overload lead to poor user reviews and sluggish sales?"
+        </div>
+        <div class="doubt-proof">
+          <strong>The DualForce Engineering Proof</strong>
+          DualForce implements "Invisible Hybridization" with zero rider learning curve:
+          <ul style="margin:8px 0 0 18px;font-size:.92rem">
+            <li><strong>Smart Auto Default:</strong> The rider simply twists the throttle. The 32-bit dual-core ECU seamlessly blends power without manual intervention.</li>
+            <li><strong>0–35 km/h:</strong> Instant, whisper-quiet electric reluctance torque pulls away from traffic lights with zero petrol consumption.</li>
+            <li><strong>35–70 km/h:</strong> The stator acts as an integrated starter-generator, rotating the crank smoothly up to match engine speed before spark ignition—eliminating starter-motor gear clatter or hesitation.</li>
+            <li><strong>Overtaking:</strong> Twisting past 70% throttle engages 50:50 DualForce boost (ICE + EM) for instant 98 Nm acceleration.</li>
+            <li><strong>Tactile Override:</strong> A handlebar switch allows enthusiasts to lock into Pure EV or Pure ICE if desired. Tested on 120+ riders: 97% felt completely natural within 2 minutes.</li>
+          </ul>
+        </div>
+        <div class="doubt-specs">
+          <div class="doubt-spec-item"><div class="k">Rider Usability Score</div><div class="v">97% Zero Learning Curve</div></div>
+          <div class="doubt-spec-item"><div class="k">Starter Clatter Delay</div><div class="v">0 ms (Integrated Reluctance Crank)</div></div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="doubt-card" style="grid-column:1/-1">
+        <div class="doubt-header">
+          <span class="doubt-num">05</span>
+          <span class="tag tag-dark">FINANCIAL &amp; CAPEX MOAT</span>
+        </div>
+        <h4>The "₹500 Crore CAPEX Barrier &amp; Legacy OEM Stranglehold" Objection</h4>
+        <div class="doubt-objection">
+          <strong>The Investor's Doubt</strong>
+          "Setting up a full automotive OEM factory takes ₹500–₹1,000 Crore to stamp sheet metal, weld trellis frames, and cast wheel hubs. How can a startup survive against Bajaj, TVS, and Royal Enfield without burning hundreds of crores in tooling?"
+        </div>
+        <div class="doubt-proof">
+          <strong>The DualForce Engineering Proof</strong>
+          DualForce executes a high-margin, asset-light **Engine Specialist Model** (the Cummins / Cosworth playbook):
+          <ul style="margin:8px 0 0 18px;font-size:.92rem">
+            <li><strong>In-House High-Margin Core IP Only:</strong> DualForce manufactures ONLY the patented hybrid engine monobloc casting and custom SiC inverter ECU in-house. This requires only 4 refurbished 5-axis CNC centers (DMG MORI / Haas), automated coil-winding machines, and a cleanroom dyno cell—total Phase-1 CAPEX under **₹12 Crore** (actual: ₹4.80–₹11.50 Cr).</li>
+            <li><strong>Tier-1 Certified Tenders:</strong> Rolling chassis (trellis frame, USD forks, Brembo/ByBre calipers), 60V Silicon-Carbon battery packs, and fairings are contracted to certified automotive Tier-1 suppliers (Endurance, Minda, Gabriel, Exide) using standard contract manufacturing.</li>
+            <li><strong>Monobloc Architecture Savings:</strong> A single inline-2 monobloc casting cuts CNC tooling costs by 38% compared to duplicate V-twin castings.</li>
+            <li><strong>Superior Gross Margins:</strong> 350 Twin Cafe yields **48.3% gross margin** (₹1,29,800 profit/bike), while 650 Vector-RR yields **56.1% gross margin** (₹2,49,640 profit/bike). Breakeven achieved at just 1,850 units/year.</li>
+          </ul>
+        </div>
+        <div class="doubt-specs" style="grid-template-columns:repeat(4,1fr)">
+          <div class="doubt-spec-item"><div class="k">Phase-1 Factory Capex</div><div class="v">&lt; ₹12 Cr (Refurbished 5-Axis)</div></div>
+          <div class="doubt-spec-item"><div class="k">Annual Breakeven Volume</div><div class="v">1,850 Units / Year</div></div>
+          <div class="doubt-spec-item"><div class="k">350cc Gross Margin</div><div class="v">48.3% (₹1,29,800 / unit)</div></div>
+          <div class="doubt-spec-item"><div class="k">650cc Gross Margin</div><div class="v">56.1% (₹2,49,640 / unit)</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Comprehensive Interactive Q&A Dossier -->
+<section class="section" id="qa-dossier">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag tag-teal" style="margin-bottom:8px">Technical &amp; Fiscal Dossier</span>
+      <h2>Investor &amp; Engineering Q&amp;A</h2>
+      <p class="lead">Select a category below or explore the full interactive dossier of questions and detailed technical rebuttals.</p>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab" role="tab" data-qa="all" aria-selected="true">All Questions (8)</button>
+      <button type="button" class="tab" role="tab" data-qa="investor" aria-selected="false">Investor Economics &amp; Capex (3)</button>
+      <button type="button" class="tab" role="tab" data-qa="mechanical" aria-selected="false">Mechanical &amp; Metallurgy (3)</button>
+      <button type="button" class="tab" role="tab" data-qa="usability" aria-selected="false">Usability &amp; Regulations (2)</button>
+    </div>
+
+    <div class="faq" id="qaAccordion">
+      <!-- Q1 -->
+      <details open data-qcat="mechanical">
+        <summary>Q1: How does DualForce eliminate magnetic stiction and bore clamping between the piston and cylinder liner?</summary>
+        <div class="a">
+          <p>Magnetic stiction is prevented through a combination of electromagnetic topology, material permeability, and vanishingly low magnetic coercivity:</p>
+          <div class="formula-box">
+            Radial Force Cancellation: &sum; F_radial = &oint; T_radial &middot; dA = 0 (Opposing Diametrical Poles)<br>
+            Cylinder Liner Permeability: &mu;_r &approx; 1.008 (AISI 316L Austenitic Non-Magnetic Stainless Steel)<br>
+            Reluctance Core Remanence: B_r = 0.00 mT at coil switch-off (H_c &lt; 12 A/m)
+          </div>
+          <p>1. <strong>Diametrical Symmetry:</strong> The stator coils are wound in multiphase opposing pairs 180° apart. Under Maxwell Stress Tensor equations, the radial attraction exerted on one side of the piston is matched by an identical radial attraction on the opposing side, yielding a net lateral force vector under 0.4 N. This negligible force is easily separated by the hydrodynamic motor oil wedge (10W-50 ester synthetic).</p>
+          <p>2. <strong>Austenitic 316L Liner:</strong> Unlike cast-iron or ferritic sleeves, 316L austenitic stainless steel exhibits a magnetic permeability virtually identical to air ($\mu_r \approx 1.008$). Flux lines pass through perpendicularly into the piston reluctance core without attaching laterally to the cylinder wall.</p>
+          <p>3. <strong>Zero Permanent Magnets:</strong> The piston skirt carries soft magnetic composite (Hiperco-50) teeth with zero remanence. The microsecond the coil de-energizes, residual magnetism collapses to 0.00 mT, eliminating residual stiction or drag.</p>
+        </div>
+      </details>
+
+      <!-- Q2 -->
+      <details data-qcat="investor">
+        <summary>Q2: How does DualForce achieve 62.0 km/L blended fuel economy when conventional 350cc bikes struggle past 35 km/L?</summary>
+        <div class="a">
+          <p>Conventional motorcycles suffer from three major efficiency drains that DualForce eliminates:</p>
+          <p>1. <strong>Elimination of Urban Idling &amp; Pumping Losses:</strong> In congested urban traffic, conventional engines idle and operate at low throttle openings where pumping losses consume up to 40% of fuel energy, resulting in abysmal 18% Brake Specific Fuel Consumption (BSFC) efficiency. DualForce runs 100% in Pure EV mode at 89% electrical efficiency during urban stop-and-go.</p>
+          <p>2. <strong>Atkinson/Miller Over-Expansion via VVA:</strong> On open roads, an electro-hydraulic dual-lobe camshaft delays Intake Valve Closure to 48° ABDC. This creates an effective compression ratio of 9.2:1 (preventing knock on regular 91-octane fuel) while retaining an expansion ratio of 12.8:1, extracting +18.4% more thermodynamic work per combustion event.</p>
+          <p>3. <strong>Ghost-Weight Packaging:</strong> Conventional hybrids (e.g., Toyota Prius or Honda e:HEV) bolt heavy electric motors, planetary epicyclic gears, and dual clutches, adding 35–45 kg. DualForce converts the reciprocating piston crown into the electric rotor, adding only +4.2 kg of stator copper and SiC MOSFETs.</p>
+          <p>4. <strong>8.5 kW Regenerative Deceleration:</strong> Brake regeneration captures 89% of deceleration kinetic energy into the Silicon-Carbon bellypan battery pack instead of heating brake rotors.</p>
+        </div>
+      </details>
+
+      <!-- Q3 -->
+      <details data-qcat="mechanical">
+        <summary>Q3: Will 2,000°C combustion flash heat cook the stator coils or demagnetize the reluctance teeth past Curie temperature?</summary>
+        <div class="a">
+          <p>No. The stator and reluctance teeth are protected by three thermal defense layers:</p>
+          <p>1. <strong>Zero Fragile Neodymium Magnets:</strong> Traditional permanent magnets (NdFeB) irreversibly demagnetize at 150°C and reach their Curie point at 310°C. DualForce uses NO permanent magnets in the piston. The reluctance teeth are forged from Hiperco-50 iron-cobalt alloy with a Curie temperature of <strong>940°C (1,213 K)</strong>—over 720°C above any internal piston metal temperature (which peaks at 210°C).</p>
+          <p>2. <strong>0.4 mm YSZ Ceramic Crown:</strong> Plasma-sprayed Yttria-Stabilized Zirconia (YSZ) thermal barrier ceramic coating covers the piston crown ($k = 1.8\,\text{W/m}\cdot\text{K}$), bouncing 68% of the momentary radiant combustion heat into the exhaust stroke.</p>
+          <p>3. <strong>24 Dielectric Ester Cooling Bores:</strong> The 316L liner is ringed with 24 vertical bores flushing MIDEL 7131 synthetic dielectric ester oil at 16 L/min (8.2 kW thermal dissipation). Continuous copper coil temperature stays at <strong>108°C–114°C</strong>, providing a massive 106°C safety buffer below the 220°C Class-220 polyimide insulation rating.</p>
+        </div>
+      </details>
+
+      <!-- Q4 -->
+      <details data-qcat="investor">
+        <summary>Q4: What is the Phase-1 CAPEX requirement and how does DualForce achieve 48.3%–56.1% gross margins?</summary>
+        <div class="a">
+          <p>DualForce operates on an asset-light **Engine Specialist Model**, avoiding the massive ₹500+ Crore tooling sinkhole of full vehicle stamping and frame fabrication:</p>
+          <div class="formula-box">
+            In-House Core Phase-1 Capex: ₹11.50 Crore<br>
+            - 4x Refurbished 5-Axis CNC Milling Centers (DMG MORI / Haas): ₹5.20 Cr<br>
+            - Automated Multi-Axis Stator Coil Winding &amp; VPI Impregnation Line: ₹2.40 Cr<br>
+            - Cleanroom ECU / SiC Inverter Assembly &amp; SMT Line: ₹1.90 Cr<br>
+            - Dyno Cell, Laser CMM &amp; End-of-Line QA Testing: ₹2.00 Cr
+          </div>
+          <p><strong>Tier-1 Certified Tender Strategy:</strong> The rolling chassis (trellis frame, USD forks, monoshock, Brembo/ByBre brakes), Silicon-Carbon battery pack, and bodywork are contracted to certified Tier-1 suppliers (Endurance Technologies, Minda, Gabriel, Exide) using standard automotive master supply agreements.</p>
+          <p><strong>Unit Economics &amp; Gross Margins:</strong></p>
+          <ul style="margin:8px 0 0 18px">
+            <li><strong>350 Twin Cafe:</strong> Total Factory Cost ₹1,39,200 vs ₹2,69,000 Ex-Showroom = <strong>₹1,29,800 Gross Profit (48.3% Margin)</strong>.</li>
+            <li><strong>650 Vector-RR:</strong> Total Factory Cost ₹1,95,360 vs ₹4,45,000 Ex-Showroom = <strong>₹2,49,640 Gross Profit (56.1% Margin)</strong>.</li>
+          </ul>
+          <p>Annual breakeven is reached at just 1,850 units per year.</p>
+        </div>
+      </details>
+
+      <!-- Q5 -->
+      <details data-qcat="usability">
+        <summary>Q5: Does the hybrid powertrain require special rider training or complex clutch manipulation?</summary>
+        <div class="a">
+          <p>No. DualForce is engineered with <strong>Invisible Hybridization</strong>:</p>
+          <p>1. <strong>Smart Auto Drive (Standard Mode):</strong> Riders operate the motorcycle exactly like a conventional petrol bike. The dual-core 32-bit ECU reads throttle position, lean angle, and road speed at 2,000 Hz, automatically modulating electromagnetic torque and combustion firing. Off the line, electric reluctance torque launches the bike instantly; at cruising speeds, the engine starts imperceptibly without gear clatter.</p>
+          <p>2. <strong>Integrated Starter-Generator (ISG):</strong> Because the electromagnetic stator coils can spin the crankshaft directly, the engine does not have an external starter motor, sprag clutch, or starter solenoid. Engine re-starts happen in under 40 milliseconds with zero mechanical noise.</p>
+          <p>3. <strong>Optional Manual Thumb Switch:</strong> Riders who wish to lock the bike into Pure EV mode (for quiet morning neighborhoods or low-emissions zones) or Pure ICE / 50:50 Track Pro can toggle a handlebar-mounted thumb switch with tactile feedback.</p>
+        </div>
+      </details>
+
+      <!-- Q6 -->
+      <details data-qcat="mechanical">
+        <summary>Q6: Won't simultaneous combustion pressure and electromagnetic stator torque cause connecting rod bearing failure?</summary>
+        <div class="a">
+          <p>DualForce utilizes <strong>Phase-Shifted Torque Delivery</strong> to prevent bearing fatigue:</p>
+          <div class="formula-box">
+            Combustion Peak Pressure Angle: 14° – 18° ATDC (P_max &approx; 75 bar)<br>
+            Electromagnetic Reluctance Pulse Angle: 35° – 75° ATDC (Piston Max Mechanical Advantage)<br>
+            Cyclic Torque Ripple Reduction: 42% Smoother vs Standard Single/Twin ICE
+          </div>
+          <p>By delaying the peak electromagnetic stator pulse until 35°–75° After Top Dead Center (ATDC)—when the connecting rod has rotated into its maximum mechanical torque angle—the electromagnetic force does not spike the rod bearing vertically. Instead, it converts directly into tangential rotational crank torque.</p>
+          <p>This phase-shifting smooths the harsh instantaneous torque spike of high-compression combustion, reducing peak cyclic connecting rod bearing load and extending engine service life beyond 150,000 km.</p>
+        </div>
+      </details>
+
+      <!-- Q7 -->
+      <details data-qcat="usability">
+        <summary>Q7: How is the DualForce 350 Twin Cafe positioned under Indian GST and vehicle taxation rules?</summary>
+        <div class="a">
+          <p>The 350 Twin Cafe is specifically sized at <strong>348 cc</strong> (62.0 × 57.6 mm × 2) to exploit India's engine-capacity tax threshold:</p>
+          <p>1. <strong>18% vs 40% GST Band:</strong> In India, two-wheelers up to 350 cc are taxed at 18% GST, whereas motorcycles exceeding 350 cc attract 40% GST (with the abolition of compensation cess in September 2025). By engineering the twin-cylinder engine at 348 cc, DualForce saves customers over ₹45,000 in upfront taxes while delivering 46.5 bhp and 58 Nm (comparable to 500cc–650cc single-cylinder bikes).</p>
+          <p>2. <strong>Lower Insurance Slab:</strong> Third-party insurance premiums in India are stepped by cubic capacity. The 348 cc engine qualifies for the sub-350cc insurance bracket, saving owners ₹3,200 annually.</p>
+          <p>3. <strong>HEV Classification (AIS-048 / AIS-049):</strong> As a certified Strong Hybrid Electric Vehicle, DualForce qualifies for preferential state EV subsidies, green registration plates in progressive states, and exemption from odd-even road rationing.</p>
+        </div>
+      </details>
+
+      <!-- Q8 -->
+      <details data-qcat="investor">
+        <summary>Q8: What happens to the battery after 5 years, and does battery degradation hurt resale value?</summary>
+        <div class="a">
+          <p>Unlike massive 15–20 kWh electric motorcycle batteries that cost ₹1.5–₹2.5 Lakh to replace, DualForce utilizes an ultra-compact, high-density <strong>Silicon-Carbon bellypan pack</strong>:</p>
+          <p>1. <strong>Pouch Chemistry (350 Wh/kg):</strong> The 350 Twin Cafe carries a 2.60 kWh pack weighing just 11.2 kg; the 650 Vector-RR carries a 3.80 kWh pack weighing 15.8 kg. Sourced at Tier-1 tender cost of ₹23,040 ($240), an entire factory pack replacement at Year 6 costs under ₹24,000.</p>
+          <p>2. <strong>2,500 Full Charge Cycle Durability:</strong> With regenerative braking sharing the load, 2,500 cycles equates to over 300,000 km of real-world driving before cell capacity drops below 80%.</p>
+          <p>3. <strong>Complete Mechanical Redundancy:</strong> Even if the battery were completely removed or flat, the motorcycle continues to function seamlessly as a pure mechanical 270° crossplane parallel-twin, guaranteeing strong long-term resale value.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 3-Year TCO & ROI Calculator -->
+<section class="section" id="tco-calculator" style="border-top:1px solid var(--line);background:#fff">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag tag-teal" style="margin-bottom:8px">Customer &amp; Fleet Economics</span>
+      <h2>3-Year Total Cost of Ownership (TCO) Calculator</h2>
+      <p class="lead">Compare real-world operating costs between the DualForce 350 Twin Cafe, a conventional 350cc petrol motorcycle, and a premium electric two-wheeler over a 3-year ownership cycle.</p>
+    </div>
+
+    <div class="calc-grid">
+      <div class="calc-panel">
+        <h3>Adjust Commute Parameters</h3>
+        <div class="calc-field">
+          <label for="calcDailyKm"><span>Daily Commute Distance</span><span id="calcDailyKmLbl">45 km / day</span></label>
+          <input type="range" id="calcDailyKm" min="15" max="120" step="5" value="45">
+        </div>
+        <div class="calc-field">
+          <label for="calcFuelPrice"><span>Petrol Price per Litre</span><span id="calcFuelPriceLbl">₹105 / L</span></label>
+          <input type="range" id="calcFuelPrice" min="90" max="130" step="1" value="105">
+        </div>
+        <div class="calc-field">
+          <label for="calcElecPrice"><span>Electricity Tariff per kWh</span><span id="calcElecPriceLbl">₹8.0 / kWh</span></label>
+          <input type="range" id="calcElecPrice" min="5" max="14" step="0.5" value="8">
+        </div>
+        <div class="calc-field">
+          <label for="calcYears"><span>Ownership Period</span><span id="calcYearsLbl">3 Years (49,275 km)</span></label>
+          <input type="range" id="calcYears" min="1" max="5" step="1" value="3">
+        </div>
+      </div>
+
+      <div>
+        <h3>3-Year Total Running Cost Comparison</h3>
+        <p class="fine" style="margin-bottom:18px">Calculated based on standard Indian Driving Cycle energy consumption and scheduled maintenance.</p>
+
+        <div class="calc-cards">
+          <!-- DualForce -->
+          <div class="calc-card highlight">
+            <div class="veh" style="color:var(--accent)">DualForce 350 Hybrid</div>
+            <div class="cost" id="tcoDualForce">₹91,120</div>
+            <div class="sub">₹1.85 / km · 62 km/L + EV</div>
+            <p style="font-size:.82rem;color:var(--green);font-weight:600;margin-top:8px" id="tcoSavings">Saves ₹1,18,450 vs Petrol</p>
+          </div>
+          <!-- Conventional Petrol -->
+          <div class="calc-card">
+            <div class="veh">Standard 350cc Petrol</div>
+            <div class="cost" id="tcoPetrol">₹2,09,570</div>
+            <div class="sub">₹4.25 / km · 30 km/L Real</div>
+            <p style="font-size:.82rem;color:var(--red);margin-top:8px">High urban idle wastage</p>
+          </div>
+          <!-- Pure EV -->
+          <div class="calc-card">
+            <div class="veh">Performance Pure EV</div>
+            <div class="cost" id="tcoEV">₹1,38,400</div>
+            <div class="sub">₹2.81 / km + Battery Depr.</div>
+            <p style="font-size:.82rem;color:var(--muted);margin-top:8px">₹65k battery amortisation</p>
+          </div>
+        </div>
+
+        <div class="calc-summary-banner">
+          <strong id="bannerSavingsHeadline">The DualForce Hybrid saves ₹1,18,450 over 3 years.</strong>
+          <p style="font-size:.95rem;color:#1e4c50" id="bannerSavingsDesc">The ₹1,18,450 fuel and maintenance savings recuperates over 44% of the vehicle’s purchase price within 36 months, while providing unlimited touring range without charging anxiety.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Factory Cost, BOM & Investor Margins -->
+<section class="section dark-section" id="capex-economics">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag tag-teal" style="margin-bottom:8px">Financial Architecture</span>
+      <h2>Factory Cost, Unit Margins &amp; Capex</h2>
+      <p class="lead">DualForce eliminates high automotive CAPEX by machining only the patented hybrid engine and ECU in-house on refurbished 5-axis CNCs. Frames, batteries, and bodywork are tendered to Tier-1 automotive leaders.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data" style="color:#d5d5d5">
+        <thead>
+          <tr>
+            <th scope="col" style="color:#fff">Powertrain &amp; Vehicle Subsystems</th>
+            <th scope="col" style="color:#fff">Manufacturing Route</th>
+            <th scope="col" style="color:#fff">350 Twin Cafe</th>
+            <th scope="col" style="color:#fff">650 Vector-RR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:#fff">Patented Monobloc Engine Block &amp; Stator</td>
+            <td>In-House (Refurbished 5-Axis CNC)</td>
+            <td>₹41,280 ($430)</td>
+            <td>₹58,080 ($605)</td>
+          </tr>
+          <tr>
+            <td style="color:#fff">60V Silicon-Carbon Bellypan Battery Pack</td>
+            <td>Tier-1 Tender (Exide / Minda certified)</td>
+            <td>₹23,040 ($240)</td>
+            <td>₹33,600 ($350)</td>
+          </tr>
+          <tr>
+            <td style="color:#fff">Trellis Frame, USD Suspension &amp; Radial Brakes</td>
+            <td>Tier-1 Tender (Endurance / Gabriel)</td>
+            <td>₹42,240 ($440)</td>
+            <td>₹58,080 ($605)</td>
+          </tr>
+          <tr>
+            <td style="color:#fff">Bodywork, 6.5" TFT Cockpit &amp; Final Assembly QC</td>
+            <td>Tier-1 Tender (Minda / Spark Minda)</td>
+            <td>₹32,640 ($340)</td>
+            <td>₹45,600 ($475)</td>
+          </tr>
+          <tr class="total">
+            <td style="color:#fff">Total Factory Manufacturing Cost</td>
+            <td>Fully Loaded Ex-Works</td>
+            <td style="color:var(--accent-light);font-size:1.15rem">₹1,39,200 ($1,450)</td>
+            <td style="color:var(--accent-light);font-size:1.15rem">₹1,95,360 ($2,035)</td>
+          </tr>
+          <tr>
+            <td style="color:#fff">Base Ex-Showroom Retail Price</td>
+            <td>Target Customer Price</td>
+            <td style="color:#fff;font-weight:600">₹2,69,000 ($2,802)</td>
+            <td style="color:#fff;font-weight:600">₹4,45,000 ($4,635)</td>
+          </tr>
+          <tr class="total">
+            <td style="color:#fff">Gross Margin &amp; Profit Contribution</td>
+            <td>Per Unit Economics</td>
+            <td style="color:#3cc4cd;font-size:1.25rem;font-weight:700">₹1,29,800 (48.3%)</td>
+            <td style="color:#3cc4cd;font-size:1.25rem;font-weight:700">₹2,49,640 (56.1%)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 3-Year Projection Strip -->
+    <div style="margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid #2a2a2a;padding-top:36px">
+      <div>
+        <h4 style="color:#fff">Phase 1 (Year 1)</h4>
+        <p style="font-size:1.8rem;font-family:var(--display);color:var(--accent-light);font-weight:700">2,500 Units</p>
+        <p class="fine">₹82.5 Cr Revenue · ₹41.2 Cr Gross Profit · Capex Payback in 9 Months</p>
+      </div>
+      <div>
+        <h4 style="color:#fff">Phase 2 (Year 2)</h4>
+        <p style="font-size:1.8rem;font-family:var(--display);color:var(--accent-light);font-weight:700">8,000 Units</p>
+        <p class="fine">₹264 Cr Revenue · ₹134 Cr Gross Profit · Expansion of Tier-1 Dealerships</p>
+      </div>
+      <div>
+        <h4 style="color:#fff">Phase 3 (Year 3)</h4>
+        <p style="font-size:1.8rem;font-family:var(--display);color:var(--accent-light);font-weight:700">22,000 Units</p>
+        <p class="fine">₹740 Cr Revenue · ₹382 Cr Gross Profit · Global Export to ASEAN &amp; EU</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Full Engine Technical Specifications -->
+<section class="section" id="specifications" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag tag-teal" style="margin-bottom:8px">Benchmarking Data</span>
+      <h2>Full Engineering Specifications</h2>
+      <p class="lead">Certified engineering metrics for the 348cc and 648cc DualForce hybrid powertrain platforms.</p>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab" role="tab" data-spec-tab="all" aria-selected="true">All Parameters</button>
+      <button type="button" class="tab" role="tab" data-spec-tab="engine" aria-selected="false">Combustion &amp; Mechanical</button>
+      <button type="button" class="tab" role="tab" data-spec-tab="electric" aria-selected="false">Electromagnetic Stator</button>
+      <button type="button" class="tab" role="tab" data-spec-tab="thermal" aria-selected="false">Thermal &amp; Materials</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data" id="engineSpecTable">
+        <thead>
+          <tr>
+            <th scope="col">Parameter</th>
+            <th scope="col">DualForce 350 Platform</th>
+            <th scope="col">DualForce 650 Platform</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Combustion -->
+          <tr data-cat="engine">
+            <td>Engine Architecture &amp; Firing Order</td>
+            <td>348 cc Monobloc Inline-2 · 270° Crossplane</td>
+            <td>648 cc Monobloc Inline-2 · 270° Crossplane</td>
+          </tr>
+          <tr data-cat="engine">
+            <td>Bore &times; Stroke</td>
+            <td>62.0 mm &times; 57.6 mm (Twin Cylinder)</td>
+            <td>78.0 mm &times; 67.8 mm (Twin Cylinder)</td>
+          </tr>
+          <tr data-cat="engine">
+            <td>Valve Actuation &amp; Timing</td>
+            <td>DOHC 4-Valve · Dual-Lobe VVA Atkinson/Miller</td>
+            <td>DOHC 4-Valve · Dual-Lobe VVA Atkinson/Miller</td>
+          </tr>
+          <tr data-cat="engine">
+            <td>Static / Expansion Ratio</td>
+            <td>11.2 : 1 Static · 12.8 : 1 Expansion Stroke</td>
+            <td>11.8 : 1 Static · 13.2 : 1 Expansion Stroke</td>
+          </tr>
+          <tr data-cat="engine">
+            <td>Reciprocating Piston Weight</td>
+            <td>178 g (Ø61.94 mm) with Reluctance Core</td>
+            <td>268 g (Ø77.94 mm) with Reluctance Core</td>
+          </tr>
+
+          <!-- Electric -->
+          <tr data-cat="electric">
+            <td>Electromagnetic Topology</td>
+            <td>Variable Reluctance Linear Translator (Zero Magnets)</td>
+            <td>Variable Reluctance Linear Translator (Zero Magnets)</td>
+          </tr>
+          <tr data-cat="electric">
+            <td>Peak Electromagnetic Thrust</td>
+            <td>3,960 N Total (1,980 N per cylinder)</td>
+            <td>7,360 N Total (3,680 N per cylinder)</td>
+          </tr>
+          <tr data-cat="electric">
+            <td>Stator Winding Configuration</td>
+            <td>360-Turn Multiphase Heavy-Gauge Class-220 Copper</td>
+            <td>480-Turn Multiphase Heavy-Gauge Class-220 Copper</td>
+          </tr>
+          <tr data-cat="electric">
+            <td>Inverter Electronics</td>
+            <td>60V Silicon Carbide (SiC) MOSFET FOC Inverter</td>
+            <td>60V Silicon Carbide (SiC) MOSFET FOC Inverter</td>
+          </tr>
+          <tr data-cat="electric">
+            <td>Battery Chemistry &amp; Capacity</td>
+            <td>60V 2.60 kWh Silicon-Carbon Pack (350 Wh/kg)</td>
+            <td>60V 3.80 kWh Silicon-Carbon Pack (350 Wh/kg)</td>
+          </tr>
+
+          <!-- Thermal -->
+          <tr data-cat="thermal">
+            <td>Cylinder Sleeve Metallurgy</td>
+            <td>Austenitic 316L Stainless Steel (&mu;r &approx; 1.008)</td>
+            <td>Austenitic 316L Stainless Steel (&mu;r &approx; 1.008)</td>
+          </tr>
+          <tr data-cat="thermal">
+            <td>Reluctance Core Curie Point</td>
+            <td>940°C (Hiperco-50 Iron-Cobalt Alloy)</td>
+            <td>940°C (Hiperco-50 Iron-Cobalt Alloy)</td>
+          </tr>
+          <tr data-cat="thermal">
+            <td>Piston Crown Thermal Barrier</td>
+            <td>0.4 mm Plasma-Sprayed YSZ Ceramic (k = 1.8 W/m·K)</td>
+            <td>0.4 mm Plasma-Sprayed YSZ Ceramic (k = 1.8 W/m·K)</td>
+          </tr>
+          <tr data-cat="thermal">
+            <td>Dielectric Oil Cooling Channels</td>
+            <td>16 Vertical Bores (Ø4.5 mm) · 10 L/min MIDEL 7131</td>
+            <td>24 Vertical Bores (Ø5.0 mm) · 16 L/min MIDEL 7131</td>
+          </tr>
+          <tr data-cat="thermal">
+            <td>Continuous Stator Temp (Dyno Max)</td>
+            <td>108°C Steady-State (Safety Margin: 112°C)</td>
+            <td>114°C Steady-State (Safety Margin: 106°C)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-cta">
+    <div>
+      <h2>Request Investor Due Diligence Dossier</h2>
+      <p>Receive full patent claims, CAD step files, dyno telemetry logs, and Tier-1 BOM cost audits.</p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button type="button" class="btn btn-light" id="btnFooterBrief">Request Investor Dossier</button>
+      <a href="models.html" class="btn btn-line-light">Explore Models &amp; Pricing</a>
+    </div>
+  </div>
+  <div class="footer-main">
+    <div>
+      <h3>Technology</h3>
+      <ul>
+        <li><a href="#overview">Hybrid Architecture</a></li>
+        <li><a href="#hotspots">Anatomy &amp; CAD</a></li>
+        <li><a href="#doubts-rebuttal">5 Core Rebuttals</a></li>
+        <li><a href="#qa-dossier">Q&amp;A Dossier</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Models</h3>
+      <ul>
+        <li><a href="models.html#model-350cafe">DualForce 350 Twin Cafe</a></li>
+        <li><a href="models.html#model-650rr">DualForce 650 Vector-RR</a></li>
+        <li><a href="models.html#section-pricing">Pricing &amp; EMI Calculator</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Investor Relations</h3>
+      <ul>
+        <li><a href="#capex-economics">Factory Economics &amp; Capex</a></li>
+        <li><a href="#tco-calculator">3-Year TCO Calculator</a></li>
+        <li><a href="dualforce-deck1.html">Interactive Pitch Deck</a></li>
+      </ul>
+    </div>
+  </div>
+  <p class="legal">© 2026 DualForce Motorrad. DualForce, the DualForce emblem, and the Single-Chamber Electromagnetic Reluctance Powertrain architecture are registered trademarks and intellectual property of DualForce Technologies Ltd. Patent references: PCT/IN2025/050182 and Indian Patent App 202541088219. All rights reserved.</p>
+</footer>
+
+<!-- Investor Brief Dialog -->
+<dialog id="briefDialog" aria-labelledby="bdTitle">
+  <button type="button" class="dlg-close" aria-label="Close">✕</button>
+  <h2 id="bdTitle">Investor Technical Dossier</h2>
+  <p style="color:var(--muted);font-size:.95rem;margin-bottom:20px">Download certified dyno test data, thermal FEA plots, and Tier-1 manufacturing cost audits.</p>
+  <form id="briefForm">
+    <div class="form-row">
+      <label for="bdName">Full Name</label>
+      <input type="text" id="bdName" required placeholder="Preetham Varma">
+    </div>
+    <div class="form-row">
+      <label for="bdOrg">Firm / Institution</label>
+      <input type="text" id="bdOrg" required placeholder="Venture Partner / Tier-1 Engineering">
+    </div>
+    <div class="form-row">
+      <label for="bdEmail">Corporate Email or WhatsApp</label>
+      <input type="email" id="bdEmail" required placeholder="investor@fund.com">
+    </div>
+    <div class="form-row">
+      <label for="bdInterest">Primary Interest</label>
+      <select id="bdInterest">
+        <option>Series-A Investment &amp; Due Diligence</option>
+        <option>Tier-1 Supplier / Contract Manufacturing</option>
+        <option>Academic / Technical Research Collaboration</option>
+        <option>Priority Fleet Allocation</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-solid btn-block">Download Confidential Dossier</button>
+  </form>
+  <div id="briefSuccess" hidden>
+    <strong>Verification Confirmed.</strong> The confidential 34-page technical dossier and CAD summary package has been dispatched to your email address.
+  </div>
+</dialog>
+
+<!-- Lightbox Dialog -->
+<dialog id="lightbox" aria-label="Image preview">
+  <button type="button" class="dlg-close" aria-label="Close">✕</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-cap">
+    <div><strong id="lbTitle"></strong><span id="lbSub"></span></div>
+    <button type="button" class="btn btn-light btn-sm" id="lbBrief">Request High-Res CAD</button>
+  </div>
+</dialog>
+
+<script>
+/* Hotspots Data */
+const HOTSPOTS = [
+  {
+    kicker: "1 of 6 · Thermodynamics & Breathing",
+    title: "VVA Dual-Lobe Camshaft (Atkinson/Miller Over-Expansion)",
+    body: "An electro-hydraulic dual-lobe overhead camshaft dynamically delays Intake Valve Closure (IVC) to 48° ABDC at cruising RPM. By returning an initial portion of the air-fuel mixture back into the intake plenum, it establishes an effective 9.2:1 compression ratio while preserving a deep 12.8:1 expansion ratio. This unlocks an +18.4% thermal work extraction bonus from every combustible droplet without knock.",
+    metric: "12.8:1 Expansion Ratio · 62.0 km/L Certified Blended Mileage"
+  },
+  {
+    kicker: "2 of 6 · Metallurgy & Stiction Defense",
+    title: "Austenitic 316L Non-Magnetic Cylinder Sleeve",
+    body: "Cast from AISI 316L austenitic stainless steel with a relative magnetic permeability of μr ≈ 1.008 (identical to ambient vacuum/air). This non-magnetic sleeve acts as a transparent window: electromagnetic flux lines from the stator coils pass perpendicularly straight into the piston reluctance core without lateral attraction or clamping to the sleeve wall.",
+    metric: "μr ≈ 1.008 Permeability · Diamond-Lapped MoS2 / PTFE Skirt Coating (0.03 μ)"
+  },
+  {
+    kicker: "3 of 6 · Reluctance Core & Zero Stiction",
+    title: "Hiperco-50 Reluctance Teeth Piston (Zero Permanent Magnets)",
+    body: "The piston skirt houses laminated Soft Magnetic Composite (SMC) Hiperco-50 iron-cobalt reluctance teeth. Unlike brittle permanent magnets that suffer irreversible demagnetization at 150°C, Hiperco-50 features a massive 940°C Curie point. With zero permanent magnetic remanence (Br = 0.00 mT at cut-off), magnetic stiction is mathematically impossible.",
+    metric: "940°C Curie Point · Zero Permanent Magnet Remanence (0.00 mT)"
+  },
+  {
+    kicker: "4 of 6 · Electromagnetic Propulsion & Cooling",
+    title: "Stator Coils & 24 Dielectric Ester Cooling Bores",
+    body: "Encased in CNC aerospace 6061-T6 aluminum housing, 480-turn Class-220 polyimide copper stator coils generate up to 7,360 N of bidirectional linear Lorentz thrust. 24 vertical bores flush MIDEL 7131 synthetic dielectric ester at 16 L/min, holding continuous stator copper temperature at 108°C–114°C—leaving a 106°C safety margin below thermal rating.",
+    metric: "7,360 N Combined Thrust · 114°C Steady-State Stator Temperature"
+  },
+  {
+    kicker: "5 of 6 · Thermal Shielding",
+    title: "Plasma-Sprayed 0.4 mm YSZ Ceramic Crown",
+    body: "A 0.4 mm layer of Yttria-Stabilized Zirconia (YSZ) thermal barrier ceramic is plasma-sprayed onto the forged 4032 aerospace aluminum piston crown. With an extremely low thermal conductivity of k = 1.8 W/m·K, it reflects 68% of the instantaneous 2,200°C combustion flash heat back into the expansion stroke.",
+    metric: "0.4 mm YSZ Ceramic · 68% Combustion Flash Heat Reflected"
+  },
+  {
+    kicker: "6 of 6 · Dynamics & Power Electronics",
+    title: "270° Crossplane Crankshaft & Microsecond SiC Inverter",
+    body: "Combines a 270° crossplane parallel-twin crankshaft with a high-frequency 60V Silicon Carbide (SiC) MOSFET field-oriented inverter. The ECU micro-times stator reluctance pulses to occur between 35°–75° ATDC (the crank's angle of maximum mechanical leverage), reducing cyclic bearing stress by 42% while providing instant 0-RPM torque.",
+    metric: "2,000 Hz SiC Inverter Sync · 42% Smoother Cyclic Torque"
+  }
+];
+
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+
+/* Hotspots Functionality */
+function setHotspot(idx){
+  const h = HOTSPOTS[idx];
+  $('#hsKicker').textContent = h.kicker;
+  $('#hsTitle').textContent = h.title;
+  $('#hsBody').textContent = h.body;
+  $('#hsMetric').textContent = h.metric;
+
+  $$('.hs-pin').forEach((pin, n) => pin.setAttribute('aria-pressed', n === idx));
+  $$('#hsList button').forEach((btn, n) => btn.setAttribute('aria-current', n === idx ? 'true' : 'false'));
+}
+
+$$('.hs-pin').forEach(btn => btn.addEventListener('click', () => setHotspot(+btn.dataset.i)));
+$$('#hsList button').forEach(btn => btn.addEventListener('click', () => setHotspot(+btn.dataset.i)));
+
+/* Q&A Filter Tabs */
+$$('[data-qa]').forEach(tab => tab.addEventListener('click', () => {
+  $$('[data-qa]').forEach(t => t.setAttribute('aria-selected', t === tab));
+  const cat = tab.dataset.qa;
+  $$('#qaAccordion details').forEach(item => {
+    item.hidden = !(cat === 'all' || item.dataset.qcat === cat);
+    if(cat !== 'all' && item.dataset.qcat === cat){
+      item.open = true;
+    }
+  });
+}));
+
+/* Spec Table Filter Tabs */
+$$('[data-spec-tab]').forEach(tab => tab.addEventListener('click', () => {
+  $$('[data-spec-tab]').forEach(t => t.setAttribute('aria-selected', t === tab));
+  const cat = tab.dataset.specTab;
+  $$('#engineSpecTable tbody tr').forEach(row => {
+    row.hidden = !(cat === 'all' || row.dataset.cat === cat);
+  });
+}));
+
+/* TCO Calculator Logic */
+const inr = n => n.toLocaleString('en-IN');
+
+function updateTcoCalc(){
+  const dailyKm = +$('#calcDailyKm').value;
+  const fuelPrice = +$('#calcFuelPrice').value;
+  const elecPrice = +$('#calcElecPrice').value;
+  const years = +$('#calcYears').value;
+
+  const totalKm = dailyKm * 365 * years;
+
+  $('#calcDailyKmLbl').textContent = `${dailyKm} km / day`;
+  $('#calcFuelPriceLbl').textContent = `₹${fuelPrice} / L`;
+  $('#calcElecPriceLbl').textContent = `₹${elecPrice.toFixed(1)} / kWh`;
+  $('#calcYearsLbl').textContent = `${years} Year${years > 1 ? 's' : ''} (${inr(totalKm)} km)`;
+
+  // DualForce 350: 70% city on Pure EV (30 km/kWh = 0.033 kWh/km), 30% highway on Hybrid (62 km/L)
+  const dfEvKm = totalKm * 0.70;
+  const dfIceKm = totalKm * 0.30;
+  const dfElecCost = (dfEvKm / 30) * elecPrice;
+  const dfFuelCost = (dfIceKm / 62) * fuelPrice;
+  const dfMaintenance = totalKm * 0.40; // ₹0.40/km maintenance
+  const totalDualForce = Math.round(dfElecCost + dfFuelCost + dfMaintenance);
+
+  // Conventional 350cc Petrol: 30 km/L real world urban/highway, higher maintenance
+  const petFuelCost = (totalKm / 30) * fuelPrice;
+  const petMaintenance = totalKm * 0.75;
+  const totalPetrol = Math.round(petFuelCost + petMaintenance);
+
+  // Pure EV: 28 km/kWh electricity, plus battery degradation amortisation (₹1.30/km)
+  const evElecCost = (totalKm / 28) * elecPrice;
+  const evBatteryAmort = totalKm * 1.30;
+  const evMaintenance = totalKm * 0.35;
+  const totalEV = Math.round(evElecCost + evBatteryAmort + evMaintenance);
+
+  const savingsVsPetrol = totalPetrol - totalDualForce;
+
+  $('#tcoDualForce').textContent = `₹${inr(totalDualForce)}`;
+  $('#tcoPetrol').textContent = `₹${inr(totalPetrol)}`;
+  $('#tcoEV').textContent = `₹${inr(totalEV)}`;
+
+  $('#tcoSavings').textContent = `Saves ₹${inr(savingsVsPetrol)} vs Petrol`;
+  $('#bannerSavingsHeadline').textContent = `The DualForce Hybrid saves ₹${inr(savingsVsPetrol)} over ${years} year${years > 1 ? 's' : ''}.`;
+  $('#bannerSavingsDesc').textContent = `By running 70% of daily city commuting in silent Pure EV mode and using Atkinson-cycle over-expansion on highways, an owner or fleet saves ₹${inr(savingsVsPetrol)} in fuel and maintenance—recovering a massive portion of the vehicle acquisition cost with zero charging downtime.`;
+}
+
+$$('#calcDailyKm, #calcFuelPrice, #calcElecPrice, #calcYears').forEach(el => el.addEventListener('input', updateTcoCalc));
+updateTcoCalc();
+
+/* Dialog Modals */
+const briefDlg = $('#briefDialog');
+const openBrief = () => { $('#briefSuccess').hidden = true; briefDlg.showModal(); };
+$('#btnOpenBrief').addEventListener('click', openBrief);
+$('#btnFooterBrief').addEventListener('click', openBrief);
+$('#briefForm').addEventListener('submit', e => {
+  e.preventDefault();
+  $('#briefSuccess').hidden = false;
+  e.target.reset();
+});
+
+$$('.dlg-close').forEach(btn => btn.addEventListener('click', () => btn.closest('dialog').close()));
+briefDlg.addEventListener('click', e => { if (e.target === briefDlg) briefDlg.close(); });
+
+/* Lightbox preview */
+const lightbox = $('#lightbox');
+$('#cutawayImage').addEventListener('click', () => {
+  $('#lbImg').src = $('#cutawayImage').src;
+  $('#lbTitle').textContent = 'DualForce Hybrid Engine Cutaway';
+  $('#lbSub').textContent = 'Photorealistic CAD Render with Integrated Hotspot Markers';
+  lightbox.showModal();
+});
+$('#lbBrief').addEventListener('click', () => { lightbox.close(); openBrief(); });
+lightbox.addEventListener('click', e => { if (e.target === lightbox) lightbox.close(); });
+
+/* Sticky Nav Active Tracker */
+const navLinks = $$('.main-nav a');
+const sections = navLinks.map(a => $(a.getAttribute('href'))).filter(Boolean);
+if ('IntersectionObserver' in window){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting){
+        navLinks.forEach(a => a.classList.toggle('is-current', a.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, {rootMargin: '-30% 0px -60% 0px'});
+  sections.forEach(s => io.observe(s));
+}
+</script>
+</body>
 </html>
