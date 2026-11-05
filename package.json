@@ -1,0 +1,24 @@
+{
+  "name": "dualforce-350-engine-site",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.12.1",
+  "scripts": {
+    "build": "node scripts/build-engine.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test:engine": "node scripts/validate-engine.mjs"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "three": "0.187.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/three": "0.187.0",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2"
+  }
+}
