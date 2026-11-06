@@ -47,11 +47,11 @@ Baseline: audited integrated fork commit `8e36eb0d2d33acb52642d657bb2aa4cfea2585
 - [x] Give the appended engine sequence and standalone 3D lab a dedicated full-area engine-model slide and a separate system-settings slide so settings no longer consume or cover the model view.
 - [x] Provide clear, accessible navigation between MODEL and SYSTEM CONTROLS; keep the selected slide visible, preserve engine/control state, and keep every existing setting functional on the settings slide.
 - [x] Keep the model and settings slides usable at desktop and narrow/mobile widths without clipping or horizontal overflow; model view defaults to the unobstructed model slide.
-- [ ] Once the above and prior gear-free lab changes pass final checks, commit and push to the existing `feat/restore-complete-engine-controls` Pages source branch of `v01Dxwebz/DUALFORCE-`, verify the Pages deployment and live content, and do not change upstream `main` or `feat/minimal-engine-showcase`.
+- [x] Once the above and prior gear-free lab changes pass final checks, commit and push to the existing `feat/restore-complete-engine-controls` Pages source branch of `v01Dxwebz/DUALFORCE-`, verify the Pages deployment and live content, and do not change upstream `main` or `feat/minimal-engine-showcase`.
 
 ## Responsive operation and final review gate
 - [ ] Keep all restored controls usable on mobile and desktop; create a compact layout where needed; support touch rotation, pinch zoom and page scrolling without one gesture unintentionally blocking the other.
 - [ ] Before requesting review, individually exercise all four camera presets; all eight visibility controls; continuous explode and casing sliders; slow motion; annotation on/off and all three modes; projected-label selection/readout; auto-orbit; wheel/pinch zoom; and reset controls.
 - [ ] Exercise scroll in both directions and verify the original deck’s slide navigation plus the original `models.html`, `3d-engine.html`, and `engine.html` interactions still work.
 - [ ] Check desktop and narrow/mobile layouts, WebGL fallback, console errors, resource cleanup, non-visible render-loop behavior, and the visual comparison against the original pages and original Manus viewer; do not mark an outcome complete without evidence of actual behavior.
-- [ ] Do not publish until this request passes its final tests; then publish only the explicitly authorized feature-branch update and verify the public Pages deployment. Do not merge into upstream or change the Pages source selection.
+- [x] Do not publish until this request passes its final tests; then publish only the explicitly authorized feature-branch update and verify the public Pages deployment. Do not merge into upstream or change the Pages source selection.
