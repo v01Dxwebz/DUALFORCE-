@@ -543,6 +543,253 @@ body:has(.showcase-header) {
 .df3d-compact-btn.df3d-compact-lab { border-color: var(--df-accent); background: rgba(82, 105, 97, .2); color: var(--df-accent); }
 .df3d-compact-rpm span, .df3d-theme-light .df3d-compact-rpm span { color: var(--df-accent); }
 
+/* Reference-style standalone lab: graphite model field, restrained metal and copper. */
+body:has(.showcase-header) #dualforce-main-viewer { height: 720px; min-height: 720px; }
+body:has(.showcase-header) #dualforce-main-viewer.df3d-container {
+  height: 100%;
+  min-height: 0;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-stage-wrapper {
+  height: 100%;
+  min-height: 0;
+  background: #303234;
+  touch-action: pan-y;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-controls-panel {
+  height: 100%;
+  max-height: 720px;
+  min-height: 0;
+  overflow: auto;
+  padding: 22px 20px;
+  gap: 0;
+  background: #e2e3e0;
+  color: #363d3e;
+  border-left: 1px solid #c8ccca;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-panel-header {
+  padding: 0 0 16px;
+  border-bottom-color: #c8ccca;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-panel-header span,
+body:has(.showcase-header) #dualforce-main-viewer .df3d-group-title strong,
+body:has(.showcase-header) #dualforce-main-viewer .df3d-active-key { color: #9a6b50; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-panel-header b { color: #737b7a; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-control-group {
+  gap: 9px;
+  padding: 17px 0;
+  border-top: 1px solid #c8ccca;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-group-title {
+  color: #858c8a;
+  font-size: 9px;
+  letter-spacing: .11em;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-row { gap: 16px; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-play-btn {
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border-radius: 0;
+  background: #e2e3e0;
+  border-color: #9a6b50;
+  color: #9a6b50;
+  font-size: 20px;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-play-btn:hover { background: #eee9e4; color: #7f5741; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-rpm-readout {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 4px;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-rpm-readout b { color: #343b3c; font-size: 22px; font-weight: 500; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-rpm-readout span { color: #858c8a; font-size: 8px; letter-spacing: .08em; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-slider {
+  height: 3px;
+  margin: 5px 0 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, #b07858 0 38%, #65766e 38% 100%);
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-slider::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #303234;
+  background: #ad795b;
+  box-shadow: 0 0 0 1px #303234;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-slider::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border: 2px solid #303234;
+  background: #ad795b;
+  box-shadow: 0 0 0 1px #303234;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-range-ends {
+  display: flex;
+  justify-content: space-between;
+  color: #8a908e;
+  font: 8px var(--df-mono);
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-segmented {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  padding: 0;
+  border: 1px solid #c8ccca;
+  border-radius: 0;
+  background: transparent;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-annotation-modes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-seg-btn {
+  min-width: 0;
+  min-height: 38px;
+  padding: 7px 4px;
+  border-right: 1px solid #c8ccca;
+  border-radius: 0;
+  color: #7c8381;
+  font-size: 8px;
+  letter-spacing: .03em;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-seg-btn:last-child { border-right: 0; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-seg-btn.active {
+  background: #d9d5d0;
+  color: #93664c;
+  border-color: #c8ccca;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-camera-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-cam-btn {
+  min-width: 0;
+  padding: 12px 3px;
+  border-radius: 0;
+  font-size: 8px;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-toggle-btn {
+  border-radius: 0;
+  background: transparent;
+  color: #737b7a;
+  font-size: 8px;
+  padding: 9px 10px;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-toggle-btn.active {
+  border-color: #a77a60;
+  background: rgba(154, 107, 80, .08);
+  color: #93664c;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-text-btn {
+  align-self: flex-start;
+  padding: 3px 0;
+  border: 0;
+  background: transparent;
+  color: #737b7a;
+  font: 9px var(--df-mono);
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-text-btn:hover { color: #93664c; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-switch-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: #555e5d;
+  text-align: left;
+  font: 9px var(--df-mono);
+  cursor: pointer;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-switch-track {
+  display: inline-flex;
+  align-items: center;
+  width: 34px;
+  height: 18px;
+  padding: 3px;
+  border: 1px solid #9da4a1;
+  border-radius: 10px;
+  flex: 0 0 34px;
+  transition: border-color .16s ease, background-color .16s ease;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-switch-track i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8a928f;
+  transition: transform .16s ease, background-color .16s ease;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-switch-btn.active .df3d-switch-track { border-color: #ad795b; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-switch-btn.active .df3d-switch-track i { background: #ad795b; transform: translateX(16px); }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-components-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-component-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 34px;
+  padding: 7px 8px;
+  border: 1px solid #c8ccca;
+  border-radius: 0;
+  background: rgba(255, 255, 255, .18);
+  color: #737b7a;
+  text-align: left;
+  font: 7px var(--df-mono);
+  line-height: 1.3;
+  cursor: pointer;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-component-btn i {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: #9da4a1;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-component-btn.active {
+  border-color: #b9a99b;
+  background: rgba(154, 107, 80, .07);
+  color: #555d5b;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-component-btn.active i { background: #ad795b; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-active-card {
+  margin: 0;
+  padding: 12px 0 0;
+  border: 0;
+  border-top: 1px solid #c8ccca;
+  border-radius: 0;
+  background: transparent;
+}
+body:has(.showcase-header) #dualforce-main-viewer .df3d-active-title { color: #363d3e; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-active-desc { color: #737b7a; }
+body:has(.showcase-header) #dualforce-main-viewer .df3d-stage-badge.bottom-right {
+  background: rgba(48, 50, 52, .82);
+  border-color: rgba(226, 227, 224, .22);
+  color: #e2e3e0;
+}
+
+@media (min-width: 992px) {
+  body:has(.showcase-header) #dualforce-main-viewer.df3d-container { grid-template-columns: minmax(0, 1fr) 410px; }
+}
+@media (max-width: 991px) {
+  body:has(.showcase-header) #dualforce-main-viewer { height: auto; min-height: 0; }
+  body:has(.showcase-header) #dualforce-main-viewer.df3d-container { height: auto; min-height: 0; overflow: visible; }
+  body:has(.showcase-header) #dualforce-main-viewer .df3d-stage-wrapper { height: min(66vh, 560px); min-height: 360px; }
+  body:has(.showcase-header) #dualforce-main-viewer .df3d-controls-panel {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    border-left: 0;
+    border-top: 1px solid #c8ccca;
+  }
+}
+@media (max-width: 560px) {
+  body:has(.showcase-header) #dualforce-main-viewer .df3d-stage-wrapper { height: 52vh; min-height: 320px; }
+  body:has(.showcase-header) #dualforce-main-viewer .df3d-controls-panel { padding: 16px 14px; }
+  body:has(.showcase-header) #dualforce-main-viewer .df3d-component-btn { font-size: 6.7px; padding: 7px 6px; }
+}
+
 /* Preserve readable controls and forms at narrow widths without changing layout. */
 @media (max-width: 900px) {
   .site-header .btn, .site-footer .btn, .buy-actions .btn { min-height: 44px; }
@@ -614,4 +861,133 @@ body:has(.showcase-header) {
   }
   #particle-canvas { display: none; }
   .bg-ambient-orb { display: none; }
+}
+
+/* Final economics slide: preserve the figures while restoring readable contrast. */
+body:has(#deck) #slide-10 {
+  --df-finance-350: #a9c8b1;
+  --df-finance-650: #e1b28f;
+}
+body:has(#deck) #slide-10 .roadmap .rm { border-bottom-color: var(--df-line); }
+body:has(#deck) #slide-10 .roadmap .rm .n { color: var(--df-accent); }
+body:has(#deck) #slide-10 .roadmap .rm .t { color: var(--df-ink); }
+body:has(#deck) #slide-10 .roadmap .rm .d { color: #56615c; }
+body:has(#deck) #slide-10 .roadmap .rm .d strong { color: #29312e; }
+body:has(#deck) #slide-10 .calc {
+  border: 1px solid #69736f;
+  background: #2d3532;
+  color: #edf1ee;
+}
+body:has(#deck) #slide-10 .calc .calc-row { color: #edf1ee; border-bottom-color: rgba(237, 241, 238, .17); }
+body:has(#deck) #slide-10 .calc .calc-head { color: #d2dad6; border-bottom-color: rgba(237, 241, 238, .3); }
+body:has(#deck) #slide-10 .calc .calc-head .c350,
+body:has(#deck) #slide-10 .calc .calc-row .c350,
+body:has(#deck) #slide-10 .calc .calc-split-row .c350 { color: var(--df-finance-350); }
+body:has(#deck) #slide-10 .calc .calc-head .c650,
+body:has(#deck) #slide-10 .calc .calc-row .c650,
+body:has(#deck) #slide-10 .calc .calc-split-row .c650 { color: var(--df-finance-650); }
+body:has(#deck) #slide-10 .calc p.calc-step { color: #f7f8f6; }
+body:has(#deck) #slide-10 .calc .calc-n { background: #56615d; color: #fff; }
+body:has(#deck) #slide-10 .calc .calc-total { background: #414a46; color: #f8faf8; }
+body:has(#deck) #slide-10 .calc .calc-total small { color: #d0d9d5; }
+body:has(#deck) #slide-10 .calc .calc-sum { color: #d3dcd8; }
+body:has(#deck) #slide-10 .calc .calc-cap,
+body:has(#deck) #slide-10 .calc .calc-note { color: #d3dcd8; }
+body:has(#deck) #slide-10 .calc .calc-cap strong,
+body:has(#deck) #slide-10 .calc .calc-note strong { color: #fff; }
+body:has(#deck) #slide-10 .calc-bar { background: rgba(255, 255, 255, .15); }
+body:has(#deck) #slide-10 .calc-bar .cost { background: rgba(255, 255, 255, .42); }
+body:has(#deck) #slide-10 .calc-bar .c350bg { background: #6f8a78; }
+body:has(#deck) #slide-10 .calc-bar .c650bg { background: #b67e5d; }
+body:has(#deck) #slide-10 .closing-actions .cta-btn:not(.secondary) { background: var(--df-accent-deep); color: #fff; box-shadow: none; }
+body:has(#deck) #slide-10 .closing-actions .cta-btn.secondary { color: var(--df-accent-deep); border-color: var(--df-accent); }
+
+/* Let the original technical slides shrink their text columns on narrow screens. */
+@media (max-width: 720px) {
+  body:has(#deck) .tech { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+  body:has(#deck) .tech > *,
+  body:has(#deck) .steps { min-width: 0; }
+  body:has(#deck) .steps { grid-template-columns: minmax(0, 1fr); }
+  body:has(#deck) .steps .step { min-width: 0; max-width: 100%; }
+  body:has(#deck) .steps .step > :not(.num) { min-width: 0; overflow-wrap: anywhere; }
+  body:has(#deck) #slide-4 .sim-toolbar { align-items: flex-start; flex-direction: column; gap: .55rem; }
+  body:has(#deck) #slide-4 .sim-mode-pills { width: 100%; max-width: 100%; flex-wrap: wrap; gap: .4rem; }
+  body:has(#deck) #slide-4 .sim-pill { max-width: 100%; white-space: normal; line-height: 1.25; overflow-wrap: anywhere; }
+}
+
+/* Separate standalone lab model and settings slides. */
+.df3d-slide-tabs {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  width: min(calc(100% - 48px), 1400px);
+  margin: 16px auto 12px;
+}
+.df3d-slide-tabs button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid #c8ccca;
+  border-radius: 0;
+  background: #f4f4f0;
+  color: #66716d;
+  font: 700 8px/1 var(--df-mono);
+  letter-spacing: .07em;
+  cursor: pointer;
+}
+.df3d-slide-tabs button[aria-pressed="true"] { border-color: #526961; background: #526961; color: #fff; }
+body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="model"].df3d-container {
+  display: block;
+  width: 100%;
+  height: min(72vh, 760px);
+  min-height: 480px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 0;
+  background: #303234;
+}
+body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="model"] .df3d-stage-wrapper {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="model"] .df3d-controls-panel { display: none; }
+body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="controls"].df3d-container {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  margin: 0 auto;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="controls"] .df3d-stage-wrapper { display: none; }
+body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="controls"] .df3d-controls-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 0 clamp(20px, 4vw, 64px);
+  width: min(100%, 1400px);
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  margin: 0 auto 32px;
+  overflow: visible;
+  padding: clamp(20px, 3vw, 42px);
+  border: 1px solid #c8ccca;
+  background: #e2e3e0;
+}
+body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="controls"] .df3d-panel-header,
+body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="controls"] .df3d-active-card { grid-column: 1 / -1; }
+@media (max-width: 991px) {
+  .df3d-slide-tabs { width: calc(100% - 36px); }
+  .df3d-slide-tabs button { flex: 1 1 0; min-height: 44px; padding-inline: 8px; }
+  body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="model"].df3d-container { height: min(66svh, 620px); min-height: 360px; }
+  body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="controls"] .df3d-controls-panel { grid-template-columns: 1fr; padding: 20px 18px; }
+}
+@media (max-width: 560px) {
+  .df3d-slide-tabs { width: calc(100% - 28px); margin-top: 12px; }
+  .df3d-slide-tabs button { font-size: 7px; }
+  body:has(.showcase-header) #dualforce-main-viewer[data-lab-slide="model"].df3d-container { height: 58svh; min-height: 340px; }
 }

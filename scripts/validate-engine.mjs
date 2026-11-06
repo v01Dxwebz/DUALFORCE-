@@ -6,6 +6,14 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import * as THREE from 'three'
 
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const legacyEngineSource = await fs.readFile(path.join(project, 'dualforce-3d-engine.js'), 'utf8')
+const legacyLabSource = await fs.readFile(path.join(project, '3d-engine.html'), 'utf8')
+const integratedModelSource = await fs.readFile(path.join(project, 'src/engine/model.ts'), 'utf8')
+const integratedViewerSource = await fs.readFile(path.join(project, 'src/engine/StandaloneViewer.tsx'), 'utf8')
+const integratedSceneSource = await fs.readFile(path.join(project, 'src/engine/EngineScene.tsx'), 'utf8')
+const homepageSource = await fs.readFile(path.join(project, 'index.html'), 'utf8')
+const sharedThemeSource = await fs.readFile(path.join(project, 'assets/dualforce-premium-theme.css'), 'utf8')
+const integratedStylesSource = await fs.readFile(path.join(project, 'assets/engine-integration.css'), 'utf8')
 const temporary = await fs.mkdtemp(path.join(project, 'node_modules/.tmp-engine-validation-'))
 try {
   execFileSync('pnpm', [
@@ -22,6 +30,40 @@ try {
   const model = createMechanicalEngine(root)
   assert.equal(root.getObjectByName('large-shaft-gear'), undefined, 'Crankshaft gear must be removed')
   assert.equal(root.getObjectByName('small-counter-gear'), undefined, 'Countershaft gear must be removed with its pair')
+  assert.doesNotMatch(legacyEngineSource, /createGear|pinionGear|drive gear|gear rotation|sync drive gears/i, 'Legacy 3D lab must not construct or label crankshaft gears')
+  assert.match(legacyEngineSource, /frame: new THREE\.Group\(\)/, 'Legacy lab must expose a real support-frame group')
+  assert.match(legacyEngineSource, /min="400" max="7200" step="100"/, 'Legacy lab simulated RPM range must span 400–7,200 in 100-RPM steps')
+  assert.match(legacyEngineSource, /df3d-compact-slider df3d-rpm-slider" min="400" max="7200" step="100"/, 'Compact legacy RPM control must share the 400-RPM floor')
+  for (const marker of ['df3d-reset-assembly', 'df3d-reset-camera', 'df3d-annotation-mode-btn', 'df3d-component-btn', 'pinchStartDistance', 'df3d-wheel-zoom-toggle']) {
+    assert.ok(legacyEngineSource.includes(marker), `Legacy lab is missing its ${marker} control path`)
+  }
+  for (const key of ['casing', 'frame', 'cylinders', 'pistons', 'rods', 'crank', 'stator', 'magnets']) {
+    assert.ok(legacyEngineSource.includes("{ key: '" + key + "'"), `Legacy component visibility control missing: ${key}`)
+  }
+  assert.match(legacyLabSource, /theme:\s*'light'/, 'Legacy lab controls must use the reference light surface')
+  assert.match(legacyLabSource, /stageTheme:\s*'dark'/, 'Legacy lab engine stage must remain graphite')
+  assert.match(legacyLabSource, /data-lab-slide-target="model"/, 'Standalone lab must offer a dedicated model slide')
+  assert.match(legacyLabSource, /data-lab-slide-target="controls"/, 'Standalone lab must offer a separate controls slide')
+  assert.match(legacyLabSource, /container\.setAttribute\('data-lab-slide', slide\)/, 'Standalone lab slide buttons must update the real viewer state')
+  assert.match(integratedViewerSource, /data-viewer-slide=\{viewerSlide\}/, 'Appended viewer must track its active slide')
+  assert.match(integratedViewerSource, /aria-controls="engine-model-viewport"/, 'Model slide tab must point to the model region')
+  assert.match(integratedViewerSource, /aria-controls="engine-control-dock"/, 'Settings slide tab must point to the controls region')
+  assert.match(integratedStylesSource, /engine-stage-app\[data-viewer-slide="model"\] #engine-control-dock \{ display: none; \}/, 'Model slide must not show the settings dock')
+  assert.match(integratedStylesSource, /engine-stage-app\[data-viewer-slide="controls"\] #engine-control-dock/, 'Settings slide must show the full controls surface')
+  assert.match(sharedThemeSource, /#dualforce-main-viewer\[data-lab-slide="model"\]\.df3d-container/, 'Standalone model slide must receive the full stage layout')
+  assert.match(sharedThemeSource, /#dualforce-main-viewer\[data-lab-slide="controls"\] \.df3d-controls-panel/, 'Standalone settings must occupy its own slide')
+  assert.match(homepageSource, /id="slide-10"/, 'Original finance slide 10 must remain present')
+  assert.match(homepageSource, /₹1,39,200/, 'Original finance figure must remain unchanged')
+  assert.match(sharedThemeSource, /#slide-10 \.calc \.calc-row \{ color: #edf1ee/, 'Finance calculator row copy must have light-on-dark contrast')
+  assert.match(sharedThemeSource, /#slide-10 \.roadmap \.rm \.t \{ color: var\(--df-ink\)/, 'Roadmap amounts must have dark-on-light contrast')
+  assert.match(sharedThemeSource, /body:has\(#deck\) \.tech \{ grid-template-columns: minmax\(0, 1fr\); min-width: 0; \}/, 'Original technical slide content must shrink instead of overflowing on phones')
+  assert.match(sharedThemeSource, /body:has\(#deck\) \.steps \.step > :not\(\.num\) \{ min-width: 0; overflow-wrap: anywhere; \}/, 'Long technical descriptions must remain readable within the mobile slide width')
+  assert.match(sharedThemeSource, /body:has\(#deck\) #slide-4 \.sim-mode-pills \{ width: 100%; max-width: 100%; flex-wrap: wrap; gap: \.4rem; \}/, 'Original simulator mode controls must wrap within the narrow slide width')
+  assert.match(integratedModelSource, /groups\.magnets\.visible\s*=\s*state\.visible\.magnets\s*;/, 'Magnetic elements must be controlled by their own visibility option')
+  assert.doesNotMatch(integratedModelSource, /groups\.magnets\.visible\s*=.*state\.electromagnetic/, 'Concept-layer toggle must not hide the magnetic-elements group')
+  assert.doesNotMatch(integratedViewerSource, /key\s*!==\s*'magnets'\s*\|\|\s*electromagnetic/, 'Magnetic-element count must not depend on the concept-layer toggle')
+  assert.doesNotMatch(integratedViewerSource, /selectedComponent === 'magnets'\s*&&\s*!electromagnetic/, 'Selected magnetic elements must remain selected when only the concept layer is hidden')
+  assert.doesNotMatch(integratedSceneSource, /component === 'casing'\s*&&\s*stateRef\.current\.cutaway/, 'Transparent/cutaway casing must remain selectable')
   const visible = Object.fromEntries(Object.keys(model.groups).map(key => [key, true]))
   const state = { phase: 0, explodeAmount: 0, electromagnetic: true, visible, cutaway: false, caseOpenAmount: 0, longitudinalSection: false, visualAngularVelocity: rpmToVisualAngularVelocity(2800) }
   const rods = ['rod-front', 'rod-rear'].map(name => root.getObjectByName(name))
@@ -111,6 +153,7 @@ try {
   state.phase = Math.PI * 0.5; model.update(state)
   assert.ok(lamps[1].intensity > 4 && lamps[0].intensity === 0)
   state.electromagnetic = false; model.update(state); assert.deepEqual(lamps.map(light => light.intensity),[0,0])
+  assert.equal(model.groups.magnets.visible,true,'Hiding electromagnetic interaction must not hide magnetic elements')
   state.electromagnetic = true; state.visualAngularVelocity = 0; model.update(state)
   assert.deepEqual(lamps.map(light => light.intensity),[0,0], 'Pause must extinguish activity')
   for (const rpm of [400,2800,7200]) {

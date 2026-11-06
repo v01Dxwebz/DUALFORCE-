@@ -615,3 +615,73 @@
   #engine-sequence .label-copy b { font-size: 7px; }
   #engine-sequence .label-copy small { font-size: 8px; }
 }
+
+/* Dedicated model and settings slides: controls never cover the engine. */
+#engine-sequence .engine-view-tabs {
+  position: absolute;
+  z-index: 12;
+  top: 104px;
+  left: var(--engine-gutter);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+#engine-sequence .engine-view-tabs button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--viewer-rule);
+  background: rgba(248, 249, 246, .94);
+  color: var(--viewer-muted);
+  font: 700 8px/1 var(--mono, monospace);
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+#engine-sequence .engine-view-tabs button[aria-pressed="true"] {
+  border-color: var(--viewer-accent);
+  background: var(--viewer-accent);
+  color: #fff;
+}
+#engine-sequence .engine-view-tabs button:focus-visible { outline: 2px solid var(--viewer-accent); outline-offset: 3px; }
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] #engine-control-dock { display: none; }
+#engine-sequence .engine-stage-app[data-viewer-slide="controls"] { background: var(--viewer-paper); }
+#engine-sequence .engine-stage-app[data-viewer-slide="controls"] .engine-canvas-shell,
+#engine-sequence .engine-stage-app[data-viewer-slide="controls"] .hero-copy,
+#engine-sequence .engine-stage-app[data-viewer-slide="controls"] .scroll-caption,
+#engine-sequence .engine-stage-app[data-viewer-slide="controls"] .scene-edge-note,
+#engine-sequence .engine-stage-app[data-viewer-slide="controls"] .scroll-rail,
+#engine-sequence .engine-stage-app[data-viewer-slide="controls"] .scroll-cue { display: none; }
+#engine-sequence .engine-stage-app[data-viewer-slide="controls"] #engine-control-dock {
+  top: 154px;
+  right: var(--engine-gutter);
+  bottom: 24px;
+  left: var(--engine-gutter);
+  max-height: none;
+  overflow: auto;
+}
+
+@media (max-width: 800px) {
+  #engine-sequence .engine-view-tabs { top: 94px; left: 16px; gap: 5px; }
+  #engine-sequence .engine-view-tabs button { min-height: 36px; padding-inline: 9px; font-size: 7px; }
+  #engine-sequence .engine-stage-app[data-viewer-slide="controls"] #engine-control-dock { top: 142px; right: 12px; bottom: 12px; left: 12px; }
+}
+@media (max-width: 520px) {
+  #engine-sequence .engine-view-tabs { top: 82px; left: 10px; gap: 4px; }
+  #engine-sequence .engine-view-tabs button { min-height: 32px; padding-inline: 7px; font-size: 6px; }
+  #engine-sequence .engine-stage-app[data-viewer-slide="controls"] #engine-control-dock { top: 126px; right: 8px; bottom: 8px; left: 8px; padding: 9px; }
+}
+
+/* The procedural model renders on graphite, so model-slide copy stays light. */
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .hero-copy h1,
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .scroll-caption p,
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .hero-deck,
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .text-link { color: #f4f4f0; }
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .hero-copy .eyebrow,
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .scroll-caption .eyebrow,
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .scene-edge-note,
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .scroll-cue { color: rgba(244, 244, 240, .76); }
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .hero-copy h1 span,
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .text-link span { color: #a9c8b1; }
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .scroll-rail span,
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .scroll-cue i { background: #a9c8b1; }
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .engine-stage-canvas .coil-activity-readout { color: rgba(244, 244, 240, .8); }
+#engine-sequence .engine-stage-app[data-viewer-slide="model"] .engine-stage-canvas .coil-activity-readout i { background: #a9c8b1; box-shadow: 0 0 0 1px rgba(169, 200, 177, .3); }

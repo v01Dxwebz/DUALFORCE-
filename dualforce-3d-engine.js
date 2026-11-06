@@ -4,7 +4,7 @@
  * Features:
  *  - Full Three.js 3D mechanical and electromagnetic engine assembly
  *  - 7 modular sub-assemblies: casing, cylinders, pistons, rods, crank, stator, magnets
- *  - Real-time kinematic simulation: dynamic piston reciprocation, conrod swing, crankshaft & gear rotation
+ *  - Visual kinematics: piston reciprocation, connecting-rod swing and crankshaft/flywheel rotation
  *  - Synchronized electromagnetic flux pulse rings around the stator coils
  *  - Exploded view slider (smooth component separation)
  *  - Cutaway / X-Ray transparent aluminium casing toggle
@@ -100,10 +100,11 @@
   // Component metadata registry
   var COMPONENT_METADATA = {
     casing: { label: 'Aluminium Casing', description: 'Primary monobloc housing around the crankcase and cylinder block.' },
+    frame: { label: 'Internal Support Frame', description: 'Reference-inspired structural supports around the provisional engine assembly.' },
     cylinders: { label: 'Twin Cylinder Pack', description: 'Dual inline cylinders with Nitronic 50 non-magnetic liners and cooling fins.' },
     pistons: { label: '4032 Aluminium Pistons', description: 'Lightweight reciprocating pistons with YSZ ceramic thermal barrier crown.' },
     rods: { label: 'Forged 4340 Rods', description: 'High-tensile forged connecting rods transferring reciprocating thrust to the crank.' },
-    crank: { label: 'Shared Crankshaft', description: 'Shared 270° counterbalanced crankshaft with brass flywheel and sync drive gears.' },
+    crank: { label: 'Crank / Flywheel / Bearings', description: 'Shared counterbalanced crankshaft, machined flywheel, journals and bearing seats.' },
     stator: { label: 'Copper Stator Windings', description: 'Axially stacked copper Litz wire coils producing pulsed reluctance magnetic drive.' },
     magnets: { label: 'Hiperco-50 Reluctance Teeth', description: 'Soft magnetic composite reluctance teeth embedded on the piston skirt.' }
   };
@@ -130,13 +131,13 @@
   // Engineering Annotations
   var ANNOTATIONS = [
     { key: 'casing', label: 'ALUMINIUM CASING', detail: 'Monobloc A380/6061 casing', mode: 'overview', position: [1.6, -0.85, 0.75] },
+    { key: 'frame', label: 'INTERNAL SUPPORT FRAME', detail: 'Reference-inspired structural supports', mode: 'overview', position: [-1.78, 0.26, 0.8] },
     { key: 'cylinders', label: 'CYLINDER HEAD', detail: 'Twin head pack / valve cover', mode: 'overview', position: [-0.82, 1.52, 0.2] },
     { key: 'cylinders', label: 'NITRONIC LINER', detail: 'Non-magnetic slotted liner', mode: 'detailed', position: [0.82, 0.6, 0.5] },
     { key: 'pistons', label: 'PISTON CROWN', detail: '4032 Al + YSZ Thermal Barrier', mode: 'detailed', position: [-0.82, 0.4, 0.48] },
     { key: 'rods', label: 'CONNECTING ROD', detail: 'Forged 4340 H-beam steel', mode: 'detailed', position: [0.82, -0.42, 0.45] },
     { key: 'crank', label: 'CRANKSHAFT JOURNAL', detail: 'Stepped output journal', mode: 'detailed', position: [0.1, -0.82, 0.58] },
     { key: 'crank', label: 'COUNTERWEIGHT', detail: 'Dynamic counterbalance mass', mode: 'detailed', position: [0.62, -0.98, -0.48] },
-    { key: 'crank', label: 'DRIVE GEAR / TEETH', detail: 'Precision sync gear train', mode: 'detailed', position: [1.82, -0.42, 0.2] },
     { key: 'crank', label: 'BEARING SEAT', detail: 'Main journal bearing race', mode: 'detailed', position: [1.78, -0.58, -0.2] },
     { key: 'crank', label: 'BRASS FLYWHEEL', detail: 'Counterweighted brass flywheel', mode: 'overview', position: [1.28, -0.68, 0.62] },
     { key: 'stator', label: 'COPPER STATOR COILS', detail: 'Class-220 Litz copper windings', mode: 'overview', position: [-0.82, 0.18, 0.72] },
@@ -154,15 +155,18 @@
       showControls: true,
       compact: false,
       theme: 'dark', // 'dark' | 'light'
+      stageTheme: null,
       rpm: 2800,
       playing: true,
       exploded: 0, // 0 to 1
-      cutaway: true, // transparent casing by default
+      cutaway: false, // begin with a solid inspection shell
       electromagnetic: true,
       cameraMode: 'hero',
       autoOrbit: false,
-      annotationsEnabled: true,
+      wheelZoom: true,
+      annotationsEnabled: false,
       annotationMode: 'overview', // 'overview' | 'detailed' | 'exploded'
+      componentVisibility: null,
       onSelect: null
     }, userOptions);
 
@@ -204,7 +208,7 @@
         '<canvas class="df3d-canvas" aria-label="Interactive 3D DUALFORCE Powertrain Engine"></canvas>' +
         '<div class="df3d-label-layer"></div>' +
         '<div class="df3d-stage-badge top-left"><span class="df3d-status-dot"></span> LIVE WEBGL ENGINE TWIN</div>' +
-        '<div class="df3d-stage-badge bottom-right">DRAG TO ORBIT · SCROLL TO ZOOM</div>';
+        '<div class="df3d-stage-badge bottom-right">' + (this.options.wheelZoom ? 'DRAG TO ORBIT · SCROLL TO ZOOM' : 'DRAG TO ORBIT · PAGE SCROLL') + '</div>';
 
     if (this.options.compact) {
       html += this.getCompactToolbarHTML();
@@ -230,7 +234,7 @@
           '<span class="df3d-rpm-val">' + Number(c.rpm).toLocaleString() + '</span>' +
           '<small>RPM</small>' +
         '</div>' +
-        '<input type="range" class="df3d-compact-slider df3d-rpm-slider" min="600" max="7200" step="100" value="' + c.rpm + '" title="Engine RPM">' +
+        '<input type="range" class="df3d-compact-slider df3d-rpm-slider" min="400" max="7200" step="100" value="' + c.rpm + '" title="Engine RPM">' +
         '<button class="df3d-compact-btn df3d-compact-pill df3d-cutaway-toggle ' + (c.cutaway ? 'active' : '') + '">⚡ CUTAWAY</button>' +
         '<button class="df3d-compact-btn df3d-compact-pill df3d-flux-toggle ' + (c.electromagnetic ? 'active' : '') + '">🧲 FLUX</button>' +
         '<button class="df3d-compact-btn df3d-compact-pill df3d-compact-explode ' + (c.exploded > 0.05 ? 'active' : '') + '">💥 EXPLODE</button>' +
@@ -240,60 +244,92 @@
 
   DualForce3DEngine.prototype.getControlsHTML = function () {
     var c = this.options;
+    var componentControls = [
+      { key: 'casing', label: 'ALUMINIUM CASING' },
+      { key: 'frame', label: 'INTERNAL SUPPORT FRAME' },
+      { key: 'cylinders', label: 'TWIN CYLINDER PACK' },
+      { key: 'pistons', label: '4032 ALUMINIUM PISTONS' },
+      { key: 'rods', label: 'FORGED 4340 RODS' },
+      { key: 'crank', label: 'CRANK / FLYWHEEL / BEARINGS' },
+      { key: 'stator', label: 'COPPER STATOR WINDINGS' },
+      { key: 'magnets', label: 'MAGNETIC ELEMENTS' }
+    ];
+    var visibility = c.componentVisibility || {};
+    var visibleCount = componentControls.filter(function (item) { return visibility[item.key] !== false; }).length;
+    var componentButtons = componentControls.map(function (item) {
+      var visible = visibility[item.key] !== false;
+      return '<button type="button" class="df3d-component-btn ' + (visible ? 'active' : '') + '" data-component="' + item.key + '" aria-pressed="' + visible + '"><i aria-hidden="true"></i><span>' + item.label + '</span></button>';
+    }).join('');
     return '' +
       '<div class="df3d-controls-panel">' +
         '<div class="df3d-panel-header">' +
-          '<span>POWERTRAIN 3D CONTROLS</span>' +
-          '<b>DUALFORCE 350 / 650</b>' +
+          '<span>SYSTEM CONTROLS</span>' +
+          '<b>DF / 350</b>' +
         '</div>' +
 
-        '<!-- Motion & RPM -->' +
         '<div class="df3d-control-group">' +
-          '<div class="df3d-group-title"><span>KINEMATICS</span><strong class="df3d-status-text">' + (c.playing ? 'RUNNING' : 'PAUSED') + '</strong></div>' +
-          '<div class="df3d-row">' +
-            '<button class="df3d-btn df3d-play-btn" title="Toggle Motion">' + (c.playing ? '⏸ PAUSE' : '▶ PLAY') + '</button>' +
-            '<div class="df3d-rpm-readout"><b class="df3d-rpm-val">' + Number(c.rpm).toLocaleString() + '</b> <span>RPM</span></div>' +
+          '<div class="df3d-group-title"><span>MOTION STATE</span><strong class="df3d-status-text">' + (c.playing ? 'RUNNING' : 'PAUSED') + '</strong></div>' +
+          '<div class="df3d-row df3d-motion-row">' +
+            '<button type="button" class="df3d-btn df3d-play-btn" title="Toggle motion" aria-pressed="' + Boolean(c.playing) + '">' + (c.playing ? 'Ⅱ' : '▶') + '</button>' +
+            '<div class="df3d-rpm-readout"><b class="df3d-rpm-val">' + Number(c.rpm).toLocaleString() + '</b><span>SIMULATED RPM</span></div>' +
           '</div>' +
-          '<input type="range" class="df3d-slider df3d-rpm-slider" min="400" max="7200" step="100" value="' + c.rpm + '">' +
+          '<input type="range" class="df3d-slider df3d-rpm-slider" min="400" max="7200" step="100" value="' + c.rpm + '" aria-label="Simulated RPM, 400 to 7,200">' +
+          '<div class="df3d-range-ends"><span>400</span><span>7,200</span></div>' +
         '</div>' +
 
-        '<!-- Assembly Explode -->' +
         '<div class="df3d-control-group">' +
-          '<div class="df3d-group-title"><span>ASSEMBLY EXPLODE</span><strong class="df3d-explode-text">' + (c.exploded > 0.05 ? 'EXPLODED' : 'ASSEMBLED') + '</strong></div>' +
-          '<div class="df3d-segmented">' +
-            '<button class="df3d-seg-btn df3d-assemble-btn ' + (c.exploded <= 0.05 ? 'active' : '') + '">ASSEMBLED</button>' +
-            '<button class="df3d-seg-btn df3d-explode-btn ' + (c.exploded > 0.05 ? 'active' : '') + '">EXPLODED</button>' +
+          '<div class="df3d-group-title"><span>ASSEMBLY STATE</span><strong class="df3d-explode-text">' + (c.exploded > 0.05 ? 'EXPLODED' : 'ASSEMBLED') + '</strong></div>' +
+          '<div class="df3d-segmented df3d-assembly-segmented">' +
+            '<button type="button" class="df3d-seg-btn df3d-assemble-btn ' + (c.exploded <= 0.05 ? 'active' : '') + '" aria-pressed="' + (c.exploded <= 0.05) + '">ASSEMBLED</button>' +
+            '<button type="button" class="df3d-seg-btn df3d-explode-btn ' + (c.exploded > 0.05 ? 'active' : '') + '" aria-pressed="' + (c.exploded > 0.05) + '">EXPLODED</button>' +
           '</div>' +
-          '<input type="range" class="df3d-slider df3d-explode-slider" min="0" max="1" step="0.01" value="' + c.exploded + '">' +
+          '<input type="range" class="df3d-slider df3d-explode-slider" min="0" max="1" step="0.01" value="' + c.exploded + '" aria-label="Assembly separation">' +
+          '<div class="df3d-range-ends"><span>assembled</span><span>separated</span></div>' +
+          '<button type="button" class="df3d-text-btn df3d-reset-assembly">↺ RESET ASSEMBLY</button>' +
         '</div>' +
 
-        '<!-- Cutaway & Stator Flux Toggles -->' +
         '<div class="df3d-control-group">' +
-          '<div class="df3d-group-title"><span>VIEW MODES</span></div>' +
-          '<div class="df3d-toggles-grid">' +
-            '<button class="df3d-toggle-btn df3d-cutaway-toggle ' + (c.cutaway ? 'active' : '') + '">⚡ CUTAWAY CASING</button>' +
-            '<button class="df3d-toggle-btn df3d-flux-toggle ' + (c.electromagnetic ? 'active' : '') + '">🧲 STATOR FLUX</button>' +
-            '<button class="df3d-toggle-btn df3d-labels-toggle ' + (c.annotationsEnabled ? 'active' : '') + '">🏷️ LABELS</button>' +
-            '<button class="df3d-toggle-btn df3d-orbit-toggle ' + (c.autoOrbit ? 'active' : '') + '">🔄 AUTO-ORBIT</button>' +
-          '</div>' +
-        '</div>' +
-
-        '<!-- Camera Presets -->' +
-        '<div class="df3d-control-group">' +
-          '<div class="df3d-group-title"><span>CAMERA PRESET</span></div>' +
+          '<div class="df3d-group-title"><span>CAMERA ANGLE</span><strong class="df3d-camera-state">' + String(c.cameraMode || 'hero').toUpperCase() + '</strong></div>' +
           '<div class="df3d-camera-grid">' +
-            '<button class="df3d-cam-btn ' + (c.cameraMode === 'hero' ? 'active' : '') + '" data-cam="hero">HERO</button>' +
-            '<button class="df3d-cam-btn ' + (c.cameraMode === 'front' ? 'active' : '') + '" data-cam="front">FRONT</button>' +
-            '<button class="df3d-cam-btn ' + (c.cameraMode === 'side' ? 'active' : '') + '" data-cam="side">SIDE</button>' +
-            '<button class="df3d-cam-btn ' + (c.cameraMode === 'detail' ? 'active' : '') + '" data-cam="detail">DETAIL</button>' +
+            '<button type="button" class="df3d-cam-btn ' + (c.cameraMode === 'hero' ? 'active' : '') + '" data-cam="hero" aria-pressed="' + (c.cameraMode === 'hero') + '">HERO</button>' +
+            '<button type="button" class="df3d-cam-btn ' + (c.cameraMode === 'front' ? 'active' : '') + '" data-cam="front" aria-pressed="' + (c.cameraMode === 'front') + '">FRONT</button>' +
+            '<button type="button" class="df3d-cam-btn ' + (c.cameraMode === 'side' ? 'active' : '') + '" data-cam="side" aria-pressed="' + (c.cameraMode === 'side') + '">SIDE</button>' +
+            '<button type="button" class="df3d-cam-btn ' + (c.cameraMode === 'detail' ? 'active' : '') + '" data-cam="detail" aria-pressed="' + (c.cameraMode === 'detail') + '">DETAIL</button>' +
+          '</div>' +
+          '<button type="button" class="df3d-text-btn df3d-reset-camera">↺ RESET CAMERA &amp; ZOOM</button>' +
+          '<button type="button" class="df3d-toggle-btn df3d-orbit-toggle ' + (c.autoOrbit ? 'active' : '') + '" aria-pressed="' + Boolean(c.autoOrbit) + '">AUTO-ORBIT</button>' +
+          '<button type="button" class="df3d-toggle-btn df3d-wheel-zoom-toggle ' + (c.wheelZoom ? 'active' : '') + '" aria-pressed="' + Boolean(c.wheelZoom) + '">WHEEL ZOOM <strong class="df3d-wheel-state">' + (c.wheelZoom ? 'ON' : 'OFF') + '</strong></button>' +
+        '</div>' +
+
+        '<div class="df3d-control-group">' +
+          '<div class="df3d-group-title"><span>CONCEPT LAYER</span><strong class="df3d-concept-state">' + (c.electromagnetic ? 'VISIBLE' : 'HIDDEN') + '</strong></div>' +
+          '<button type="button" class="df3d-switch-btn df3d-flux-toggle ' + (c.electromagnetic ? 'active' : '') + '" aria-pressed="' + Boolean(c.electromagnetic) + '"><span class="df3d-switch-track"><i></i></span><span>PROPOSED ELECTROMAGNETIC INTERACTION</span></button>' +
+        '</div>' +
+
+        '<div class="df3d-control-group">' +
+          '<div class="df3d-group-title"><span>INSPECTION SHELL</span><strong class="df3d-shell-state">' + (c.cutaway ? 'TRANSPARENT' : 'SOLID') + '</strong></div>' +
+          '<button type="button" class="df3d-switch-btn df3d-cutaway-toggle ' + (c.cutaway ? 'active' : '') + '" aria-pressed="' + Boolean(c.cutaway) + '"><span class="df3d-switch-track"><i></i></span><span>TRANSPARENT ALUMINIUM CASING</span></button>' +
+        '</div>' +
+
+        '<div class="df3d-control-group">' +
+          '<div class="df3d-group-title"><span>ANNOTATIONS</span><strong class="df3d-annotation-state">' + (c.annotationsEnabled ? 'ON' : 'OFF') + '</strong></div>' +
+          '<button type="button" class="df3d-switch-btn df3d-labels-toggle ' + (c.annotationsEnabled ? 'active' : '') + '" aria-pressed="' + Boolean(c.annotationsEnabled) + '"><span class="df3d-switch-track"><i></i></span><span>ENGINEERING LABELS ON / OFF</span></button>' +
+          '<div class="df3d-segmented df3d-annotation-modes">' +
+            '<button type="button" class="df3d-seg-btn df3d-annotation-mode-btn ' + (c.annotationMode === 'overview' ? 'active' : '') + '" data-annotation-mode="overview" aria-pressed="' + (c.annotationMode === 'overview') + '">OVERVIEW</button>' +
+            '<button type="button" class="df3d-seg-btn df3d-annotation-mode-btn ' + (c.annotationMode === 'detailed' ? 'active' : '') + '" data-annotation-mode="detailed" aria-pressed="' + (c.annotationMode === 'detailed') + '">DETAILED</button>' +
+            '<button type="button" class="df3d-seg-btn df3d-annotation-mode-btn ' + (c.annotationMode === 'exploded' ? 'active' : '') + '" data-annotation-mode="exploded" aria-pressed="' + (c.annotationMode === 'exploded') + '">EXPLODED</button>' +
           '</div>' +
         '</div>' +
 
-        '<!-- Active Component Readout -->' +
+        '<div class="df3d-control-group">' +
+          '<div class="df3d-group-title"><span>COMPONENT VISIBILITY</span><strong class="df3d-component-count">' + visibleCount + ' / 8</strong></div>' +
+          '<div class="df3d-components-grid">' + componentButtons + '</div>' +
+        '</div>' +
+
         '<div class="df3d-active-card">' +
           '<span class="df3d-active-key">SELECTED SUB-ASSEMBLY</span>' +
           '<b class="df3d-active-title">Copper Stator Windings</b>' +
-          '<p class="df3d-active-desc">Axially stacked copper Litz wire coils producing pulsed reluctance magnetic drive.</p>' +
+          '<p class="df3d-active-desc">Axially stacked copper Litz wire coils; electromagnetic operation is shown as a proposed concept layer.</p>' +
         '</div>' +
       '</div>';
   };
@@ -315,15 +351,12 @@
       renderer.outputEncoding = THREE.sRGBEncoding;
     }
     renderer.toneMapping = THREE.ACESFilmicToneMapping || 4;
-    renderer.toneMappingExposure = 1.25;
+    renderer.toneMappingExposure = 0.8;
 
-    // Scene
+    // Keep model background independent from the control-panel surface.
     var scene = new THREE.Scene();
-    if (this.options.theme === 'light') {
-      scene.background = new THREE.Color(0xEBE8DF);
-    } else {
-      scene.background = new THREE.Color(0x070A0E);
-    }
+    var stageTheme = this.options.stageTheme || this.options.theme;
+    scene.background = stageTheme === 'light' ? new THREE.Color(0xE2E3E0) : new THREE.Color(0x303234);
 
     // Camera
     var camera = new THREE.PerspectiveCamera(32, width / height, 0.1, 100);
@@ -337,25 +370,25 @@
     rootGroup.position.y = -0.05;
     scene.add(rootGroup);
 
-    // Lights
-    var hemiLight = new THREE.HemisphereLight(0xE0D0C3, 0x111517, 2.25);
+    // Soft neutral studio lighting keeps the brushed-metal palette legible.
+    var hemiLight = new THREE.HemisphereLight(0xE3E0D7, 0x171A1B, 1.1);
     scene.add(hemiLight);
 
-    var dirLight = new THREE.DirectionalLight(0xFFE8E8, 6.2);
+    var dirLight = new THREE.DirectionalLight(0xF4EFE5, 2.4);
     dirLight.position.set(4, 6, 6);
     scene.add(dirLight);
 
-    var pointLight1 = new THREE.PointLight(0xE6785D, 24, 12, 2);
+    var pointLight1 = new THREE.PointLight(0xB9896F, 3, 12, 2);
     pointLight1.position.set(-3.5, 2.3, -2.5);
     scene.add(pointLight1);
 
-    var pointLight2 = new THREE.PointLight(0x00F0D0, 16, 11, 2);
+    var pointLight2 = new THREE.PointLight(0xAEB9B6, 2, 11, 2);
     pointLight2.position.set(2.8, -1.5, 4.5);
     scene.add(pointLight2);
 
     // Ground Disc & Grid
     var groundMat = new THREE.MeshStandardMaterial({
-      color: this.options.theme === 'light' ? 0xD2D0C8 : 0x0E1319,
+      color: stageTheme === 'light' ? 0xD2D0C8 : 0x1A1D1E,
       roughness: 0.85,
       metalness: 0.15,
       transparent: true,
@@ -366,11 +399,11 @@
     groundDisc.position.y = -1.34;
     scene.add(groundDisc);
 
-    var grid = new THREE.GridHelper(8, 24, 0x00F0D0, 0x334E5C);
+    var grid = new THREE.GridHelper(8, 24, 0x737C78, 0x3B4040);
     grid.position.y = -1.335;
     if (grid.material) {
       grid.material.transparent = true;
-      grid.material.opacity = 0.25;
+      grid.material.opacity = 0.12;
     }
     scene.add(grid);
 
@@ -392,52 +425,54 @@
     };
 
     // Materials
-    var matBronze = stdMat(0x9D6A39, 0.25, 0.96);
-    var matBrass = stdMat(0xD49B54, 0.2, 0.98);
-    var matSteel = stdMat(0x637174, 0.25, 0.94);
-    var matDark = stdMat(0x263337, 0.34, 0.9);
-    var matChrome = stdMat(0x8F9895, 0.18, 0.98);
+    var matBronze = stdMat(0x747C7D, 0.38, 0.84);
+    var matBrass = stdMat(0xA27A62, 0.34, 0.83);
+    var matSteel = stdMat(0x70797A, 0.38, 0.82);
+    var matDark = stdMat(0x33393B, 0.42, 0.78);
+    var matChrome = stdMat(0x969D9B, 0.28, 0.86);
+    var matFrame = stdMat(0x697271, 0.46, 0.72);
 
     var matCasing = new THREE.MeshPhysicalMaterial({
-      color: 0x435154,
-      roughness: 0.28,
-      metalness: 0.88,
-      clearcoat: 0.42,
-      clearcoatRoughness: 0.18
+      color: 0x4E585A,
+      roughness: 0.4,
+      metalness: 0.78,
+      clearcoat: 0.24,
+      clearcoatRoughness: 0.26
     });
 
     var matCopper = new THREE.MeshStandardMaterial({
-      color: 0xD0713F,
-      emissive: 0x56200F,
-      emissiveIntensity: 0.75,
-      roughness: 0.22,
-      metalness: 0.96
+      color: 0xA57458,
+      emissive: 0x2D1911,
+      emissiveIntensity: 0.22,
+      roughness: 0.34,
+      metalness: 0.86
     });
 
     var matCrown = new THREE.MeshStandardMaterial({
-      color: 0xD8D3C5,
-      roughness: 0.52,
-      metalness: 0.16
+      color: 0xB6BDB9,
+      roughness: 0.42,
+      metalness: 0.24
     });
 
     var matHiperco = new THREE.MeshStandardMaterial({
-      color: 0x9E5369,
-      emissive: 0x2A0B12,
-      emissiveIntensity: 0.35,
-      roughness: 0.26,
-      metalness: 0.72
+      color: 0x818887,
+      emissive: 0x171A1A,
+      emissiveIntensity: 0.08,
+      roughness: 0.38,
+      metalness: 0.78
     });
 
     var matFlux = new THREE.MeshBasicMaterial({
-      color: 0x00F0D0,
+      color: 0xA7795F,
       transparent: true,
-      opacity: 0.34,
+      opacity: 0.2,
       blending: THREE.AdditiveBlending
     });
 
     // Sub-assembly groups
     var N = {
       casing: new THREE.Group(),
+      frame: new THREE.Group(),
       cylinders: new THREE.Group(),
       pistons: new THREE.Group(),
       rods: new THREE.Group(),
@@ -451,34 +486,30 @@
       self.rootGroup.add(N[k]);
     });
 
-    // Helper: Gear generator
-    var rotatingGears = [];
-    function createGear(radius, thickness, toothCount, material, x, y, z) {
-      var gearGroup = new THREE.Group();
-      gearGroup.position.set(x, y, z);
+    var initialVisibility = self.options.componentVisibility || {};
+    Object.keys(N).forEach(function (k) { N[k].visible = initialVisibility[k] !== false; });
 
-      var hub = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.74, radius * 0.74, thickness, 32), material);
-      hub.rotation.z = Math.PI / 2;
-      hub.userData.component = 'crank';
-      gearGroup.add(hub);
-
-      for (var i = 0; i < toothCount; i++) {
-        var ang = (i / toothCount) * Math.PI * 2;
-        var tooth = new THREE.Mesh(new THREE.BoxGeometry(thickness, 0.105, 0.17), material);
-        tooth.position.set(0, Math.cos(ang) * radius, Math.sin(ang) * radius);
-        tooth.rotation.x = ang;
-        tooth.userData.component = 'crank';
-        gearGroup.add(tooth);
-      }
-
-      var pin = new THREE.Mesh(new THREE.CylinderGeometry(radius * 0.22, radius * 0.22, thickness * 1.3, 24), matChrome);
-      pin.rotation.z = Math.PI / 2;
-      pin.userData.component = 'crank';
-      gearGroup.add(pin);
-
-      rotatingGears.push(gearGroup);
-      return gearGroup;
+    // Reference-inspired outer support rails: a real, independently visible group.
+    function addFrameBar(width, height, depth, x, y, z) {
+      var bar = new THREE.Mesh(createRoundedBoxGeometry(width, height, depth, 2, 0.025), matFrame);
+      bar.position.set(x, y, z);
+      bar.userData.component = 'frame';
+      N.frame.add(bar);
+      return bar;
     }
+    [-1.92, 1.92].forEach(function (x) {
+      [-0.94, 0.94].forEach(function (z) {
+        addFrameBar(0.105, 2.72, 0.105, x, 0.02, z);
+      });
+    });
+    [-0.94, 0.94].forEach(function (z) {
+      addFrameBar(3.95, 0.105, 0.105, 0, 1.34, z);
+      addFrameBar(3.95, 0.105, 0.105, 0, -1.27, z);
+    });
+    [-1.92, 1.92].forEach(function (x) {
+      addFrameBar(0.105, 0.105, 1.98, x, 1.34, 0);
+      addFrameBar(0.105, 0.105, 1.98, x, -1.27, 0);
+    });
 
     // 1. CASING
     var mainBlock = new THREE.Mesh(createRoundedBoxGeometry(3.45, 1.2, 1.72, 5, 0.14), matCasing);
@@ -691,7 +722,6 @@
       collar.rotation.y = Math.PI / 2;
       collar.userData.component = 'crank';
       crankAssembly.add(collar);
-      rotatingGears.push(collar);
     });
 
     [-0.8, 0.8].forEach(function (cx, i) {
@@ -704,20 +734,11 @@
 
     N.crank.add(crankAssembly);
 
-    // Gears
-    N.crank.add(createGear(0.42, 0.18, 18, matBronze, 1.84, -0.45, 0.04));
-    N.crank.add(createGear(0.58, 0.16, 24, matSteel, 1.91, -0.58, 0.16));
-    var pinionGear = createGear(0.26, 0.16, 14, matSteel, 1.84, -0.45, 0.04);
-    pinionGear.position.z = 0.18;
-    N.crank.add(pinionGear);
-
     var bearingRing = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.08, 12, 36), matDark);
     bearingRing.rotation.y = Math.PI / 2;
     bearingRing.position.set(1.76, -0.58, 0);
     bearingRing.userData.component = 'crank';
     N.crank.add(bearingRing);
-    rotatingGears.push(bearingRing);
-
     // Build HTML 3D Annotation Anchors
     var labelElements = {};
     if (this.labelLayer) {
@@ -742,10 +763,11 @@
     this.pistonMeshes = pistonMeshes;
     this.rodMeshes = rodMeshes;
     this.crankAssembly = crankAssembly;
-    this.rotatingGears = rotatingGears;
     this.statorCoilMeshes = statorCoilMeshes;
     this.fluxRingMeshes = fluxRingMeshes;
     this.labelElements = labelElements;
+    this.fluxRingMeshes.forEach(function (ring) { ring.visible = Boolean(self.options.electromagnetic); });
+    if (this.labelLayer) this.labelLayer.style.display = this.options.annotationsEnabled ? 'block' : 'none';
 
     // Apply initial cutaway transparency
     this.applyCutaway(this.options.cutaway);
@@ -770,29 +792,68 @@
     var self = this;
     var canvas = this.canvas;
     var isDragging = false;
+    var isPinching = false;
     var prevPointer = { x: 0, y: 0 };
-    var zoomDelta = 0;
+    var activePointers = Object.create(null);
+    var pinchStartDistance = 0;
+    var pinchStartViewDistance = 0;
+    var pointerList = function () { return Object.keys(activePointers).map(function (key) { return activePointers[key]; }); };
+    var pointerDistance = function (a, b) { return Math.hypot(a.x - b.x, a.y - b.y); };
 
-    // Orbit controls
+    // Single-finger/mouse drag rotates; two-finger pinch changes camera distance.
     this._listen(canvas, 'pointerdown', function (e) {
-      isDragging = true;
-      prevPointer.x = e.clientX;
-      prevPointer.y = e.clientY;
+      activePointers[e.pointerId] = { x: e.clientX, y: e.clientY, type: e.pointerType };
       if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId);
+      var points = pointerList();
+      if (points.length === 2 && points[0].type === 'touch' && points[1].type === 'touch') {
+        isDragging = false;
+        isPinching = true;
+        pinchStartDistance = pointerDistance(points[0], points[1]);
+        pinchStartViewDistance = self.camera.position.distanceTo(self.cameraTarget);
+      } else if (points.length === 1) {
+        isDragging = true;
+        isPinching = false;
+        prevPointer.x = e.clientX;
+        prevPointer.y = e.clientY;
+      }
     });
 
     this._listen(canvas, 'pointermove', function (e) {
+      if (!activePointers[e.pointerId]) return;
+      activePointers[e.pointerId].x = e.clientX;
+      activePointers[e.pointerId].y = e.clientY;
+      var points = pointerList();
+      if (isPinching && points.length >= 2) {
+        var currentDistance = pointerDistance(points[0], points[1]);
+        if (pinchStartDistance > 1 && currentDistance > 1) {
+          var newDistance = Math.max(3.2, Math.min(12.0, pinchStartViewDistance * pinchStartDistance / currentDistance));
+          var direction = self.camera.position.clone().sub(self.cameraTarget).normalize();
+          self.camera.position.copy(self.cameraTarget).addScaledVector(direction, newDistance);
+          self.camera.lookAt(self.cameraTarget);
+        }
+        return;
+      }
       if (!isDragging) return;
       var dx = e.clientX - prevPointer.x;
       var dy = e.clientY - prevPointer.y;
-      self.rootGroup.rotation.y += dx * 0.008;
-      self.rootGroup.rotation.x = Math.max(-0.75, Math.min(0.75, self.rootGroup.rotation.x + dy * 0.005));
       prevPointer.x = e.clientX;
       prevPointer.y = e.clientY;
+      if (e.pointerType === 'touch' && Math.abs(dy) > Math.abs(dx) * 1.15) return;
+      self.rootGroup.rotation.y += dx * 0.008;
+      self.rootGroup.rotation.x = Math.max(-0.75, Math.min(0.75, self.rootGroup.rotation.x + dy * 0.005));
     });
 
     var endDrag = function (e) {
-      isDragging = false;
+      if (e && e.pointerId !== undefined) delete activePointers[e.pointerId];
+      var points = pointerList();
+      isPinching = false;
+      if (points.length === 1) {
+        isDragging = true;
+        prevPointer.x = points[0].x;
+        prevPointer.y = points[0].y;
+      } else {
+        isDragging = false;
+      }
       if (e && canvas.releasePointerCapture) {
         try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
       }
@@ -801,12 +862,15 @@
     this._listen(canvas, 'pointercancel', endDrag);
 
     this._listen(canvas, 'wheel', function (e) {
+      if (!self.options.wheelZoom) return;
       e.preventDefault();
       var cam = self.camera;
       var factor = e.deltaY * 0.003;
-      var dist = cam.position.length();
+      var direction = cam.position.clone().sub(self.cameraTarget);
+      var dist = direction.length();
       var newDist = Math.max(3.2, Math.min(12.0, dist + factor));
-      cam.position.normalize().multiplyScalar(newDist);
+      cam.position.copy(self.cameraTarget).addScaledVector(direction.normalize(), newDist);
+      cam.lookAt(self.cameraTarget);
     }, { passive: false });
 
     // Resize observer
@@ -831,7 +895,8 @@
     if (playBtn) {
       this._listen(playBtn, 'click', function () {
         self.options.playing = !self.options.playing;
-        playBtn.textContent = self.options.playing ? '⏸ PAUSE' : '▶ PLAY';
+        playBtn.textContent = self.options.playing ? (self.options.compact ? '⏸' : 'Ⅱ') : '▶';
+        playBtn.setAttribute('aria-pressed', String(self.options.playing));
         if (statusText) statusText.textContent = self.options.playing ? 'RUNNING' : 'PAUSED';
       });
     }
@@ -849,79 +914,138 @@
     var explodeText = this.container.querySelector('.df3d-explode-text');
     var assembleBtn = this.container.querySelector('.df3d-assemble-btn');
     var explodeBtn = this.container.querySelector('.df3d-explode-btn');
-
-    if (explodeSlider) {
-      this._listen(explodeSlider, 'input', function (e) {
-        self.options.exploded = Number(e.target.value);
-        if (explodeText) explodeText.textContent = self.options.exploded > 0.05 ? 'EXPLODED' : 'ASSEMBLED';
-        if (assembleBtn) assembleBtn.classList.toggle('active', self.options.exploded <= 0.05);
-        if (explodeBtn) explodeBtn.classList.toggle('active', self.options.exploded > 0.05);
-      });
-    }
+    var compactExplode = this.container.querySelector('.df3d-compact-explode');
+    var syncAssembly = function () {
+      var assembled = self.options.exploded <= 0.05;
+      if (explodeSlider) explodeSlider.value = self.options.exploded;
+      if (explodeText) explodeText.textContent = assembled ? 'ASSEMBLED' : 'EXPLODED';
+      if (assembleBtn) {
+        assembleBtn.classList.toggle('active', assembled);
+        assembleBtn.setAttribute('aria-pressed', String(assembled));
+      }
+      if (explodeBtn) {
+        explodeBtn.classList.toggle('active', !assembled);
+        explodeBtn.setAttribute('aria-pressed', String(!assembled));
+      }
+      if (compactExplode) compactExplode.classList.toggle('active', !assembled);
+    };
+    if (explodeSlider) this._listen(explodeSlider, 'input', function (e) {
+      self.options.exploded = Math.max(0, Math.min(1, Number(e.target.value)));
+      syncAssembly();
+    });
 
     if (assembleBtn) {
       this._listen(assembleBtn, 'click', function () {
         self.options.exploded = 0;
-        if (explodeSlider) explodeSlider.value = 0;
-        if (explodeText) explodeText.textContent = 'ASSEMBLED';
-        assembleBtn.classList.add('active');
-        if (explodeBtn) explodeBtn.classList.remove('active');
+        syncAssembly();
       });
     }
 
     if (explodeBtn) {
       this._listen(explodeBtn, 'click', function () {
         self.options.exploded = 1;
-        if (explodeSlider) explodeSlider.value = 1;
-        if (explodeText) explodeText.textContent = 'EXPLODED';
-        explodeBtn.classList.add('active');
-        if (assembleBtn) assembleBtn.classList.remove('active');
+        syncAssembly();
       });
     }
 
-    var compactExplode = this.container.querySelector('.df3d-compact-explode');
     if (compactExplode) {
       this._listen(compactExplode, 'click', function () {
         self.options.exploded = self.options.exploded > 0.5 ? 0 : 1;
-        compactExplode.classList.toggle('active', self.options.exploded > 0.5);
+        syncAssembly();
       });
     }
+    var resetAssembly = this.container.querySelector('.df3d-reset-assembly');
+    if (resetAssembly) this._listen(resetAssembly, 'click', function () {
+      self.options.exploded = 0;
+      syncAssembly();
+    });
 
     var cutawayToggle = this.container.querySelector('.df3d-cutaway-toggle');
+    var shellState = this.container.querySelector('.df3d-shell-state');
     if (cutawayToggle) {
       this._listen(cutawayToggle, 'click', function () {
         self.options.cutaway = !self.options.cutaway;
         cutawayToggle.classList.toggle('active', self.options.cutaway);
+        cutawayToggle.setAttribute('aria-pressed', String(self.options.cutaway));
+        if (shellState) shellState.textContent = self.options.cutaway ? 'TRANSPARENT' : 'SOLID';
         self.applyCutaway(self.options.cutaway);
       });
     }
 
     var fluxToggle = this.container.querySelector('.df3d-flux-toggle');
+    var conceptState = this.container.querySelector('.df3d-concept-state');
     if (fluxToggle) {
       this._listen(fluxToggle, 'click', function () {
         self.options.electromagnetic = !self.options.electromagnetic;
         fluxToggle.classList.toggle('active', self.options.electromagnetic);
-        if (self.N && self.N.stator) self.N.stator.visible = self.options.electromagnetic;
-        if (self.N && self.N.magnets) self.N.magnets.visible = self.options.electromagnetic;
+        fluxToggle.setAttribute('aria-pressed', String(self.options.electromagnetic));
+        if (conceptState) conceptState.textContent = self.options.electromagnetic ? 'VISIBLE' : 'HIDDEN';
+        (self.fluxRingMeshes || []).forEach(function (ring) { ring.visible = self.options.electromagnetic; });
       });
     }
 
     var labelsToggle = this.container.querySelector('.df3d-labels-toggle');
+    var annotationState = this.container.querySelector('.df3d-annotation-state');
     if (labelsToggle) {
       this._listen(labelsToggle, 'click', function () {
         self.options.annotationsEnabled = !self.options.annotationsEnabled;
         labelsToggle.classList.toggle('active', self.options.annotationsEnabled);
+        labelsToggle.setAttribute('aria-pressed', String(self.options.annotationsEnabled));
+        if (annotationState) annotationState.textContent = self.options.annotationsEnabled ? 'ON' : 'OFF';
         if (self.labelLayer) {
           self.labelLayer.style.display = self.options.annotationsEnabled ? 'block' : 'none';
         }
       });
     }
 
+    var annotationModeButtons = this.container.querySelectorAll('.df3d-annotation-mode-btn');
+    annotationModeButtons.forEach(function (btn) {
+      self._listen(btn, 'click', function () {
+        self.options.annotationMode = btn.getAttribute('data-annotation-mode') || 'overview';
+        annotationModeButtons.forEach(function (item) {
+          var active = item === btn;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
+      });
+    });
+
+    var componentButtons = this.container.querySelectorAll('.df3d-component-btn');
+    var componentCount = this.container.querySelector('.df3d-component-count');
+    var updateComponentCount = function () {
+      var count = Object.keys(self.N || {}).filter(function (key) { return self.N[key].visible; }).length;
+      if (componentCount) componentCount.textContent = count + ' / 8';
+    };
+    componentButtons.forEach(function (btn) {
+      self._listen(btn, 'click', function () {
+        var key = btn.getAttribute('data-component');
+        if (!key || !self.N || !self.N[key]) return;
+        self.N[key].visible = !self.N[key].visible;
+        self.options.componentVisibility = self.options.componentVisibility || {};
+        self.options.componentVisibility[key] = self.N[key].visible;
+        btn.classList.toggle('active', self.N[key].visible);
+        btn.setAttribute('aria-pressed', String(self.N[key].visible));
+        updateComponentCount();
+      });
+    });
+
+    var wheelZoomToggle = this.container.querySelector('.df3d-wheel-zoom-toggle');
+    var wheelState = this.container.querySelector('.df3d-wheel-state');
+    if (wheelZoomToggle) this._listen(wheelZoomToggle, 'click', function () {
+      self.options.wheelZoom = !self.options.wheelZoom;
+      wheelZoomToggle.classList.toggle('active', self.options.wheelZoom);
+      wheelZoomToggle.setAttribute('aria-pressed', String(self.options.wheelZoom));
+      if (wheelState) wheelState.textContent = self.options.wheelZoom ? 'ON' : 'OFF';
+      var badge = self.container.querySelector('.df3d-stage-badge.bottom-right');
+      if (badge) badge.textContent = self.options.wheelZoom ? 'DRAG TO ORBIT · SCROLL TO ZOOM' : 'DRAG TO ORBIT · PAGE SCROLL';
+    });
+
     var orbitToggle = this.container.querySelector('.df3d-orbit-toggle');
     if (orbitToggle) {
       this._listen(orbitToggle, 'click', function () {
         self.options.autoOrbit = !self.options.autoOrbit;
         orbitToggle.classList.toggle('active', self.options.autoOrbit);
+        orbitToggle.setAttribute('aria-pressed', String(self.options.autoOrbit));
       });
     }
 
@@ -930,10 +1054,11 @@
       self._listen(btn, 'click', function () {
         var mode = btn.getAttribute('data-cam');
         self.setCameraPreset(mode);
-        camBtns.forEach(function (b) { b.classList.remove('active'); });
-        btn.classList.add('active');
       });
     });
+
+    var resetCamera = this.container.querySelector('.df3d-reset-camera');
+    if (resetCamera) this._listen(resetCamera, 'click', function () { self.resetCamera(); });
   };
 
   DualForce3DEngine.prototype.setCameraPreset = function (mode) {
@@ -942,6 +1067,24 @@
     this.targetCameraPos = new THREE.Vector3(preset.position[0], preset.position[1], preset.position[2]);
     this.targetCameraTarget = new THREE.Vector3(preset.target[0], preset.target[1], preset.target[2]);
     this.options.cameraMode = mode;
+    var cameraState = this.container.querySelector('.df3d-camera-state');
+    if (cameraState) cameraState.textContent = mode.toUpperCase();
+    this.container.querySelectorAll('.df3d-cam-btn').forEach(function (btn) {
+      var active = btn.getAttribute('data-cam') === mode;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+  };
+
+  DualForce3DEngine.prototype.resetCamera = function () {
+    if (this.rootGroup) this.rootGroup.rotation.set(0, 0, 0);
+    this.options.autoOrbit = false;
+    var orbitToggle = this.container.querySelector('.df3d-orbit-toggle');
+    if (orbitToggle) {
+      orbitToggle.classList.remove('active');
+      orbitToggle.setAttribute('aria-pressed', 'false');
+    }
+    this.setCameraPreset('hero');
   };
 
   DualForce3DEngine.prototype.selectComponent = function (key) {
@@ -1064,11 +1207,8 @@
         rod.rotation.x = Math.atan2(crankPinZ, Math.max(0.001, wristPinY - crankPinY));
       });
 
-      // Crankshaft & Gear rotation
+      // Crankshaft, connecting rods and flywheel rotate as a single assembly.
       self.crankAssembly.rotation.x = crankAngle;
-      self.rotatingGears.forEach(function (gear, i) {
-        gear.rotation.x = crankAngle * (i % 2 === 0 ? 1.15 : -1.15);
-      });
 
       // Stator coil subtle vibration & flux pulsation
       self.statorCoilMeshes.forEach(function (coil, i) {
@@ -1107,6 +1247,10 @@
 
         Object.keys(self.labelElements).forEach(function (k) {
           var item = self.labelElements[k];
+          var mode = opt.annotationMode || 'overview';
+          var modeVisible = mode === 'exploded' || item.anno.mode === mode;
+          var componentVisible = Boolean(self.N[item.anno.key] && self.N[item.anno.key].visible);
+          var labelVisible = modeVisible && componentVisible;
           item.anchor.getWorldPosition(tempWorldPos);
           tempWorldPos.project(self.camera);
 
@@ -1114,9 +1258,10 @@
           var screenX = (tempWorldPos.x * 0.5 + 0.5) * w;
           var screenY = (-tempWorldPos.y * 0.5 + 0.5) * h;
 
+          item.element.style.display = labelVisible ? 'flex' : 'none';
           item.element.style.transform = 'translate3d(' + screenX.toFixed(1) + 'px, ' + screenY.toFixed(1) + 'px, 0)';
-          item.element.style.opacity = isBehind ? '0' : '1';
-          item.element.style.pointerEvents = isBehind ? 'none' : 'auto';
+          item.element.style.opacity = isBehind || !labelVisible ? '0' : '1';
+          item.element.style.pointerEvents = isBehind || !labelVisible ? 'none' : 'auto';
         });
       }
 

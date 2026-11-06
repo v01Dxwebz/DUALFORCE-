@@ -89,14 +89,14 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
   };
 
   const silver = ownMaterial(new THREE.MeshPhysicalMaterial({
-    color: 0x9da8aa,
+    color: 0xa7aeac,
     metalness: 0.92,
     roughness: 0.25,
     clearcoat: 0.22,
     clearcoatRoughness: 0.18,
   }));
   const silverDark = ownMaterial(new THREE.MeshPhysicalMaterial({
-    color: 0x576367,
+    color: 0x5a6060,
     metalness: 0.9,
     roughness: 0.32,
   }));
@@ -112,13 +112,13 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
     roughness: 0.28,
   }));
   const copper = ownMaterial(new THREE.MeshPhysicalMaterial({
-    color: 0xb5683c,
+    color: 0xa57458,
     metalness: 0.78,
     roughness: 0.24,
     clearcoat: 0.2,
   }));
   const copperHot = ownMaterial(new THREE.MeshStandardMaterial({
-    color: 0x9d4e28,
+    color: 0x8d5e48,
     metalness: 0.78,
     roughness: 0.21,
     emissive: 0x271006,
@@ -127,12 +127,12 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
   electromagneticMaterials.push(copperHot);
   copperHot.userData.isWinding = true;
   const brass = ownMaterial(new THREE.MeshPhysicalMaterial({
-    color: 0xc89750,
+    color: 0xa1846d,
     metalness: 0.86,
     roughness: 0.2,
   }));
   const brassDark = ownMaterial(new THREE.MeshPhysicalMaterial({
-    color: 0x785229,
+    color: 0x66574a,
     metalness: 0.82,
     roughness: 0.28,
   }));
@@ -421,15 +421,15 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
     cylinderBetween(windingParts, new THREE.Vector3(cx + 0.46, 0.28, 0), new THREE.Vector3(cx + 0.46, 1.19, 0), 0.027, brassDark, 16);
     box(windingParts, new THREE.Vector3(0.12, 0.055, 0.12), new THREE.Vector3(cx + 0.425, 1.175, 0), capMetal);
     const indicatorMaterial = ownMaterial(new THREE.MeshStandardMaterial({
-      color: 0x064e47, metalness: 0.15, roughness: 0.3,
-      emissive: 0x00d8bd, emissiveIntensity: 0,
+      color: 0x4d5d54, metalness: 0.15, roughness: 0.3,
+      emissive: 0x819989, emissiveIntensity: 0,
     }));
     indicatorMaterial.userData.coilIndex = cx < 0 ? 0 : 1;
     indicatorMaterial.userData.isCoilIndicator = true;
     const indicator = torus(windingParts, 0.435, 0.012, new THREE.Vector3(cx, 0.318, 0), indicatorMaterial, 'y', 8, 64);
     indicator.name = `coil-upstroke-indicator-${cx < 0 ? 'front' : 'rear'}`;
     coilIndicators.push(indicator);
-    const light = new THREE.PointLight(0x00dac0, 0, 2, 2);
+    const light = new THREE.PointLight(0xa0b5a6, 0, 2, 2);
     light.name = `coil-upstroke-light-${cx < 0 ? 'front' : 'rear'}`;
     light.position.set(cx, 0.68, 0.33);
     windingParts.add(light);
@@ -679,7 +679,7 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
       const offset = explodeOffsets[key];
       group.position.copy(componentDefaults[key]).addScaledVector(offset, explodeAmount);
     });
-    groups.magnets.visible = state.visible.magnets && state.electromagnetic;
+    groups.magnets.visible = state.visible.magnets;
     electromagneticMaterials.forEach((material) => {
       material.emissiveIntensity = state.electromagnetic ? 0.08 : 0;
     });
@@ -712,11 +712,11 @@ export function createMechanicalEngine(root: THREE.Group): MechanicalEngine {
       const index = material.userData.coilIndex as number | undefined;
       if (index === undefined) return;
       if (material.userData.isWinding) {
-        material.emissive.setHex(0x00bfa6);
-        material.emissiveIntensity = activities[index] * 1.8;
+        material.emissive.setHex(0x789483);
+        material.emissiveIntensity = activities[index] * 1.2;
       } else if (material.userData.isCoilIndicator) {
-        material.emissive.setHex(0x00f2cf);
-        material.emissiveIntensity = activities[index] * 5;
+        material.emissive.setHex(0xa0b9a8);
+        material.emissiveIntensity = activities[index] * 2.2;
       }
     });
     const section = Boolean(state.longitudinalSection);

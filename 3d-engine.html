@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DUALFORCE — Interactive 3D Powertrain Digital Twin & Engine Laboratory</title>
-  <link rel="stylesheet" href="dualforce-3d-engine.css">
+  <link rel="stylesheet" href="dualforce-3d-engine.css?v=20261105-5">
   <style>
     :root {
       --bg: #070A0E;
@@ -160,7 +160,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/dualforce-premium-theme.css?v=20261105-4">
+  <link rel="stylesheet" href="assets/dualforce-premium-theme.css?v=20261106-3">
 </head>
 <body>
   <header class="showcase-header">
@@ -202,7 +202,11 @@
     </div>
 
     <!-- 3D Interactive Engine Mount -->
-    <div id="dualforce-main-viewer"></div>
+    <div class="df3d-slide-tabs" role="group" aria-label="Engine laboratory slides">
+      <button type="button" data-lab-slide-target="model" aria-pressed="true">01 / MODEL VIEW</button>
+      <button type="button" data-lab-slide-target="controls" aria-pressed="false">02 / SYSTEM CONTROLS</button>
+    </div>
+    <div id="dualforce-main-viewer" data-lab-slide="model"></div>
   </main>
 
   <!-- Local fallback + CDN Three.js -->
@@ -212,21 +216,42 @@
       document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
     }
   </script>
-  <script src="dualforce-3d-engine.js"></script>
+  <script src="dualforce-3d-engine.js?v=20261106-1"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var container = document.getElementById('dualforce-main-viewer');
       if (container && window.DualForce3DEngine) {
         window.engineViewer = new DualForce3DEngine(container, {
-          theme: 'dark',
+          theme: 'light',
+          stageTheme: 'dark',
           rpm: 2800,
           playing: true,
           exploded: 0,
-          cutaway: true,
+          cutaway: false,
           electromagnetic: true,
           cameraMode: 'hero',
           autoOrbit: false,
-          annotationsEnabled: true
+          annotationsEnabled: false
+        });
+      }
+      if (container) {
+        var slideButtons = document.querySelectorAll('[data-lab-slide-target]');
+        slideButtons.forEach(function (button) {
+          button.addEventListener('click', function () {
+            var slide = button.getAttribute('data-lab-slide-target');
+            if (slide !== 'model' && slide !== 'controls') return;
+            container.setAttribute('data-lab-slide', slide);
+            slideButtons.forEach(function (item) {
+              item.setAttribute('aria-pressed', String(item === button));
+            });
+            window.requestAnimationFrame(function () {
+              if (window.engineViewer && typeof window.engineViewer._onResize === 'function') {
+                window.engineViewer._onResize();
+              } else {
+                window.dispatchEvent(new Event('resize'));
+              }
+            });
+          });
         });
       }
     });

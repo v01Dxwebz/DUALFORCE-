@@ -77,7 +77,7 @@ export default function EngineScene(props: EngineSceneProps) {
     renderer.toneMappingExposure = 0.94
     renderer.localClippingEnabled = true
     const scene = new THREE.Scene()
-    scene.background = new THREE.Color('#e8ece7')
+    scene.background = new THREE.Color('#36383a')
     const pmrem = new THREE.PMREMGenerator(renderer)
     const room = new RoomEnvironment()
     const environment = pmrem.fromScene(room, 0.025)
@@ -170,7 +170,7 @@ export default function EngineScene(props: EngineSceneProps) {
       raycaster.setFromCamera(pointer, camera)
       for (const hit of raycaster.intersectObjects(root.children, true)) {
         const component = getComponent(hit.object)
-        if (!component || (component === 'casing' && stateRef.current.cutaway)) continue
+        if (!component) continue
         stateRef.current.onSelect?.(component)
         break
       }
@@ -282,7 +282,7 @@ export default function EngineScene(props: EngineSceneProps) {
     }
   }, [])
 
-  return <div className={`engine-canvas-shell ${props.className ?? ''}`}>
+  return <div id="engine-model-viewport" className={`engine-canvas-shell ${props.className ?? ''}`}>
     <canvas ref={canvasRef} aria-label="Reference-inspired inline-twin engine; drag to rotate, use plus and minus to zoom, pinch to zoom, and use wheel zoom mode when enabled" />
     {status === 'loading' && <div className="engine-loading" role="status">Preparing mechanical assembly…</div>}
     {status === 'unavailable' && <div className="engine-fallback" role="status"><strong>3D rendering unavailable</strong><p>This device could not start WebGL. The documented component and specification sections remain available below.</p></div>}

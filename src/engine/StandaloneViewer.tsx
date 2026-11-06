@@ -83,6 +83,7 @@ export default function StandaloneViewer() {
   const [visible, setVisible] = useState<VisibilityState>(() => ({ ...defaultVisibility }))
   const [selectedComponent, setSelectedComponent] = useState<ComponentKey>()
   const [resetSignal, setResetSignal] = useState(0)
+  const [viewerSlide, setViewerSlide] = useState<'model' | 'controls'>('model')
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 720px)')
@@ -93,7 +94,7 @@ export default function StandaloneViewer() {
 
   const visualRps = playing && explodeAmount < 0.01 ? rpm / 60 * NORMAL_PLAYBACK_RATIO * (slowMotion ? 0.1 : 1) : 0
   const selectedMeta = selectedComponent ? componentMeta[selectedComponent] : undefined
-  const visibleCount = (Object.keys(visible) as ComponentKey[]).filter(key => visible[key] && (key !== 'magnets' || electromagnetic)).length
+  const visibleCount = (Object.keys(visible) as ComponentKey[]).filter(key => visible[key]).length
 
   const resetView = () => {
     setCameraMode('hero')
@@ -113,10 +114,10 @@ export default function StandaloneViewer() {
   }
 
   useEffect(() => {
-    if (selectedComponent && (!visible[selectedComponent] || (selectedComponent === 'magnets' && !electromagnetic))) setSelectedComponent(undefined)
-  }, [electromagnetic, selectedComponent, visible])
+    if (selectedComponent && !visible[selectedComponent]) setSelectedComponent(undefined)
+  }, [selectedComponent, visible])
 
-  return <div className="engine-stage-app">
+  return <div className="engine-stage-app" data-viewer-slide={viewerSlide}>
     <EngineScene
       className="engine-stage-canvas"
       playing={playing}
@@ -143,6 +144,11 @@ export default function StandaloneViewer() {
       allowWheelZoom={wheelZoom}
     />
 
+    <div className="engine-view-tabs" role="group" aria-label="Engine viewer slides">
+      <button type="button" aria-pressed={viewerSlide === 'model'} aria-controls="engine-model-viewport" onClick={() => setViewerSlide('model')}>01 / MODEL VIEW</button>
+      <button type="button" aria-pressed={viewerSlide === 'controls'} aria-controls="engine-control-dock" onClick={() => setViewerSlide('controls')}>02 / SYSTEM CONTROLS</button>
+    </div>
+
     <div className="scroll-rail" aria-hidden="true"><span /></div>
     <div className="hero-copy">
       <p className="eyebrow"><span className="signal-dot" /> POWERTRAIN STUDY / 01</p>
@@ -158,7 +164,7 @@ export default function StandaloneViewer() {
 
     <div className="scene-edge-note"><span>REFERENCE-INSPIRED / PROVISIONAL MODEL</span><span>DRAG TO ROTATE</span></div>
 
-    <div className="engine-control-dock" aria-label="Engine model controls">
+    <div id="engine-control-dock" className="engine-control-dock" aria-label="Engine model controls">
       <div className="dock-status">
         <div>
           <span className="dock-label"><i className={playing && electromagnetic ? 'signal-dot is-on' : 'signal-dot'} /> ENGINE SIMULATION</span>
