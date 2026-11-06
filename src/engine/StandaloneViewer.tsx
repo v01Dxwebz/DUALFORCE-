@@ -18,12 +18,20 @@ const visibilityLabels: Record<ComponentKey, string> = {
   magnets: 'Magnets',
 }
 
-function useEngineScrollProgress(isMobile: boolean) {
-  const progressRef = useRef(0)
-  const modelScaleRef = useRef(isMobile ? 0.3 : 0.34)
-  const modelOffsetYRef = useRef(isMobile ? -0.3 : 0)
+type ViewerVariant = 'sequence' | 'lab'
+
+function useEngineScrollProgress(isMobile: boolean, enabled: boolean) {
+  const progressRef = useRef(enabled ? 0 : 1)
+  const modelScaleRef = useRef(enabled ? (isMobile ? 0.3 : 0.34) : (isMobile ? 0.62 : 1.08))
+  const modelOffsetYRef = useRef(enabled ? (isMobile ? -0.3 : 0) : (isMobile ? -0.15 : 0))
 
   useEffect(() => {
+    if (!enabled) {
+      progressRef.current = 1
+      modelScaleRef.current = isMobile ? 0.62 : 1.08
+      modelOffsetYRef.current = isMobile ? -0.15 : 0
+      return undefined
+    }
     const stage = document.getElementById('engine-sequence')
     if (!stage) return undefined
     let frame = 0
@@ -58,14 +66,15 @@ function useEngineScrollProgress(isMobile: boolean) {
       window.removeEventListener('resize', measure)
       observer.disconnect()
     }
-  }, [isMobile])
+  }, [enabled, isMobile])
 
   return { progressRef, modelScaleRef, modelOffsetYRef }
 }
 
-export default function StandaloneViewer() {
+export default function StandaloneViewer({ variant = 'sequence' }: { variant?: ViewerVariant } = {}) {
+  const isLab = variant === 'lab'
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 720px)').matches)
-  const { progressRef, modelScaleRef, modelOffsetYRef } = useEngineScrollProgress(isMobile)
+  const { progressRef, modelScaleRef, modelOffsetYRef } = useEngineScrollProgress(isMobile, !isLab)
   const [rpm, setRpm] = useState(2800)
   const [playing, setPlaying] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const [slowMotion, setSlowMotion] = useState(false)
@@ -117,7 +126,7 @@ export default function StandaloneViewer() {
     if (selectedComponent && !visible[selectedComponent]) setSelectedComponent(undefined)
   }, [selectedComponent, visible])
 
-  return <div className="engine-stage-app" data-viewer-slide={viewerSlide}>
+  return <div className="engine-stage-app" data-viewer-variant={variant} data-viewer-slide={isLab ? 'model' : viewerSlide}>
     <EngineScene
       className="engine-stage-canvas"
       playing={playing}
@@ -144,10 +153,10 @@ export default function StandaloneViewer() {
       allowWheelZoom={wheelZoom}
     />
 
-    <div className="engine-view-tabs" role="group" aria-label="Engine viewer slides">
+    {!isLab && <div className="engine-view-tabs" role="group" aria-label="Engine viewer slides">
       <button type="button" aria-pressed={viewerSlide === 'model'} aria-controls="engine-model-viewport" onClick={() => setViewerSlide('model')}>01 / MODEL VIEW</button>
       <button type="button" aria-pressed={viewerSlide === 'controls'} aria-controls="engine-control-dock" onClick={() => setViewerSlide('controls')}>02 / SYSTEM CONTROLS</button>
-    </div>
+    </div>}
 
     <div className="scroll-rail" aria-hidden="true"><span /></div>
     <div className="hero-copy">
@@ -253,5 +262,7 @@ export default function StandaloneViewer() {
   </div>
 }
 
-const host = document.getElementById('engine-viewer-root')
-if (host) createRoot(host).render(<StandaloneViewer />)
+const sequenceHost = document.getElementById('engine-viewer-root')
+if (sequenceHost) createRoot(sequenceHost).render(<StandaloneViewer variant="sequence" />)
+const labHost = document.getElementById('engine-lab-root')
+if (labHost) createRoot(labHost).render(<StandaloneViewer variant="lab" />)

@@ -1,6 +1,6 @@
 # DUALFORCE implementation outcomes
 
-Baseline: audited integrated fork commit `8e36eb0d2d33acb52642d657bb2aa4cfea258526`, pinned by local preservation tag `audit-baseline/8e36eb0`; accepted published baseline is `eb0fad3eddaaba24fc70a9c8245574aee8a323e1` on `feat/restore-complete-engine-controls`, which supplies GitHub Pages. The user has requested publication after the current contrast, model/settings-slide and prior gear-free lab changes pass testing. The older `feat/minimal-engine-showcase` and upstream `main` remain untouched.
+Baseline: audited integrated fork commit `8e36eb0d2d33acb52642d657bb2aa4cfea258526`, pinned by local preservation tag `audit-baseline/8e36eb0`; the currently published Pages baseline is `3b3b2248d7e55a91f22af7be13c149ae5fe035db` on `feat/restore-complete-engine-controls`. The user corrected the standalone lab: use the same gear-free model shown at the end of the homepage with its settings in a sidebar beside the model. Keep this correction local for review; the older `feat/minimal-engine-showcase` and upstream `main` remain untouched.
 
 ## Preserve the complete original website
 - [ ] Preserve all original pages, information, text, product specifications, images, navigation, sections, functional interactions, and existing controls; do not remove or simplify existing content.
@@ -44,14 +44,21 @@ Baseline: audited integrated fork commit `8e36eb0d2d33acb52642d657bb2aa4cfea2585
 
 ## Improve final-slide contrast and separate the engine model from settings
 - [x] On the original final investment/unit-economics slide, make all roadmap amounts/details, calculator step labels, row values and totals legible against their actual light/dark surfaces; preserve the original wording, figures, colors of meaning and interactions.
-- [x] Give the appended engine sequence and standalone 3D lab a dedicated full-area engine-model slide and a separate system-settings slide so settings no longer consume or cover the model view.
-- [x] Provide clear, accessible navigation between MODEL and SYSTEM CONTROLS; keep the selected slide visible, preserve engine/control state, and keep every existing setting functional on the settings slide.
-- [x] Keep the model and settings slides usable at desktop and narrow/mobile widths without clipping or horizontal overflow; model view defaults to the unobstructed model slide.
+- [x] Give the appended engine sequence a dedicated full-area engine-model slide and a separate system-settings slide so settings no longer consume or cover the homepage model view.
+- [x] Provide clear, accessible navigation between MODEL and SYSTEM CONTROLS in the appended engine sequence; preserve engine/control state and keep every existing setting functional there.
+- [x] Keep the appended engine model/settings views usable at desktop and narrow/mobile widths without clipping or horizontal overflow; model view defaults to the unobstructed model slide.
 - [x] Once the above and prior gear-free lab changes pass final checks, commit and push to the existing `feat/restore-complete-engine-controls` Pages source branch of `v01Dxwebz/DUALFORCE-`, verify the Pages deployment and live content, and do not change upstream `main` or `feat/minimal-engine-showcase`.
+
+## Make the standalone lab reuse the homepage’s full engine model
+- [x] Render the same `EngineScene`/`src/engine/model.ts` gear-free model shown at the end of the homepage in `/3d-engine.html`; do not leave the older legacy model as the main lab model.
+- [x] Keep the model large and continuously visible beside a persistent settings sidebar; do not move the lab’s options to another slide. Reuse the actual shared control state and keep every existing engine option operational.
+- [x] Preserve the model’s graphite/titanium/copper appearance, default to the same full-size end-of-sequence model view, and keep the selected component, camera, motion and assembly state while using the sidebar.
+- [x] On mobile, keep all settings accessible below the model in the same lab view, without horizontal overflow or blocking page-scroll/pinch gestures; on desktop, use an adjacent sidebar.
+- [x] Preserve the original homepage’s embedded legacy simulator by retaining its legacy engine mount/script there; remove the legacy model mount only from the standalone lab page.
 
 ## Responsive operation and final review gate
 - [ ] Keep all restored controls usable on mobile and desktop; create a compact layout where needed; support touch rotation, pinch zoom and page scrolling without one gesture unintentionally blocking the other.
 - [ ] Before requesting review, individually exercise all four camera presets; all eight visibility controls; continuous explode and casing sliders; slow motion; annotation on/off and all three modes; projected-label selection/readout; auto-orbit; wheel/pinch zoom; and reset controls.
 - [ ] Exercise scroll in both directions and verify the original deck’s slide navigation plus the original `models.html`, `3d-engine.html`, and `engine.html` interactions still work.
 - [ ] Check desktop and narrow/mobile layouts, WebGL fallback, console errors, resource cleanup, non-visible render-loop behavior, and the visual comparison against the original pages and original Manus viewer; do not mark an outcome complete without evidence of actual behavior.
-- [x] Do not publish until this request passes its final tests; then publish only the explicitly authorized feature-branch update and verify the public Pages deployment. Do not merge into upstream or change the Pages source selection.
+- [x] Keep this shared-model/sidebar correction local in Preview until the user reviews it; do not push, merge, or publish this change before approval. The user reviewed the Preview and explicitly requested publication.
